@@ -15,7 +15,7 @@ namespace VikasFashionsAPI.Controllers
     {
         private readonly ILogger<UserController> _logger;
         private readonly IConfiguration _counfiguration;
-        private User _localUser = new User();
+        private static User _localUser = new User();
 
         public UserController(ILogger<UserController> logger, IConfiguration counfiguration)
         {
@@ -38,16 +38,17 @@ namespace VikasFashionsAPI.Controllers
             throw new NotImplementedException("No method implemented yet");
         }
 
-        //[HttpPost(Name = "LoginUser")]
-        //public async Task<ActionResult<string>> Login(UserLogin user)
-        //{
-        //    if (user.UserName.ToLower() != _localUser.UserName.ToLower())
-        //        return BadRequest("user not found");
-        //    if (!VerifyPasswordHash(user.Password, _localUser.PasswordSalt, _localUser.PasswordHash))
-        //        return BadRequest("wrong password");
-        //    string token = string.Empty; //CreateJWTToken(_localUser);
-        //    return Ok(token);
-        //}
+        [HttpPost]
+        [Route("Login")]
+        public async Task<ActionResult<string>> Login(UserLogin user)
+        {
+            if (user.UserName.ToLower() != _localUser.UserName.ToLower())
+                return BadRequest("user not found");
+            if (!VerifyPasswordHash(user.Password, _localUser.PasswordSalt, _localUser.PasswordHash))
+                return BadRequest("wrong password");
+            string token = CreateJWTToken(_localUser);
+            return Ok(token);
+        }
         private void CreatePasswordHash(string password, out byte[] passwordHash, out byte[] passwordSalt)
         {
             using (var hmac = new HMACSHA512())
