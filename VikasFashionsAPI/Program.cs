@@ -20,6 +20,8 @@ builder.Services.AddDbContext<DataContextVikasFashion>(options =>
 );
 
 builder.Services.AddScoped<VikasFashionsAPI.APIServices.CountryService.ICountryService, VikasFashionsAPI.APIServices.CountryService.CountryService>();
+builder.Services.AddScoped<VikasFashionsAPI.APIServices.StateService.IStateService, VikasFashionsAPI.APIServices.StateService.StateService>();
+builder.Services.AddScoped<VikasFashionsAPI.APIServices.CityService.ICityService, VikasFashionsAPI.APIServices.CityService.CityService>();
 
 var app = builder.Build();
 
