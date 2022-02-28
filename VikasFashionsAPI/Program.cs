@@ -26,6 +26,8 @@ builder.Services.AddScoped<VikasFashionsAPI.APIServices.HSNMasterService.IHSNMas
 builder.Services.AddScoped<VikasFashionsAPI.APIServices.MaterialGroupService.IMaterialGroupService, VikasFashionsAPI.APIServices.MaterialGroupService.MaterialGroupService>();
 builder.Services.AddScoped<VikasFashionsAPI.APIServices.MaterialTypeService.IMaterialTypeService, VikasFashionsAPI.APIServices.MaterialTypeService.MaterialTypeService>();
 
+builder.Services.AddScoped<VikasFashionsAPI.APIServices.StateService.IStateService, VikasFashionsAPI.APIServices.StateService.StateService>();
+builder.Services.AddScoped<VikasFashionsAPI.APIServices.CityService.ICityService, VikasFashionsAPI.APIServices.CityService.CityService>();
 
 var app = builder.Build();
 

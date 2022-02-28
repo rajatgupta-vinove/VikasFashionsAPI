@@ -43,7 +43,7 @@ namespace VikasFashionsAPI.APIServices.CountryService
                     return isDeleted;
                 _context.Countries.Remove(country);
                 await _context.SaveChangesAsync();
-                isDeleted = true;   
+                isDeleted = true;
             }
             catch (Exception ex)
             {
@@ -56,6 +56,12 @@ namespace VikasFashionsAPI.APIServices.CountryService
         {
             _log.LogInformation("Country GetAll Called!");
             return await _context.Countries.ToListAsync();
+        }
+
+        public async Task<IEnumerable<Country>> GetAllByStatusAsync(bool? isActive)
+        {
+            if (isActive == null) return await GetAllAsync();
+            return await _context.Countries.Where(m => m.IsActive == isActive).ToListAsync();
         }
 
         public async Task<Country?> GetByIdAsync(int countryId)

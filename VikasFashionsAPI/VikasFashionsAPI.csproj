@@ -26,8 +26,6 @@
 
   <ItemGroup>
     <Folder Include="APIServices\BinLocationService\" />
-    <Folder Include="APIServices\CityService\" />
-    <Folder Include="APIServices\StateService\" />
   </ItemGroup>
 
 </Project>
