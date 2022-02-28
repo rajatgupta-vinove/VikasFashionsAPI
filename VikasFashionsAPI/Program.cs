@@ -29,6 +29,12 @@ builder.Services.AddScoped<VikasFashionsAPI.APIServices.MaterialTypeService.IMat
 builder.Services.AddScoped<VikasFashionsAPI.APIServices.StateService.IStateService, VikasFashionsAPI.APIServices.StateService.StateService>();
 builder.Services.AddScoped<VikasFashionsAPI.APIServices.CityService.ICityService, VikasFashionsAPI.APIServices.CityService.CityService>();
 
+builder.Services.AddScoped<VikasFashionsAPI.APIServices.ChartService.IChartService, VikasFashionsAPI.APIServices.ChartService.ChartService>();
+builder.Services.AddScoped<VikasFashionsAPI.APIServices.ColorService.IColorService, VikasFashionsAPI.APIServices.ColorService.ColorService>();
+builder.Services.AddScoped<VikasFashionsAPI.APIServices.DesignService.IDesignService, VikasFashionsAPI.APIServices.DesignService.DesignService>();
+builder.Services.AddScoped<VikasFashionsAPI.APIServices.MaterialService.IMaterialService, VikasFashionsAPI.APIServices.MaterialService.MaterialService>();
+builder.Services.AddScoped<VikasFashionsAPI.APIServices.ShadeService.IShadeService, VikasFashionsAPI.APIServices.ShadeService.ShadeService>();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
