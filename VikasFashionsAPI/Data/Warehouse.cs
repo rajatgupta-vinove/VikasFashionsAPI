@@ -8,6 +8,7 @@
 //------------------------------------------------------------------------------
 
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace VikasFashionsAPI.Data
 {  
@@ -16,8 +17,16 @@ namespace VikasFashionsAPI.Data
     {
         [Key]
         public int WarehouseId { get; set; }
+
+        [MaxLength(255)]
+        [Column(TypeName = "varchar(255)")]
+        [Required(ErrorMessage = "Warehouse Name is required")]
         public string WarehouseName { get; set; }
         public int PlantId { get; set; }
+
+        [MaxLength(255)]
+        [Column(TypeName = "varchar(500)")]
+        [Required(ErrorMessage = "Warehouse Address Line1 is required")]
         public string Address1 { get; set; }
         public string Address2 { get; set; }
         public int CityId { get; set; }
