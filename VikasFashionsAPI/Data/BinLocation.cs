@@ -9,16 +9,23 @@
 
 namespace VikasFashionsAPI.Data
 {
-    using System;
-    using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
+    using System.ComponentModel.DataAnnotations.Schema;
 
     public partial class BinLocation
     {
         [Key]
         public int BinLocId { get; set; }
-        public string BinLocation1 { get; set; }
+
+        [MaxLength(255)]
+        [Column(TypeName = "varchar(255)")]
+        [Required(ErrorMessage = "Bin Location Name is required")]
+        public string BinLocationName { get; set; }
         public int WarehouseId { get; set; }
+
+        [MaxLength(255)]
+        [Column(TypeName = "varchar(255)")]
+        [Required(ErrorMessage = "Sublevel 1 is required")]
         public string SL1 { get; set; }
         public string SL2 { get; set; }
         public string SL3 { get; set; }

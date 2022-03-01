@@ -9,15 +9,22 @@
 
 namespace VikasFashionsAPI.Data
 {
-    using System;
-    using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
+    using System.ComponentModel.DataAnnotations.Schema;
 
     public partial class PlantBranch
     {
         [Key]
         public int PlantId { get; set; }
+
+        [MaxLength(255)]
+        [Column(TypeName = "varchar(255)")]
+        [Required(ErrorMessage = "Plant Name is required")]
         public string PlantName { get; set; }
+
+        [MaxLength(255)]
+        [Column(TypeName = "varchar(1000)")]
+        [Required(ErrorMessage = "Plant Address Line1 is required")]
         public string Address1 { get; set; }
         public string Address2 { get; set; }
         public int CityId { get; set; }
