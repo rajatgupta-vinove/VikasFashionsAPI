@@ -33,7 +33,6 @@ builder.Services.AddScoped<VikasFashionsAPI.APIServices.MaterialTypeService.IMat
 
 builder.Services.AddScoped<VikasFashionsAPI.APIServices.StateService.IStateService, VikasFashionsAPI.APIServices.StateService.StateService>();
 builder.Services.AddScoped<VikasFashionsAPI.APIServices.CityService.ICityService, VikasFashionsAPI.APIServices.CityService.CityService>();
-builder.Services.AddApplicationInsightsTelemetry();
 
 var app = builder.Build();
 
