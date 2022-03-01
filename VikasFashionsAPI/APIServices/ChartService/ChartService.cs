@@ -14,6 +14,13 @@ namespace VikasFashionsAPI.APIServices.ChartService
             _log = log;
             _context = context;
         }
+
+        /// <summary>
+        /// Save Chart Details
+        /// </summary>
+        /// <param name="chart">Object of type chart</param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentException"></exception>
         public async Task<Chart> AddChartAsync(Chart chart)
         {
             try
