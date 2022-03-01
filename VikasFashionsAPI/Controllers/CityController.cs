@@ -29,8 +29,8 @@ namespace VikasFashionsAPI.Controllers
         {
             return Ok(await _cityService.GetByIdAsync(id));
         }
-        [HttpGet("{id}", Name = "GetCityByStateId")]
-        [Route("GetCityByStateId")]
+        [HttpGet]
+        [Route("GetCityByStateId/{id}")]
         public async Task<ActionResult<City>> GetCityByStateId(int id)
         {
             return Ok(await _cityService.GetAllByStateAndStatusAsync(id, true));
