@@ -35,6 +35,10 @@ builder.Services.AddScoped<VikasFashionsAPI.APIServices.DesignService.IDesignSer
 builder.Services.AddScoped<VikasFashionsAPI.APIServices.MaterialService.IMaterialService, VikasFashionsAPI.APIServices.MaterialService.MaterialService>();
 builder.Services.AddScoped<VikasFashionsAPI.APIServices.ShadeService.IShadeService, VikasFashionsAPI.APIServices.ShadeService.ShadeService>();
 
+
+
+
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
