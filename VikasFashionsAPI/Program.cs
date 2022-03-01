@@ -23,7 +23,16 @@ builder.Services.AddScoped<VikasFashionsAPI.APIServices.CountryService.ICountryS
 builder.Services.AddScoped<VikasFashionsAPI.APIServices.CompanyService.ICompanyService, VikasFashionsAPI.APIServices.CompanyService.CompanyService>();
 builder.Services.AddScoped<VikasFashionsAPI.APIServices.PlantBranchService.IPlantBranchService, VikasFashionsAPI.APIServices.PlantBranchService.PlantBranchService>();
 builder.Services.AddScoped<VikasFashionsAPI.APIServices.WarehouseService.IWarehouseService, VikasFashionsAPI.APIServices.WarehouseService.WarehouseService>();
+builder.Services.AddScoped<VikasFashionsAPI.APIServices.BinLocationService.IBinLocationService, VikasFashionsAPI.APIServices.BinLocationService.BinLocationService>();
 
+builder.Services.AddScoped<VikasFashionsAPI.APIServices.UnitsOfMeasureService.IUnitsOfMeasureService, VikasFashionsAPI.APIServices.UnitsOfMeasureService.UnitsOfMeasureService>();
+builder.Services.AddScoped<VikasFashionsAPI.APIServices.CatalogMasterService.ICatalogMasterService, VikasFashionsAPI.APIServices.CatalogMasterService.CatalogMasterService>();
+builder.Services.AddScoped<VikasFashionsAPI.APIServices.HSNMasterService.IHSNMasterService, VikasFashionsAPI.APIServices.HSNMasterService.HSNMasterService>();
+builder.Services.AddScoped<VikasFashionsAPI.APIServices.MaterialGroupService.IMaterialGroupService, VikasFashionsAPI.APIServices.MaterialGroupService.MaterialGroupService>();
+builder.Services.AddScoped<VikasFashionsAPI.APIServices.MaterialTypeService.IMaterialTypeService, VikasFashionsAPI.APIServices.MaterialTypeService.MaterialTypeService>();
+
+builder.Services.AddScoped<VikasFashionsAPI.APIServices.StateService.IStateService, VikasFashionsAPI.APIServices.StateService.StateService>();
+builder.Services.AddScoped<VikasFashionsAPI.APIServices.CityService.ICityService, VikasFashionsAPI.APIServices.CityService.CityService>();
 builder.Services.AddApplicationInsightsTelemetry();
 
 var app = builder.Build();
