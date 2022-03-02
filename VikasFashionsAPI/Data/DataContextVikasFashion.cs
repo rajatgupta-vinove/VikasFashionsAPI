@@ -22,7 +22,7 @@ namespace VikasFashionsAPI.Data
             //optionsBuilder.UseSqlServer();
             //base.OnConfiguring(optionsBuilder);
         }
-        public DbSet<BinLocation> BinLocations { get; set; } 
+        public DbSet<BinLocation> BinLocations { get; set; }
         public DbSet<Catalog> Catalogs { get; set; }
         public DbSet<Chart> Charts { get; set; }
         public DbSet<City> Cities { get; set; }
