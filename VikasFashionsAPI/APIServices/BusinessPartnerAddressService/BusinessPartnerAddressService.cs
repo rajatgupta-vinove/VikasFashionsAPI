@@ -34,7 +34,7 @@ namespace VikasFashionsAPI.APIServices.BusinessPartnerAddressService
             {
                 if (businessPartnerAddress == null)
                     throw new ArgumentNullException("AddBusinessPartnerAddress");
-                _context.BusinessPartnerAddresses.Add(businessPartnerAddress);
+                _context.BusinessPartnerAddress.Add(businessPartnerAddress);
                 await _context.SaveChangesAsync();
             }
             catch (Exception ex)
@@ -56,10 +56,10 @@ namespace VikasFashionsAPI.APIServices.BusinessPartnerAddressService
             {
                 if (businessPartnerAddressId == 0)
                     return isDeleted;
-                var businessPartnerAddress = await _context.BusinessPartnerAddresses.FirstOrDefaultAsync(m => m.BusinessPartnerAddressId == businessPartnerAddressId);
+                var businessPartnerAddress = await _context.BusinessPartnerAddress.FirstOrDefaultAsync(m => m.BusinessPartnerAddressId == businessPartnerAddressId);
                 if (businessPartnerAddress == null)
                     return isDeleted;
-                _context.BusinessPartnerAddresses.Remove(businessPartnerAddress);
+                _context.BusinessPartnerAddress.Remove(businessPartnerAddress);
                 await _context.SaveChangesAsync();
                 isDeleted = true;
             }
@@ -77,7 +77,7 @@ namespace VikasFashionsAPI.APIServices.BusinessPartnerAddressService
         public async Task<IEnumerable<BusinessPartnerAddress>> GetAllBusinessPartnerAddressAsync()
         {
             _log.LogInformation("BusinessPartnerAddress GetAll Called!");
-            return await _context.BusinessPartnerAddresses.ToListAsync();
+            return await _context.BusinessPartnerAddress.ToListAsync();
         }
 
         /// <summary>
@@ -92,7 +92,7 @@ namespace VikasFashionsAPI.APIServices.BusinessPartnerAddressService
             {
                 if (businessPartnerAddressId == 0)
                     return businessPartnerAddress;
-                businessPartnerAddress = await _context.BusinessPartnerAddresses.FirstOrDefaultAsync(m => m.BusinessPartnerAddressId == businessPartnerAddressId);
+                businessPartnerAddress = await _context.BusinessPartnerAddress.FirstOrDefaultAsync(m => m.BusinessPartnerAddressId == businessPartnerAddressId);
             }
             catch (Exception ex)
             {
@@ -111,7 +111,7 @@ namespace VikasFashionsAPI.APIServices.BusinessPartnerAddressService
         {
             try
             {
-                var exisingBusinessPartnerAddress = await _context.BusinessPartnerAddresses.FirstOrDefaultAsync(m => m.BusinessPartnerAddressId == businessPartnerAddress.BusinessPartnerAddressId);               
+                var exisingBusinessPartnerAddress = await _context.BusinessPartnerAddress.FirstOrDefaultAsync(m => m.BusinessPartnerAddressId == businessPartnerAddress.BusinessPartnerAddressId);               
                 if (exisingBusinessPartnerAddress == null)
                     return null;
                 exisingBusinessPartnerAddress.BusinessPartnerAddressId = businessPartnerAddress.BusinessPartnerAddressId;
