@@ -70,9 +70,8 @@ builder.Services.AddScoped<VikasFashionsAPI.APIServices.CompanyService.ICompanyS
 builder.Services.AddScoped<VikasFashionsAPI.APIServices.PlantBranchService.IPlantBranchService, VikasFashionsAPI.APIServices.PlantBranchService.PlantBranchService>();
 builder.Services.AddScoped<VikasFashionsAPI.APIServices.WarehouseService.IWarehouseService, VikasFashionsAPI.APIServices.WarehouseService.WarehouseService>();
 builder.Services.AddScoped<VikasFashionsAPI.APIServices.BinLocationService.IBinLocationService, VikasFashionsAPI.APIServices.BinLocationService.BinLocationService>();
-
-builder.Services.AddScoped<VikasFashionsAPI.APIServices.PaymentTermService.IPaymentTermService, VikasFashionsAPI.APIServices.PaymentTermService.PaymentTermService>();
-
+builder.Services.AddScoped<VikasFashionsAPI.APIServices.BusinessPartnerAddressService.IBusinessPartnerAddressService, VikasFashionsAPI.APIServices.BusinessPartnerAddressService.BusinessPartnerAddressService>();
+builder.Services.AddScoped<VikasFashionsAPI.APIServices.BusinessPartnersBankDetailService.IBusinessPartnersBankDetailService, VikasFashionsAPI.APIServices.BusinessPartnersBankDetailService.BusinessPartnersBankDetailService>();
 
 var app = builder.Build();
 
