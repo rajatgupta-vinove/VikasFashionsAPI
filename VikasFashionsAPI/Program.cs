@@ -66,6 +66,11 @@ builder.Services.AddScoped<VikasFashionsAPI.APIServices.MaterialService.IMateria
 builder.Services.AddScoped<VikasFashionsAPI.APIServices.ShadeService.IShadeService, VikasFashionsAPI.APIServices.ShadeService.ShadeService>();
 
 builder.Services.AddScoped<VikasFashionsAPI.APIServices.AuthService.IAuthService, VikasFashionsAPI.APIServices.AuthService.AuthService>();
+builder.Services.AddScoped<VikasFashionsAPI.APIServices.CompanyService.ICompanyService, VikasFashionsAPI.APIServices.CompanyService.CompanyService>();
+builder.Services.AddScoped<VikasFashionsAPI.APIServices.PlantBranchService.IPlantBranchService, VikasFashionsAPI.APIServices.PlantBranchService.PlantBranchService>();
+builder.Services.AddScoped<VikasFashionsAPI.APIServices.WarehouseService.IWarehouseService, VikasFashionsAPI.APIServices.WarehouseService.WarehouseService>();
+builder.Services.AddScoped<VikasFashionsAPI.APIServices.BinLocationService.IBinLocationService, VikasFashionsAPI.APIServices.BinLocationService.BinLocationService>();
+
 
 
 
