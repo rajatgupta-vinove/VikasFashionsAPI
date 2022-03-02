@@ -11,9 +11,11 @@ namespace WebApplication3.Models
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
+
     public partial class BusinessPartnersBankDetail
     {
+        [Key]
         public int BPBankId { get; set; }
         public int BusinessPartnerId { get; set; }
         public int BankCode { get; set; }
