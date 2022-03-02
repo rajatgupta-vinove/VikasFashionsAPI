@@ -43,8 +43,13 @@ namespace VikasFashionsAPI.Data
         public DbSet<UnitsOfMeasure> UnitsOfMeasures { get; set; }
         public DbSet<User> Users { get; set; }
         public DbSet<Warehouse> Warehouses { get; set; }
-        public DbSet<BusinessPartnerAddress> BusinessPartnerAddress { get; set; }
+        public DbSet<Area> Areas { get; set; }
+        public DbSet<BusinessPartner> BusinessPartners { get; set; }
+        public DbSet<BusinessPartnerAddress> BusinessPartnerAddresses { get; set; }
         public DbSet<BusinessPartnersBankDetail> BusinessPartnersBankDetails { get; set; }
+        public DbSet<BusinessPartnerType> BusinessPartnerTypes { get; set; }
+        public DbSet<CompanyGroup> CompanyGroups { get; set; }
+        public DbSet<PaymentTerm> PaymentTerms { get; set; }
+        public DbSet<WithHoldingTax> WithHoldingTaxes { get; set; }
     }
 }
-
