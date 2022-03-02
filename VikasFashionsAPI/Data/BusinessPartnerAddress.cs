@@ -7,17 +7,20 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+
 namespace VikasFashionsAPI.Data
 {
-    using System;
-    using System.Collections.Generic;
-    using System.ComponentModel.DataAnnotations;
-
-    public partial class BusinessPartnerAddress
+   public partial class BusinessPartnerAddress
     {
         [Key]
         public int BusinessPartnerAddressId { get; set; }
         public int BusinessPartnerId { get; set; }
+
+        [MaxLength(255)]
+        [Column(TypeName = "varchar(255)")]
+        [Required(ErrorMessage = "Business Partner Address is required")]
         public string BPAddress { get; set; }
         public string BPAddressType { get; set; }
         public string BPAddressLine1 { get; set; }

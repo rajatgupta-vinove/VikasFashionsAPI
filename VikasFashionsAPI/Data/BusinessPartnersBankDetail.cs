@@ -7,18 +7,21 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+
 namespace VikasFashionsAPI.Data
 {
-    using System;
-    using System.Collections.Generic;
-    using System.ComponentModel.DataAnnotations;
-
     public partial class BusinessPartnersBankDetail
     {
         [Key]
         public int BPBankId { get; set; }
         public int BusinessPartnerId { get; set; }
         public int BankCode { get; set; }
+
+        [MaxLength(255)]
+        [Column(TypeName = "varchar(255)")]
+        [Required(ErrorMessage = "Business Name is required")]
         public string BankName { get; set; }
         public string BankAccountNo { get; set; }
         public string BankAccountName { get; set; }
