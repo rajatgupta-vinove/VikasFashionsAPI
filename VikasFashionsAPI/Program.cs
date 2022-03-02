@@ -73,6 +73,10 @@ builder.Services.AddScoped<VikasFashionsAPI.APIServices.BinLocationService.IBinL
 builder.Services.AddScoped<VikasFashionsAPI.APIServices.BusinessPartnerAddressService.IBusinessPartnerAddressService, VikasFashionsAPI.APIServices.BusinessPartnerAddressService.BusinessPartnerAddressService>();
 builder.Services.AddScoped<VikasFashionsAPI.APIServices.BusinessPartnersBankDetailService.IBusinessPartnersBankDetailService, VikasFashionsAPI.APIServices.BusinessPartnersBankDetailService.BusinessPartnersBankDetailService>();
 
+builder.Services.AddScoped<VikasFashionsAPI.APIServices.WithHoldingTaxService.IWithHoldingTaxService, VikasFashionsAPI.APIServices.WithHoldingTaxService.WithHoldingTaxService>();
+builder.Services.AddScoped<VikasFashionsAPI.APIServices.PaymentTermService.IPaymentTermService, VikasFashionsAPI.APIServices.PaymentTermService.PaymentTermService>();
+
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
