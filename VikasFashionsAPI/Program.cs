@@ -72,6 +72,9 @@ builder.Services.AddScoped<VikasFashionsAPI.APIServices.WarehouseService.IWareho
 builder.Services.AddScoped<VikasFashionsAPI.APIServices.BinLocationService.IBinLocationService, VikasFashionsAPI.APIServices.BinLocationService.BinLocationService>();
 
 builder.Services.AddScoped<VikasFashionsAPI.APIServices.PaymentTermService.IPaymentTermService, VikasFashionsAPI.APIServices.PaymentTermService.PaymentTermService>();
+builder.Services.AddScoped<VikasFashionsAPI.APIServices.CompanyGroupService.ICompanyGroupService, VikasFashionsAPI.APIServices.CompanyGroupService.CompanyGroupService>();
+builder.Services.AddScoped<VikasFashionsAPI.APIServices.AreaService.IAreaService, VikasFashionsAPI.APIServices.AreaService.AreaService>();
+
 
 
 var app = builder.Build();
