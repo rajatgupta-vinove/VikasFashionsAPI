@@ -73,6 +73,10 @@ builder.Services.AddScoped<VikasFashionsAPI.APIServices.BinLocationService.IBinL
 
 builder.Services.AddScoped<VikasFashionsAPI.APIServices.PaymentTermService.IPaymentTermService, VikasFashionsAPI.APIServices.PaymentTermService.PaymentTermService>();
 
+builder.Services.AddScoped<VikasFashionsAPI.APIServices.BusinessPartnerService.IBusinessPartnerService, VikasFashionsAPI.APIServices.BusinessPartnerService.BusinessPartnerService>();
+
+builder.Services.AddScoped<VikasFashionsAPI.APIServices.BusinessPartnerTypeService.IBusinessPartnerTypeService, VikasFashionsAPI.APIServices.BusinessPartnerTypeService.BusinessPartnerTypeService>();
+
 
 var app = builder.Build();
 
