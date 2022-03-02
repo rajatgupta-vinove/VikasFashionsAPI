@@ -11,9 +11,11 @@ namespace WebApplication3.Models
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
+
     public partial class PaymentTerm
     {
+        [Key]
         public int PaymentTermId { get; set; }
         public string PaymentTermName { get; set; }
         public int Months { get; set; }

@@ -11,9 +11,11 @@ namespace WebApplication3.Models
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
+
     public partial class BusinessPartnerType
     {
+        [Key]
         public int BusinessPartnerTypeId { get; set; }
         public string BusinessPartnerTypeName { get; set; }
         public string Remark { get; set; }

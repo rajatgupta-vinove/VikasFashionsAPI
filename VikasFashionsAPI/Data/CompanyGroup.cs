@@ -11,9 +11,11 @@ namespace WebApplication3.Models
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
+
     public partial class CompanyGroup
     {
+        [Key]
         public int CompanyGroupId { get; set; }
         public string CompanyGroupName { get; set; }
         public string Remark { get; set; }

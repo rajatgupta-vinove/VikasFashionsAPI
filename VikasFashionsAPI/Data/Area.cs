@@ -11,9 +11,11 @@ namespace WebApplication3.Models
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
+
     public partial class Area
     {
+        [Key]
         public int AreaId { get; set; }
         public string AreaName { get; set; }
         public string AreaCode { get; set; }
