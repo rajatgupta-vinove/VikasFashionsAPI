@@ -75,6 +75,9 @@ builder.Services.AddScoped<VikasFashionsAPI.APIServices.BusinessPartnersBankDeta
 
 builder.Services.AddScoped<VikasFashionsAPI.APIServices.WithHoldingTaxService.IWithHoldingTaxService, VikasFashionsAPI.APIServices.WithHoldingTaxService.WithHoldingTaxService>();
 builder.Services.AddScoped<VikasFashionsAPI.APIServices.PaymentTermService.IPaymentTermService, VikasFashionsAPI.APIServices.PaymentTermService.PaymentTermService>();
+builder.Services.AddScoped<VikasFashionsAPI.APIServices.CompanyGroupService.ICompanyGroupService, VikasFashionsAPI.APIServices.CompanyGroupService.CompanyGroupService>();
+builder.Services.AddScoped<VikasFashionsAPI.APIServices.AreaService.IAreaService, VikasFashionsAPI.APIServices.AreaService.AreaService>();
+
 
 builder.Services.AddScoped<VikasFashionsAPI.APIServices.BusinessPartnerService.IBusinessPartnerService, VikasFashionsAPI.APIServices.BusinessPartnerService.BusinessPartnerService>();
 
