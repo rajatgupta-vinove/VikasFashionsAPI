@@ -7,7 +7,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace WebApplication3.Models
+namespace VikasFashionsAPI.Data
 {
     using System;
     using System.Collections.Generic;
