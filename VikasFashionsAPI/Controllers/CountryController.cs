@@ -1,6 +1,8 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using VikasFashionsAPI.APIServices.CountryService;
+using VikasFashionsAPI.APIServices.UserService;
+using VikasFashionsAPI.Common;
 using VikasFashionsAPI.Data;
 
 namespace VikasFashionsAPI.Controllers
@@ -12,11 +14,13 @@ namespace VikasFashionsAPI.Controllers
     {
         private readonly ILogger<CountryController> _logger;
         private readonly ICountryService _countryService;
+        private readonly IUserService _userService;
 
-        public CountryController(ILogger<CountryController> logger, ICountryService countryService)
+        public CountryController(ILogger<CountryController> logger, ICountryService countryService, IUserService userService)
         {
             _logger = logger;
             _countryService = countryService;
+            _userService = userService;
         }
 
         [HttpGet(Name = "GetCountry")]
@@ -37,11 +41,25 @@ namespace VikasFashionsAPI.Controllers
         [HttpPut("{id}", Name = "UpdateCountry")]
         public async Task<ActionResult<Country>> Update(int id, Country country)
         {
+            var user = _userService.GetLoginUser();
+            if (user != null)
+            {
+                country.UpdatedBy = user.UserId;
+                country.UpdatedOn = CommonVars.CurrentDateTime;
+            }
             return Ok(await _countryService.UpdateCountryAsync(country));
         }
         [HttpPost(Name = "CreateCountry")]
         public async Task<ActionResult<Country>> Create(Country country)
         {
+            var user = _userService.GetLoginUser();
+            if (user != null)
+            {
+                country.CreatedBy = user.UserId;
+                country.CreatedOn = CommonVars.CurrentDateTime;
+                country.UpdatedBy = user.UserId;
+                country.UpdatedOn = CommonVars.CurrentDateTime;
+            }
             return Ok(await _countryService.AddCountryAsync(country));
         }
     }
