@@ -1,6 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-
-namespace VikasFashionsAPI.Data
+﻿namespace VikasFashionsAPI.Data
 {
     public class DataContextVikasFashion : DbContext
     {

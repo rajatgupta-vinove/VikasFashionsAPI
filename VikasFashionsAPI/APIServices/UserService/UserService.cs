@@ -1,6 +1,4 @@
-﻿using VikasFashionsAPI.Data;
-using Microsoft.EntityFrameworkCore;
-using System.Security.Claims;
+﻿using System.Security.Claims;
 
 namespace VikasFashionsAPI.APIServices.UserService
 {

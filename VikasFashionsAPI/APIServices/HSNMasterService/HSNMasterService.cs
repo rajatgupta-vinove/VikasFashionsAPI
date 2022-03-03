@@ -1,7 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using VikasFashionsAPI.Data;
-
-namespace VikasFashionsAPI.APIServices.HSNMasterService
+﻿namespace VikasFashionsAPI.APIServices.HSNMasterService
 {
     public class HSNMasterService : IHSNMasterService
     {

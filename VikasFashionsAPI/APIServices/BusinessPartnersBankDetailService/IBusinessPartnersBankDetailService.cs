@@ -1,6 +1,4 @@
-﻿using VikasFashionsAPI.Data;
-
-namespace VikasFashionsAPI.APIServices.BusinessPartnersBankDetailService
+﻿namespace VikasFashionsAPI.APIServices.BusinessPartnersBankDetailService
 { 
     public interface IBusinessPartnersBankDetailService
     {        

@@ -1,5 +1,4 @@
-﻿using VikasFashionsAPI.Data;
-namespace VikasFashionsAPI.APIServices.MaterialGroupService
+﻿namespace VikasFashionsAPI.APIServices.MaterialGroupService
 {
     public interface IMaterialGroupService
     {

@@ -1,6 +1,4 @@
-﻿using VikasFashionsAPI.Data;
-using Microsoft.EntityFrameworkCore;
-namespace VikasFashionsAPI.APIServices.DesignService
+﻿namespace VikasFashionsAPI.APIServices.DesignService
 {
     public class DesignService : IDesignService
     {

@@ -9,10 +9,6 @@
 
 namespace VikasFashionsAPI.Data
 {
-    using System;
-    using System.Collections.Generic;
-    using System.ComponentModel.DataAnnotations;
-
     public partial class UserLogin
     {
         [Required(ErrorMessage = "Email is required")]

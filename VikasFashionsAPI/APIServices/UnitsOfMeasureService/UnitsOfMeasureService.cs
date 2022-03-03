@@ -1,7 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using VikasFashionsAPI.Data;
-
-namespace VikasFashionsAPI.APIServices.UnitsOfMeasureService
+﻿namespace VikasFashionsAPI.APIServices.UnitsOfMeasureService
 {
     public class UnitsOfMeasureService : IUnitsOfMeasureService
     {

@@ -1,6 +1,4 @@
-﻿using VikasFashionsAPI.Data;
-
-namespace VikasFashionsAPI.APIServices.AreaService
+﻿namespace VikasFashionsAPI.APIServices.AreaService
 {
     public interface IAreaService
     {

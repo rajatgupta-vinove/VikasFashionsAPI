@@ -1,7 +1,4 @@
-﻿using VikasFashionsAPI.Data;
-using Microsoft.EntityFrameworkCore;
-
-namespace VikasFashionsAPI.APIServices.CityService
+﻿namespace VikasFashionsAPI.APIServices.CityService
 {
     public class CityService : ICityService
     {

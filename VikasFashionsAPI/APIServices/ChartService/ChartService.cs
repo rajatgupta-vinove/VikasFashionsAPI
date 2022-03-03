@@ -1,6 +1,4 @@
-﻿using VikasFashionsAPI.Data;
-using Microsoft.EntityFrameworkCore;
-namespace VikasFashionsAPI.APIServices.ChartService
+﻿namespace VikasFashionsAPI.APIServices.ChartService
 {
     public class ChartService : IChartService
     {

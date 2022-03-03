@@ -1,5 +1,4 @@
-﻿using VikasFashionsAPI.Data;
-namespace VikasFashionsAPI.APIServices.StateService
+﻿namespace VikasFashionsAPI.APIServices.StateService
 {
     public interface IStateService
     {

@@ -1,6 +1,4 @@
-﻿using VikasFashionsAPI.Data;
-
-namespace VikasFashionsAPI.APIServices.MaterialTypeService
+﻿namespace VikasFashionsAPI.APIServices.MaterialTypeService
 {
     public interface IMaterialTypeService
     {

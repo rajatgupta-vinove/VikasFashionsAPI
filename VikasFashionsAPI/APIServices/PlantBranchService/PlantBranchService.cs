@@ -1,7 +1,4 @@
-﻿using VikasFashionsAPI.Data;
-using Microsoft.EntityFrameworkCore;
-
-namespace VikasFashionsAPI.APIServices.PlantBranchService
+﻿namespace VikasFashionsAPI.APIServices.PlantBranchService
 {
     public class PlantBranchService : IPlantBranchService
     {

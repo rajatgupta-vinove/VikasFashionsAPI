@@ -1,7 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using VikasFashionsAPI.Data;
-
-namespace VikasFashionsAPI.APIServices.CatalogMasterService
+﻿namespace VikasFashionsAPI.APIServices.CatalogMasterService
 {
     public class CatalogMasterService : ICatalogMasterService
     {

@@ -1,6 +1,4 @@
-﻿using VikasFashionsAPI.Data;
-
-namespace VikasFashionsAPI.APIServices.BusinessPartnerAddressService
+﻿namespace VikasFashionsAPI.APIServices.BusinessPartnerAddressService
 { 
     public interface IBusinessPartnerAddressService
     {        
