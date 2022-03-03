@@ -135,7 +135,7 @@ namespace VikasFashionsAPI.APIServices.UserService
             User? user = null;
             if (_httpContextAccessor.HttpContext != null)
             {
-                email = _httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.Name);
+                email = _httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.Email);
                 user = _context.Users.FirstOrDefault(m => m.Email == email);
             }
             return user;

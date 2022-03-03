@@ -107,12 +107,17 @@ namespace VikasFashionsAPI.Controllers
         {
             List<Claim> claims = new List<Claim>()
             {
-                new Claim(ClaimTypes.Name, user.Email),
+                new Claim(ClaimTypes.NameIdentifier, user.UserName),
+                new Claim(ClaimTypes.Email, user.Email),
+                new Claim(ClaimTypes.Name, user.Name),
+                new Claim(ClaimTypes.GivenName, user.Name),
                 new Claim(ClaimTypes.Role, "Admin"),
             };
-            var key = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(_counfiguration.GetSection("AppSettings:JWTKey").Value));
+            var key = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(_counfiguration.GetSection("AppSettings:JWT:Key").Value));
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256Signature);
             var token = new JwtSecurityToken(
+                issuer: _counfiguration.GetSection("AppSettings:JWT:Issuer").Value,
+                audience: _counfiguration.GetSection("AppSettings:JWT:Audience").Value,
                 claims: claims,
                 expires: DateTime.UtcNow.AddDays(365),
                 signingCredentials: creds);
