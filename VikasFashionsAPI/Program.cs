@@ -37,8 +37,9 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
         options.TokenValidationParameters = new TokenValidationParameters
         {
             ValidateIssuerSigningKey = true,
+            ValidateLifetime = true,
             IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8
-                .GetBytes(builder.Configuration.GetSection("AppSettings:JWTKey").Value)),
+                .GetBytes(builder.Configuration.GetSection("AppSettings:JWT:Key").Value)),
             ValidateIssuer = false,
             ValidateAudience = false
         };
