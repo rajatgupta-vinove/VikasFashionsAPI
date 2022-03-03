@@ -5,23 +5,24 @@ using VikasFashionsAPI.APIServices.StateService;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
-using VikasFashionsAPI.APIServices.AuthService;
+using VikasFashionsAPI.APIServices.UserService;
 
 namespace VikasFashionsAPI.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class StateController : ControllerBase
     {
         private readonly ILogger<StateController> _logger;
         private readonly IStateService _stateService;
-        private readonly IAuthService _authService;
+        private readonly IUserService _userService;
 
-        public StateController(ILogger<StateController> logger, IStateService stateService, IAuthService authService)
+        public StateController(ILogger<StateController> logger, IStateService stateService, IUserService userService)
         {
             _logger = logger;
             _stateService = stateService;
-            _authService = authService;
+            _userService = userService;
         }
 
         [HttpGet(Name = "GetState")]
@@ -34,14 +35,14 @@ namespace VikasFashionsAPI.Controllers
         {
             return Ok(await _stateService.GetByIdAsync(id));
         }
-        [HttpGet,Authorize(Roles ="Admin")]
+        [HttpGet]
         [Route("GetStateByCountryId/{id}")]
         public async Task<ActionResult<State>> GetStateByCountryId(int id)
         {
             string? userName = User?.Identity.Name;
             var name = User.FindFirstValue(ClaimTypes.Name);
             var role = User.FindFirstValue(ClaimTypes.Role);
-            var userServiceName = _authService.GetLoginUserName();
+            var userServiceName = _userService.GetLoginUser();
             return Ok(await _stateService.GetAllByCountryAndStatusAsync(id, true));
         }
         [HttpDelete("{id}", Name = "DeleteStateById")]
