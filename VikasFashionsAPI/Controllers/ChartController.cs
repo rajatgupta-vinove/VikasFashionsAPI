@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using VikasFashionsAPI.APIServices.ChartService;
 using VikasFashionsAPI.Data;
@@ -6,6 +7,7 @@ using VikasFashionsAPI.Data;
 
 namespace VikasFashionsAPI.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class ChartController : ControllerBase

@@ -13,13 +13,32 @@ namespace VikasFashionsAPI.Data
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
 
-    public partial class UserLogin
+    public partial class UserRegister
     {
+        [Required(ErrorMessage = "Name is required")]
+        public string Name { get; set; }
+
+        [Required(ErrorMessage = "User Name is required")]
+        public string UserName { get; set; }
+
         [Required(ErrorMessage = "Email is required")]
         public string Email { get; set; }
+        public string Phone { get; set; }
 
         [Required(ErrorMessage = "Password is required")]
         public string Password { get; set; }
+
+        [Required(ErrorMessage = "Role is required")]
+        public int RoleId { get; set; }
+        public bool IsActive { get; set; }
+        public string Remark { get; set; }
+
+        [Required(ErrorMessage = "Company is required")]
+        public int CompanyId { get; set; }
+
+        public string CompanyUserType { get; set; }
+        public string BannerImage { get; set; }
+        public string ProfileImage { get; set; }
     }
    
 }

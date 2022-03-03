@@ -1,9 +1,11 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using VikasFashionsAPI.APIServices.BusinessPartnerAddressService;
 using VikasFashionsAPI.Data;
 
 namespace VikasFashionsAPI.Controllers
 {
+    [Authorize]
     [ApiController]
     [Route("api/[controller]")]
     public class BusinessPartnerAddressController : ControllerBase

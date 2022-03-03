@@ -2,9 +2,11 @@
 using VikasFashionsAPI.APIServices.CatalogMasterService;
 using Microsoft.AspNetCore.Mvc;
 using VikasFashionsAPI.Data;
+using Microsoft.AspNetCore.Authorization;
 
 namespace VikasFashionsAPI.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class CatalogController : ControllerBase

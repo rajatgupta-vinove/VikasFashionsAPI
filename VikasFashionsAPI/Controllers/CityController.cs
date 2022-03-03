@@ -3,9 +3,11 @@ using Microsoft.AspNetCore.Mvc;
 using VikasFashionsAPI.Data;
 using VikasFashionsAPI.APIServices.CityService;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authorization;
 
 namespace VikasFashionsAPI.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class CityController : ControllerBase

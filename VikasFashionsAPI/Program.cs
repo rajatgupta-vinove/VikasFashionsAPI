@@ -65,7 +65,6 @@ builder.Services.AddScoped<VikasFashionsAPI.APIServices.DesignService.IDesignSer
 builder.Services.AddScoped<VikasFashionsAPI.APIServices.MaterialService.IMaterialService, VikasFashionsAPI.APIServices.MaterialService.MaterialService>();
 builder.Services.AddScoped<VikasFashionsAPI.APIServices.ShadeService.IShadeService, VikasFashionsAPI.APIServices.ShadeService.ShadeService>();
 
-builder.Services.AddScoped<VikasFashionsAPI.APIServices.AuthService.IAuthService, VikasFashionsAPI.APIServices.AuthService.AuthService>();
 builder.Services.AddScoped<VikasFashionsAPI.APIServices.CompanyService.ICompanyService, VikasFashionsAPI.APIServices.CompanyService.CompanyService>();
 builder.Services.AddScoped<VikasFashionsAPI.APIServices.PlantBranchService.IPlantBranchService, VikasFashionsAPI.APIServices.PlantBranchService.PlantBranchService>();
 builder.Services.AddScoped<VikasFashionsAPI.APIServices.WarehouseService.IWarehouseService, VikasFashionsAPI.APIServices.WarehouseService.WarehouseService>();
@@ -78,16 +77,16 @@ builder.Services.AddScoped<VikasFashionsAPI.APIServices.PaymentTermService.IPaym
 builder.Services.AddScoped<VikasFashionsAPI.APIServices.CompanyGroupService.ICompanyGroupService, VikasFashionsAPI.APIServices.CompanyGroupService.CompanyGroupService>();
 builder.Services.AddScoped<VikasFashionsAPI.APIServices.AreaService.IAreaService, VikasFashionsAPI.APIServices.AreaService.AreaService>();
 
+builder.Services.AddScoped<VikasFashionsAPI.APIServices.UserService.IUserService, VikasFashionsAPI.APIServices.UserService.UserService>();
 
 builder.Services.AddScoped<VikasFashionsAPI.APIServices.BusinessPartnerService.IBusinessPartnerService, VikasFashionsAPI.APIServices.BusinessPartnerService.BusinessPartnerService>();
-
 builder.Services.AddScoped<VikasFashionsAPI.APIServices.BusinessPartnerTypeService.IBusinessPartnerTypeService, VikasFashionsAPI.APIServices.BusinessPartnerTypeService.BusinessPartnerTypeService>();
 
 
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
+//if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
