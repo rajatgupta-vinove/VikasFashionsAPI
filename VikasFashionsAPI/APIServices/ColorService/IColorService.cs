@@ -1,5 +1,4 @@
-﻿using VikasFashionsAPI.Data;
-namespace VikasFashionsAPI.APIServices.ColorService
+﻿namespace VikasFashionsAPI.APIServices.ColorService
 {
     public interface IColorService
     {

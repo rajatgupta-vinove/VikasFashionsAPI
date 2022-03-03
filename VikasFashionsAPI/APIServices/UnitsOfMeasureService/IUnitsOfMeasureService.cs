@@ -1,6 +1,4 @@
-﻿using VikasFashionsAPI.Data;
-
-namespace VikasFashionsAPI.APIServices.UnitsOfMeasureService
+﻿namespace VikasFashionsAPI.APIServices.UnitsOfMeasureService
 {
     public interface IUnitsOfMeasureService 
     {

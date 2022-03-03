@@ -1,6 +1,4 @@
-﻿using VikasFashionsAPI.Data;
-
-namespace VikasFashionsAPI.APIServices.PlantBranchService
+﻿namespace VikasFashionsAPI.APIServices.PlantBranchService
 { 
     public interface IPlantBranchService
 {

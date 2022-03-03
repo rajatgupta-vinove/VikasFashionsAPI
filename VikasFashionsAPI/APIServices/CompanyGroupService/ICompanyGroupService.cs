@@ -1,7 +1,4 @@
-﻿using VikasFashionsAPI.Data;
-
-
-namespace VikasFashionsAPI.APIServices.CompanyGroupService
+﻿namespace VikasFashionsAPI.APIServices.CompanyGroupService
 {
     public interface ICompanyGroupService
     {

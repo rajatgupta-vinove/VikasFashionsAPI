@@ -1,5 +1,4 @@
-﻿using VikasFashionsAPI.Data;
-namespace VikasFashionsAPI.APIServices.WithHoldingTaxService
+﻿namespace VikasFashionsAPI.APIServices.WithHoldingTaxService
 {
     public interface IWithHoldingTaxService
     {

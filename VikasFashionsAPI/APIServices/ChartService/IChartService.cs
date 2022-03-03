@@ -1,6 +1,4 @@
-﻿using VikasFashionsAPI.Data;
-
-namespace VikasFashionsAPI.APIServices.ChartService
+﻿namespace VikasFashionsAPI.APIServices.ChartService
 {
     public interface IChartService
     {

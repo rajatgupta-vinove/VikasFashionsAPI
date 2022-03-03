@@ -1,6 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using VikasFashionsAPI.Data;
-namespace VikasFashionsAPI.APIServices.ColorService
+﻿namespace VikasFashionsAPI.APIServices.ColorService
 {
     public class ColorService : IColorService
     {

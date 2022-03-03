@@ -1,6 +1,4 @@
-﻿using VikasFashionsAPI.Data;
-
-namespace VikasFashionsAPI.APIServices.ShadeService
+﻿namespace VikasFashionsAPI.APIServices.ShadeService
 {
     public interface IShadeService
     {

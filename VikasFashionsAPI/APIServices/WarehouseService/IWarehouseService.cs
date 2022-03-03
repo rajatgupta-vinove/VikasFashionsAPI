@@ -1,6 +1,4 @@
-﻿using VikasFashionsAPI.Data;
-
-namespace VikasFashionsAPI.APIServices.WarehouseService
+﻿namespace VikasFashionsAPI.APIServices.WarehouseService
 { 
     public interface IWarehouseService
     {        

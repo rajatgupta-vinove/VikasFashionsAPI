@@ -1,7 +1,4 @@
-﻿using VikasFashionsAPI.Data;
-using Microsoft.EntityFrameworkCore;
-
-namespace VikasFashionsAPI.APIServices.BusinessPartnersBankDetailService
+﻿namespace VikasFashionsAPI.APIServices.BusinessPartnersBankDetailService
 {
     public class BusinessPartnersBankDetailService : IBusinessPartnersBankDetailService
     {

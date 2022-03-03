@@ -1,6 +1,4 @@
-﻿using VikasFashionsAPI.Data;
-using Microsoft.EntityFrameworkCore;
-namespace VikasFashionsAPI.APIServices.ShadeService
+﻿namespace VikasFashionsAPI.APIServices.ShadeService
 {
     public class ShadeService : IShadeService
     {

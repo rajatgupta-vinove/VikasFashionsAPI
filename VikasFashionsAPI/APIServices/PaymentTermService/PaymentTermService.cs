@@ -1,7 +1,4 @@
-﻿using VikasFashionsAPI.Data;
-using Microsoft.EntityFrameworkCore;
-
-namespace VikasFashionsAPI.APIServices.PaymentTermService
+﻿namespace VikasFashionsAPI.APIServices.PaymentTermService
 {
     public class PaymentTermService : IPaymentTermService
     {

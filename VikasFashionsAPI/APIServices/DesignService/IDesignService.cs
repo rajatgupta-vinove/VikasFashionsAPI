@@ -1,5 +1,4 @@
-﻿using VikasFashionsAPI.Data;
-namespace VikasFashionsAPI.APIServices.DesignService
+﻿namespace VikasFashionsAPI.APIServices.DesignService
 {
     public interface IDesignService
     {

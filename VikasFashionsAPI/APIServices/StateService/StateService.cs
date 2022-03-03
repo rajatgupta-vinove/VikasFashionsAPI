@@ -1,7 +1,4 @@
-﻿using VikasFashionsAPI.Data;
-using Microsoft.EntityFrameworkCore;
-
-namespace VikasFashionsAPI.APIServices.StateService
+﻿namespace VikasFashionsAPI.APIServices.StateService
 {
     public class StateService : IStateService
     {

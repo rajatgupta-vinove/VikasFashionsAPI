@@ -1,7 +1,4 @@
-﻿using VikasFashionsAPI.Data;
-using Microsoft.EntityFrameworkCore;
-
-namespace VikasFashionsAPI.APIServices.WithHoldingTaxService
+﻿namespace VikasFashionsAPI.APIServices.WithHoldingTaxService
 {
     public class WithHoldingTaxService : IWithHoldingTaxService
     {

@@ -1,7 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using VikasFashionsAPI.Data;
-
-namespace VikasFashionsAPI.APIServices.MaterialTypeService
+﻿namespace VikasFashionsAPI.APIServices.MaterialTypeService
 {
     public class MaterialTypeService : IMaterialTypeService
     {

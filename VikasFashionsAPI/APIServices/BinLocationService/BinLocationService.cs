@@ -1,7 +1,4 @@
-﻿using VikasFashionsAPI.Data;
-using Microsoft.EntityFrameworkCore;
-
-namespace VikasFashionsAPI.APIServices.BinLocationService
+﻿namespace VikasFashionsAPI.APIServices.BinLocationService
 {
     public class BinLocationService : IBinLocationService
     {

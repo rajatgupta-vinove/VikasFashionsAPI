@@ -1,5 +1,4 @@
-﻿using VikasFashionsAPI.Data;
-namespace VikasFashionsAPI.APIServices.CityService
+﻿namespace VikasFashionsAPI.APIServices.CityService
 {
     public interface ICityService
     {

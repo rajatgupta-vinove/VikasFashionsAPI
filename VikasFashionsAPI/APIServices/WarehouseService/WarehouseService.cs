@@ -1,7 +1,4 @@
-﻿using VikasFashionsAPI.Data;
-using Microsoft.EntityFrameworkCore;
-
-namespace VikasFashionsAPI.APIServices.WarehouseService
+﻿namespace VikasFashionsAPI.APIServices.WarehouseService
 {
     public class WarehouseService : IWarehouseService
     {

@@ -1,5 +1,4 @@
-﻿using VikasFashionsAPI.Data;
-namespace VikasFashionsAPI.APIServices.PaymentTermService
+﻿namespace VikasFashionsAPI.APIServices.PaymentTermService
 {
     public interface IPaymentTermService
     {

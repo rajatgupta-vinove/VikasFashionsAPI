@@ -1,7 +1,4 @@
-﻿using VikasFashionsAPI.Data;
-using Microsoft.EntityFrameworkCore;
-
-namespace VikasFashionsAPI.APIServices.CountryService
+﻿namespace VikasFashionsAPI.APIServices.CountryService
 {
     public class CountryService : ICountryService
     {
