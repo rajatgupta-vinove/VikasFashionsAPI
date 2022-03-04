@@ -2,6 +2,8 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using VikasFashionsAPI.APIServices.CompanyGroupService;
+using VikasFashionsAPI.APIServices.UserService;
+using VikasFashionsAPI.Common;
 using VikasFashionsAPI.Data;
 
 namespace VikasFashionsAPI.Controllers
@@ -13,11 +15,15 @@ namespace VikasFashionsAPI.Controllers
     {
         private readonly ILogger<CompanyGroupController> _logger;
         private readonly ICompanyGroupService _companyGroupService;
+        private readonly IUserService _userService;
 
-        public CompanyGroupController(ILogger<CompanyGroupController> logger, ICompanyGroupService companyGroupService)
+
+        public CompanyGroupController(ILogger<CompanyGroupController> logger, ICompanyGroupService companyGroupService, IUserService userService)
         {
             _logger = logger;
             _companyGroupService = companyGroupService;
+            _userService = userService;
+
         }
 
         [HttpGet(Name = "GetCompanyGroup")]
@@ -29,6 +35,14 @@ namespace VikasFashionsAPI.Controllers
         [HttpPost(Name = "CreateCompanyGroup")]
         public async Task<ActionResult<CompanyGroup>> Create(CompanyGroup companyGroup)
         {
+            var user = _userService.GetLoginUser();
+            if (user != null)
+            {
+                companyGroup.CreatedBy = user.UserId;
+                companyGroup.CreatedOn = CommonVars.CurrentDateTime;
+                companyGroup.UpdatedBy = user.UserId;
+                companyGroup.UpdatedOn = CommonVars.CurrentDateTime;
+            }
             return Ok(await _companyGroupService.AddCompanyGroupAsync(companyGroup));
         }
 
@@ -47,6 +61,12 @@ namespace VikasFashionsAPI.Controllers
         [HttpPut("{id}", Name = "UpdateCompanyGroup")]
         public async Task<ActionResult<CompanyGroup>> Update(int id, CompanyGroup companyGroup)
         {
+            var user = _userService.GetLoginUser();
+            if (user != null)
+            {
+                companyGroup.UpdatedBy = user.UserId;
+                companyGroup.UpdatedOn = CommonVars.CurrentDateTime;
+            }
             return Ok(await _companyGroupService.UpdateCompanyGroupAsync(companyGroup));
         }
     }

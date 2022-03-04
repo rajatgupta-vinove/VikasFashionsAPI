@@ -2,6 +2,8 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using VikasFashionsAPI.APIServices.BusinessPartnerService;
+using VikasFashionsAPI.APIServices.UserService;
+using VikasFashionsAPI.Common;
 using VikasFashionsAPI.Data;
 
 namespace VikasFashionsAPI.Controllers
@@ -13,11 +15,15 @@ namespace VikasFashionsAPI.Controllers
     {
         private readonly ILogger<BusinessPartnerController> _logger;
         private readonly IBusinessPartnerService _businessPartnerService;
+        private readonly IUserService _userService;
 
-        public BusinessPartnerController(ILogger<BusinessPartnerController> logger, IBusinessPartnerService businessPartnerService)
+
+        public BusinessPartnerController(ILogger<BusinessPartnerController> logger, IBusinessPartnerService businessPartnerService, IUserService userService)
         {
             _logger = logger;
             _businessPartnerService = businessPartnerService;
+            _userService = userService;
+
         }
 
         [HttpGet(Name = "GetBusinessPartner")]
@@ -35,14 +41,30 @@ namespace VikasFashionsAPI.Controllers
         {
             return Ok(await _businessPartnerService.DeleteBusinessPartnerAsync(id));
         }
+
         [HttpPut("{id}", Name = "UpdateBusinessPartner")]
         public async Task<ActionResult<BusinessPartner>> Update(int id, BusinessPartner businessPartner)
         {
+            var user = _userService.GetLoginUser();
+            if (user != null)
+            {
+                businessPartner.UpdatedBy = user.UserId;
+                businessPartner.UpdatedOn = CommonVars.CurrentDateTime;
+            }
             return Ok(await _businessPartnerService.UpdateBusinessPartnerAsync(businessPartner));
         }
+
         [HttpPost(Name = "CreateBusinessPartner")]
         public async Task<ActionResult<BusinessPartner>> Create(BusinessPartner businessPartner)
         {
+            var user = _userService.GetLoginUser();
+            if (user != null)
+            {
+                businessPartner.CreatedBy = user.UserId;
+                businessPartner.CreatedOn = CommonVars.CurrentDateTime;
+                businessPartner.UpdatedBy = user.UserId;
+                businessPartner.UpdatedOn = CommonVars.CurrentDateTime;
+            }
             return Ok(await _businessPartnerService.AddBusinessPartnerAsync(businessPartner));
         }
     }

@@ -1,6 +1,8 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using VikasFashionsAPI.APIServices.BusinessPartnersBankDetailService;
+using VikasFashionsAPI.APIServices.UserService;
+using VikasFashionsAPI.Common;
 using VikasFashionsAPI.Data;
 
 namespace VikasFashionsAPI.Controllers
@@ -12,11 +14,15 @@ namespace VikasFashionsAPI.Controllers
     {
         private readonly ILogger<BusinessPartnersBankDetailController> _logger;
         private readonly IBusinessPartnersBankDetailService _businessPartnersBankDetailService;
+        private readonly IUserService _userService;
 
-        public BusinessPartnersBankDetailController(ILogger<BusinessPartnersBankDetailController> logger, IBusinessPartnersBankDetailService businessPartnersBankDetailService)
+
+        public BusinessPartnersBankDetailController(ILogger<BusinessPartnersBankDetailController> logger, IBusinessPartnersBankDetailService businessPartnersBankDetailService, IUserService userService)
         {
             _logger = logger;
             _businessPartnersBankDetailService = businessPartnersBankDetailService;
+            _userService = userService;
+
         }
 
         [HttpGet(Name = "GetBusinessPartnersBankDetail")]
@@ -37,11 +43,25 @@ namespace VikasFashionsAPI.Controllers
         [HttpPut("{id}", Name = "UpdateBusinessPartnersBankDetail")]
         public async Task<ActionResult<BusinessPartnersBankDetail>> Update(int id, BusinessPartnersBankDetail businessPartnersBankDetail)
         {
+            var user = _userService.GetLoginUser();
+            if (user != null)
+            {
+                businessPartnersBankDetail.UpdatedBy = user.UserId;
+                businessPartnersBankDetail.UpdatedOn = CommonVars.CurrentDateTime;
+            }
             return Ok(await _businessPartnersBankDetailService.UpdateBusinessPartnersBankDetailAsync(businessPartnersBankDetail));
         }
         [HttpPost(Name = "CreateBusinessPartnersBankDetail")]
         public async Task<ActionResult<BusinessPartnersBankDetail>> Create(BusinessPartnersBankDetail businessPartnersBankDetail)
         {
+            var user = _userService.GetLoginUser();
+            if (user != null)
+            {
+                businessPartnersBankDetail.CreatedBy = user.UserId;
+                businessPartnersBankDetail.CreatedOn = CommonVars.CurrentDateTime;
+                businessPartnersBankDetail.UpdatedBy = user.UserId;
+                businessPartnersBankDetail.UpdatedOn = CommonVars.CurrentDateTime;
+            }
             return Ok(await _businessPartnersBankDetailService.AddBusinessPartnersBankDetailAsync(businessPartnersBankDetail));
         }
     }
