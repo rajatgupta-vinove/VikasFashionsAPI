@@ -15,6 +15,11 @@ namespace VikasFashionsAPI.Data
         public int WarehouseId { get; set; }
 
         [MaxLength(255)]
+        [Column(TypeName = "varchar(50)")]
+        [Required(ErrorMessage = "Warehouse Code is required")]
+        public string WarehouseCode { get; set; }
+
+        [MaxLength(255)]
         [Column(TypeName = "varchar(255)")]
         [Required(ErrorMessage = "Warehouse Name is required")]
         public string WarehouseName { get; set; }

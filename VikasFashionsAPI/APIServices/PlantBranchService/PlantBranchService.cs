@@ -112,11 +112,16 @@
                 if (exisingPlantBranch == null)
                     return null;
                 exisingPlantBranch.PlantId = plantBranch.PlantId;
+                exisingPlantBranch.PlantCode = plantBranch.PlantCode;
                 exisingPlantBranch.PlantName = plantBranch.PlantName;
                 exisingPlantBranch.Address1 = plantBranch.Address1;
                 exisingPlantBranch.Address2 = plantBranch.Address2;
                 exisingPlantBranch.CityId = plantBranch.CityId; 
                 exisingPlantBranch.PinCode = plantBranch.PinCode;
+                exisingPlantBranch.PhoneNo1 = plantBranch.PhoneNo1;
+                exisingPlantBranch.PhoneNo2 = plantBranch.PhoneNo2;
+                exisingPlantBranch.PhoneNo3 = plantBranch.PhoneNo3;
+                exisingPlantBranch.Website = plantBranch.Website;
                 exisingPlantBranch.PANNo = plantBranch.PANNo;
                 exisingPlantBranch.CSTNo = plantBranch.CSTNo;
                 exisingPlantBranch.GSTIN = plantBranch.GSTIN;
