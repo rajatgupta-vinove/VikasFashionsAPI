@@ -2,6 +2,8 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using VikasFashionsAPI.APIServices.ChartService;
+using VikasFashionsAPI.APIServices.UserService;
+using VikasFashionsAPI.Common;
 using VikasFashionsAPI.Data;
 
 
@@ -14,11 +16,15 @@ namespace VikasFashionsAPI.Controllers
     {
         private readonly ILogger<ChartController> _logger;
         private readonly IChartService _chartService;
+        private readonly IUserService _userService;
 
-        public ChartController(ILogger<ChartController> logger, IChartService chartService)
+
+        public ChartController(ILogger<ChartController> logger, IChartService chartService, IUserService userService)
         {
             _logger = logger;
             _chartService = chartService;
+            _userService = userService;
+
         }
 
         [HttpGet(Name = "GetChart")]
@@ -39,11 +45,25 @@ namespace VikasFashionsAPI.Controllers
         [HttpPut("{id}", Name = "UpdateChart")]
         public async Task<ActionResult<Chart>> Update(int id, Chart chart)
         {
+            var user = _userService.GetLoginUser();
+            if (user != null)
+            {
+                chart.UpdatedBy = user.UserId;
+                chart.UpdatedOn = CommonVars.CurrentDateTime;
+            }
             return Ok(await _chartService.UpdateChartAsync(chart));
         }
         [HttpPost(Name = "CreateChart")]
         public async Task<ActionResult<Chart>> Create(Chart chart)
         {
+            var user = _userService.GetLoginUser();
+            if (user != null)
+            {
+                chart.CreatedBy = user.UserId;
+                chart.CreatedOn = CommonVars.CurrentDateTime;
+                chart.UpdatedBy = user.UserId;
+                chart.UpdatedOn = CommonVars.CurrentDateTime;
+            }
             return Ok(await _chartService.AddChartAsync(chart));
         }
     }

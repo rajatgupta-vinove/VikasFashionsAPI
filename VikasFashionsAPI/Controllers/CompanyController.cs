@@ -1,6 +1,8 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using VikasFashionsAPI.APIServices.CompanyService;
+using VikasFashionsAPI.APIServices.UserService;
+using VikasFashionsAPI.Common;
 using VikasFashionsAPI.Data;
 
 namespace VikasFashionsAPI.Controllers
@@ -12,11 +14,16 @@ namespace VikasFashionsAPI.Controllers
     {
         private readonly ILogger<CompanyController> _logger;
         private readonly ICompanyService _companyService;
+        private readonly IUserService _userService;
 
-        public CompanyController(ILogger<CompanyController> logger, ICompanyService CompanyService)
+
+        public CompanyController(ILogger<CompanyController> logger, ICompanyService CompanyService, IUserService userService)
         {
             _logger = logger;
             _companyService = CompanyService;
+            _userService = userService;
+
+
         }
 
         [HttpGet(Name = "GetCompany")]
@@ -37,11 +44,25 @@ namespace VikasFashionsAPI.Controllers
         [HttpPut("{id}", Name = "UpdateCompany")]
         public async Task<ActionResult<Company>> Update(int id, Company company)
         {
+            var user = _userService.GetLoginUser();
+            if (user != null)
+            {
+                company.UpdatedBy = user.UserId;
+                company.UpdatedOn = CommonVars.CurrentDateTime;
+            }
             return Ok(await _companyService.UpdateCompanyAsync(company));
         }
         [HttpPost(Name = "CreateCompany")]
         public async Task<ActionResult<Company>> Create(Company company)
         {
+            var user = _userService.GetLoginUser();
+            if (user != null)
+            {
+                company.CreatedBy = user.UserId;
+                company.CreatedOn = CommonVars.CurrentDateTime;
+                company.UpdatedBy = user.UserId;
+                company.UpdatedOn = CommonVars.CurrentDateTime;
+            }
             return Ok(await _companyService.AddCompanyAsync(company));
         }
     }

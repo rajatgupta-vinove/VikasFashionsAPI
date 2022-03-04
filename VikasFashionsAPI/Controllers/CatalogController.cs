@@ -3,6 +3,8 @@ using VikasFashionsAPI.APIServices.CatalogMasterService;
 using Microsoft.AspNetCore.Mvc;
 using VikasFashionsAPI.Data;
 using Microsoft.AspNetCore.Authorization;
+using VikasFashionsAPI.APIServices.UserService;
+using VikasFashionsAPI.Common;
 
 namespace VikasFashionsAPI.Controllers
 {
@@ -13,11 +15,15 @@ namespace VikasFashionsAPI.Controllers
     {
         private readonly ILogger<CatalogController> _logger;
         private readonly ICatalogMasterService _catalogService;
+        private readonly IUserService _userService;
 
-        public CatalogController(ILogger<CatalogController> logger, ICatalogMasterService catalogService)
+
+        public CatalogController(ILogger<CatalogController> logger, ICatalogMasterService catalogService, IUserService userService)
         {
             _logger = logger;
             _catalogService = catalogService;
+            _userService = userService;
+
         }
 
         [HttpGet(Name = "GetCatalog")]
@@ -28,6 +34,14 @@ namespace VikasFashionsAPI.Controllers
         [HttpPost(Name = "CreateCatalog")]
         public async Task<ActionResult<Catalog>> Create(Catalog catalog)
         {
+            var user = _userService.GetLoginUser();
+            if (user != null)
+            {
+                catalog.CreatedBy = user.UserId;
+                catalog.CreatedOn = CommonVars.CurrentDateTime;
+                catalog.UpdatedBy = user.UserId;
+                catalog.UpdatedOn = CommonVars.CurrentDateTime;
+            }
             return Ok(await _catalogService.AddCatalogAsync(catalog));
         }
         [HttpGet("{id}", Name = "GetCatalogById")]
@@ -43,6 +57,12 @@ namespace VikasFashionsAPI.Controllers
         [HttpPut("{id}", Name = "UpdateCatalog")]
         public async Task<ActionResult<Country>> Update(int id, Catalog catalog)
         {
+            var user = _userService.GetLoginUser();
+            if (user != null)
+            {
+                catalog.UpdatedBy = user.UserId;
+                catalog.UpdatedOn = CommonVars.CurrentDateTime;
+            }
             return Ok(await _catalogService.UpdateCatalogAsync(catalog));
         }
 

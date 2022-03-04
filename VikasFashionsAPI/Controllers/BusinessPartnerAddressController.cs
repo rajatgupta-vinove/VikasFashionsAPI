@@ -1,6 +1,8 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using VikasFashionsAPI.APIServices.BusinessPartnerAddressService;
+using VikasFashionsAPI.APIServices.UserService;
+using VikasFashionsAPI.Common;
 using VikasFashionsAPI.Data;
 
 namespace VikasFashionsAPI.Controllers
@@ -12,8 +14,10 @@ namespace VikasFashionsAPI.Controllers
     {
         private readonly ILogger<BusinessPartnerAddressController> _logger;
         private readonly IBusinessPartnerAddressService _BusinessPartnerAddressService;
+        private readonly IUserService _userService;
 
-        public BusinessPartnerAddressController(ILogger<BusinessPartnerAddressController> logger, IBusinessPartnerAddressService BusinessPartnerAddressService)
+
+        public BusinessPartnerAddressController(ILogger<BusinessPartnerAddressController> logger, IBusinessPartnerAddressService BusinessPartnerAddressService , IUserService userService)
         {
             _logger = logger;
             _BusinessPartnerAddressService = BusinessPartnerAddressService;
@@ -34,14 +38,30 @@ namespace VikasFashionsAPI.Controllers
         {
             return Ok(await _BusinessPartnerAddressService.DeleteBusinessPartnerAddressAsync(id));
         }
+
         [HttpPut("{id}", Name = "UpdateBusinessPartnerAddress")]
         public async Task<ActionResult<BusinessPartnerAddress>> Update(int id, BusinessPartnerAddress businessPartnerAddress)
         {
+            var user = _userService.GetLoginUser();
+            if (user != null)
+            {
+                businessPartnerAddress.UpdatedBy = user.UserId;
+                businessPartnerAddress.UpdatedOn = CommonVars.CurrentDateTime;
+            }
             return Ok(await _BusinessPartnerAddressService.UpdateBusinessPartnerAddressAsync(businessPartnerAddress));
         }
+
         [HttpPost(Name = "CreateBusinessPartnerAddress")]
         public async Task<ActionResult<BusinessPartnerAddress>> Create(BusinessPartnerAddress businessPartnerAddress)
         {
+            var user = _userService.GetLoginUser();
+            if (user != null)
+            {
+                businessPartnerAddress.CreatedBy = user.UserId;
+                businessPartnerAddress.CreatedOn = CommonVars.CurrentDateTime;
+                businessPartnerAddress.UpdatedBy = user.UserId;
+                businessPartnerAddress.UpdatedOn = CommonVars.CurrentDateTime;
+            }
             return Ok(await _BusinessPartnerAddressService.AddBusinessPartnerAddressAsync(businessPartnerAddress));
         }
     }

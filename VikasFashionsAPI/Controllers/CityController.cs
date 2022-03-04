@@ -4,6 +4,8 @@ using VikasFashionsAPI.Data;
 using VikasFashionsAPI.APIServices.CityService;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authorization;
+using VikasFashionsAPI.APIServices.UserService;
+using VikasFashionsAPI.Common;
 
 namespace VikasFashionsAPI.Controllers
 {
@@ -14,11 +16,15 @@ namespace VikasFashionsAPI.Controllers
     {
         private readonly ILogger<CityController> _logger;
         private readonly ICityService _cityService;
+        private readonly IUserService _userService;
 
-        public CityController(ILogger<CityController> logger, ICityService cityService)
+
+        public CityController(ILogger<CityController> logger, ICityService cityService, IUserService userService)
         {
             _logger = logger;
             _cityService = cityService;
+            _userService = userService;
+
         }
 
         [HttpGet(Name = "GetCity")]
@@ -45,11 +51,25 @@ namespace VikasFashionsAPI.Controllers
         [HttpPut("{id}", Name = "UpdateCity")]
         public async Task<ActionResult<City>> Update(int id, City city)
         {
+            var user = _userService.GetLoginUser();
+            if (user != null)
+            {
+                city.UpdatedBy = user.UserId;
+                city.UpdatedOn = CommonVars.CurrentDateTime;
+            }
             return Ok(await _cityService.UpdateCityAsync(city));
         }
         [HttpPost(Name = "CreateCity")]
         public async Task<ActionResult<City>> Create(City city)
         {
+            var user = _userService.GetLoginUser();
+            if (user != null)
+            {
+                city.CreatedBy = user.UserId;
+                city.CreatedOn = CommonVars.CurrentDateTime;
+                city.UpdatedBy = user.UserId;
+                city.UpdatedOn = CommonVars.CurrentDateTime;
+            }
             return Ok(await _cityService.AddCityAsync(city));
         }
 
