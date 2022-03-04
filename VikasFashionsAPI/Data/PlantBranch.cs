@@ -15,6 +15,11 @@ namespace VikasFashionsAPI.Data
         public int PlantId { get; set; }
 
         [MaxLength(255)]
+        [Column(TypeName = "varchar(50)")]
+        [Required(ErrorMessage = "Plant Code is required")]
+        public string PlantCode { get; set; }
+
+        [MaxLength(255)]
         [Column(TypeName = "varchar(255)")]
         [Required(ErrorMessage = "Plant Name is required")]
         public string PlantName { get; set; }
@@ -22,10 +27,15 @@ namespace VikasFashionsAPI.Data
         [MaxLength(255)]
         [Column(TypeName = "varchar(1000)")]
         [Required(ErrorMessage = "Plant Address Line1 is required")]
+
         public string Address1 { get; set; }
         public string Address2 { get; set; }
         public int CityId { get; set; }
         public string PinCode { get; set; }
+        public string PhoneNo1 { get; set; }
+        public string PhoneNo2 { get; set; }
+        public string PhoneNo3 { get; set; }
+        public string Website { get; set; }
         public string PANNo { get; set; }
         public string CSTNo { get; set; }
         public string GSTIN { get; set; }
