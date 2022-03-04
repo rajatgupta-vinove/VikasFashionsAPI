@@ -113,7 +113,7 @@
                     return null;
                 exisingCompany.CompanyId = company.CompanyId;
                 exisingCompany.CompanyName = company.CompanyName;
-                exisingCompany.CompanyShortName = company.CompanyShortName;
+                exisingCompany.CompanyCode = company.CompanyCode;
                 exisingCompany.Address1 = company.Address1;
                 exisingCompany.Address2 = company.Address2;
                 exisingCompany.CityId=company.CityId;

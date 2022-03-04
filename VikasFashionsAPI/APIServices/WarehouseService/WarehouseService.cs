@@ -112,6 +112,7 @@
                 if (exisingWarehouse == null)
                     return null;
                 exisingWarehouse.WarehouseId = warehouse.WarehouseId;
+                exisingWarehouse.WarehouseCode = warehouse.WarehouseCode;
                 exisingWarehouse.WarehouseName = warehouse.WarehouseName;
                 exisingWarehouse.PlantId = warehouse.PlantId;
                 exisingWarehouse.Address1 = warehouse.Address1;

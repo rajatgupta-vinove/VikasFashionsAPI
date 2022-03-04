@@ -34,7 +34,7 @@ namespace VikasFashionsAPI.Controllers
             var checkUser = await _userService.GetByEmailAsync(loginUser.Email);
             if (checkUser != null)
                 return BadRequest("User with this email already exists");
-            checkUser = await _userService.GetByUserNameAsync(loginUser.UserName);
+            checkUser = await _userService.GetByUserNameAsync(loginUser.UserCode);
             if (checkUser != null)
                 return BadRequest("User with this user name already exists");
             DateTime dateTime = DateTime.Now;
@@ -44,7 +44,7 @@ namespace VikasFashionsAPI.Controllers
                 Name = loginUser.Name,
                 Email = loginUser.Email,
                 Phone = loginUser.Phone,
-                UserName = loginUser.UserName,
+                UserCode = loginUser.UserCode,
                 Password = loginUser.Password,
                 RoleId = loginUser.RoleId,
                 IsActive = loginUser.IsActive,
@@ -107,7 +107,7 @@ namespace VikasFashionsAPI.Controllers
         {
             List<Claim> claims = new List<Claim>()
             {
-                new Claim(ClaimTypes.NameIdentifier, user.UserName),
+                new Claim(ClaimTypes.NameIdentifier, user.UserCode),
                 new Claim(ClaimTypes.Email, user.Email),
                 new Claim(ClaimTypes.Name, user.Name),
                 new Claim(ClaimTypes.GivenName, user.Name),

@@ -76,14 +76,14 @@ namespace VikasFashionsAPI.APIServices.UserService
             }
             return user;
         }
-        public async Task<User?> GetByUserNameAsync(string userName)
+        public async Task<User?> GetByUserNameAsync(string userCode)
         {
             User? user = null;
             try
             {
-                if (string.IsNullOrEmpty(userName))
+                if (string.IsNullOrEmpty(userCode))
                     return user;
-                user = await _context.Users.FirstOrDefaultAsync(m => m.UserName == userName);
+                user = await _context.Users.FirstOrDefaultAsync(m => m.UserCode == userCode);
             }
             catch (Exception ex)
             {
@@ -117,7 +117,7 @@ namespace VikasFashionsAPI.APIServices.UserService
                 if (exisingUser == null)
                     return null;
                 exisingUser.UserId = user.UserId;
-                exisingUser.UserName = user.UserName;
+                exisingUser.UserCode = user.UserCode;
                 await _context.SaveChangesAsync();
             }
             catch (Exception ex)
