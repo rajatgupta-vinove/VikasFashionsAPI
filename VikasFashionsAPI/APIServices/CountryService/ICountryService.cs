@@ -9,5 +9,6 @@ namespace VikasFashionsAPI.APIServices.CountryService
         Task<Country> AddCountryAsync(Country country);
         Task<Country?> UpdateCountryAsync(Country country);
         Task<bool> DeleteCountryAsync(int countryId);
+        Task<Country?> ChangeCountryStatusAsync(int countryId);
     }
 }

@@ -96,5 +96,23 @@
             }
             return country;
         }
+        public async Task<Country?> ChangeCountryStatusAsync(int countryId)
+        {
+            Country? exisingCountry = null;
+            try
+            {
+                exisingCountry = await _context.Countries.FirstOrDefaultAsync(m => m.CountryId == countryId);
+                if (exisingCountry == null)
+                    return null;
+                exisingCountry.IsActive = !exisingCountry.IsActive;
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                exisingCountry = null;
+                _log.LogError("Error while updating country", ex);
+            }
+            return exisingCountry;
+        }
     }
 }
