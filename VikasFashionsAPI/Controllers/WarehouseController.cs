@@ -1,6 +1,8 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using VikasFashionsAPI.APIServices.UserService;
 using VikasFashionsAPI.APIServices.WarehouseService;
+using VikasFashionsAPI.Common;
 using VikasFashionsAPI.Data;
 
 namespace VikasFashionsAPI.Controllers
@@ -12,11 +14,13 @@ namespace VikasFashionsAPI.Controllers
     {
         private readonly ILogger<WarehouseController> _logger;
         private readonly IWarehouseService _warehouseService;
+        private readonly IUserService _userService;
 
-        public WarehouseController(ILogger<WarehouseController> logger, IWarehouseService warehouseService)
+        public WarehouseController(ILogger<WarehouseController> logger, IWarehouseService warehouseService, IUserService userService)
         {
             _logger = logger;
             _warehouseService = warehouseService;
+            _userService = userService;
         }
 
         [HttpGet(Name = "GetWarehouse")]
@@ -37,11 +41,26 @@ namespace VikasFashionsAPI.Controllers
         [HttpPut("{id}", Name = "UpdateWarehouse")]
         public async Task<ActionResult<Warehouse>> Update(int id, Warehouse Warehouse)
         {
+            var user = _userService.GetLoginUser();
+            if (user != null)
+            {
+                Warehouse.UpdatedBy = user.UserId;
+                Warehouse.UpdatedOn = CommonVars.CurrentDateTime;
+            }
             return Ok(await _warehouseService.UpdateWarehouseAsync(Warehouse));
         }
         [HttpPost(Name = "CreateWarehouse")]
         public async Task<ActionResult<Warehouse>> Create(Warehouse Warehouse)
         {
+            var user = _userService.GetLoginUser();
+            if (user != null)
+            {
+                Warehouse.CreatedBy = user.UserId;
+                Warehouse.CreatedOn = CommonVars.CurrentDateTime;
+                Warehouse.UpdatedBy = user.UserId;
+                Warehouse.UpdatedOn = CommonVars.CurrentDateTime;
+            }
+
             return Ok(await _warehouseService.AddWarehouseAsync(Warehouse));
         }
     }

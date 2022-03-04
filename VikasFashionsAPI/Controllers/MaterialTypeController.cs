@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using VikasFashionsAPI.APIServices.MaterialTypeService;
+using VikasFashionsAPI.APIServices.UserService;
+using VikasFashionsAPI.Common;
 using VikasFashionsAPI.Data;
 
 namespace VikasFashionsAPI.Controllers
@@ -14,11 +16,13 @@ namespace VikasFashionsAPI.Controllers
     {
         private readonly ILogger<MaterialTypeController> _logger;
         private readonly IMaterialTypeService _materialTypeService;
+        private readonly IUserService _userService;
 
-        public MaterialTypeController(ILogger<MaterialTypeController> logger, IMaterialTypeService materialTypeService)
+        public MaterialTypeController(ILogger<MaterialTypeController> logger, IMaterialTypeService materialTypeService, IUserService userService)
         {
             _logger = logger;
             _materialTypeService = materialTypeService;
+            _userService = userService;
         }
 
         [HttpGet(Name = "GetMaterialType")]
@@ -39,11 +43,25 @@ namespace VikasFashionsAPI.Controllers
         [HttpPut("{id}", Name = "UpdateMaterialType")]
         public async Task<ActionResult<MaterialType>> Update(int id, MaterialType materialType)
         {
+            var user = _userService.GetLoginUser();
+            if (user != null)
+            {
+                materialType.UpdatedBy = user.UserId;
+                materialType.UpdatedOn = CommonVars.CurrentDateTime;
+            }
             return Ok(await _materialTypeService.UpdateMaterialTypeAsync(materialType));
         }
         [HttpPost(Name = "CreateMaterialType")]
         public async Task<ActionResult<MaterialType>> Create(MaterialType materialType)
         {
+            var user = _userService.GetLoginUser();
+            if (user != null)
+            {
+                materialType.CreatedBy = user.UserId;
+                materialType.CreatedOn = CommonVars.CurrentDateTime;
+                materialType.UpdatedBy = user.UserId;
+                materialType.UpdatedOn = CommonVars.CurrentDateTime;
+            }
             return Ok(await _materialTypeService.AddMaterialTypeAsync(materialType));
         }
     }

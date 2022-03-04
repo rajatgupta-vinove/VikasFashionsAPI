@@ -2,6 +2,8 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using VikasFashionsAPI.APIServices.HSNMasterService;
+using VikasFashionsAPI.APIServices.UserService;
+using VikasFashionsAPI.Common;
 using VikasFashionsAPI.Data;
 
 namespace VikasFashionsAPI.Controllers
@@ -13,11 +15,13 @@ namespace VikasFashionsAPI.Controllers
     {
         private readonly ILogger<HSNController> _logger;
         private readonly IHSNMasterService _HSNService;
+        private readonly IUserService _userService;
 
-        public HSNController(ILogger<HSNController> logger, IHSNMasterService hsnService)
+        public HSNController(ILogger<HSNController> logger, IHSNMasterService hsnService, IUserService userService)
         {
             _logger = logger;
             _HSNService = hsnService;
+            _userService = userService;
         }
 
         [HttpGet(Name = "GetHSN")]
@@ -33,16 +37,31 @@ namespace VikasFashionsAPI.Controllers
         [HttpDelete("{id}", Name = "DeleteHSNById")]
         public async Task<ActionResult<bool>> Delete(int id)
         {
+            
             return Ok(await _HSNService.DeleteHsnAsync(id));
         }
         [HttpPut("{id}", Name = "UpdateHSN")]
         public async Task<ActionResult<HSN>> Update(int id, HSN hsn)
         {
+            var user = _userService.GetLoginUser();
+            if (user != null)
+            {
+                hsn.UpdatedBy = user.UserId;
+                hsn.UpdatedOn = CommonVars.CurrentDateTime;
+            }
             return Ok(await _HSNService.UpdateHsnAsync(hsn));
         }
         [HttpPost(Name = "CreateHSN")]
         public async Task<ActionResult<HSN>> Create(HSN hsn)
         {
+            var user = _userService.GetLoginUser();
+            if (user != null)
+            {
+                hsn.CreatedBy = user.UserId;
+                hsn.CreatedOn = CommonVars.CurrentDateTime;
+                hsn.UpdatedBy = user.UserId;
+                hsn.UpdatedOn = CommonVars.CurrentDateTime;
+            }
             return Ok(await _HSNService.AddHsnAsync(hsn));
         }
     }

@@ -2,6 +2,8 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using VikasFashionsAPI.APIServices.UnitsOfMeasureService;
+using VikasFashionsAPI.APIServices.UserService;
+using VikasFashionsAPI.Common;
 using VikasFashionsAPI.Data;
 
 namespace VikasFashionsAPI.Controllers
@@ -13,11 +15,13 @@ namespace VikasFashionsAPI.Controllers
     {
         private readonly ILogger<UnitsOfMeasureController> _logger;
         private readonly IUnitsOfMeasureService _unitsOfMeasureService;
+        private readonly IUserService _userService;
 
-        public UnitsOfMeasureController(ILogger<UnitsOfMeasureController> logger, IUnitsOfMeasureService unitsOfMeasureService)
+        public UnitsOfMeasureController(ILogger<UnitsOfMeasureController> logger, IUnitsOfMeasureService unitsOfMeasureService , IUserService userService)
         {
             _logger = logger;
             _unitsOfMeasureService = unitsOfMeasureService;
+            _userService = userService;
         }
 
         [HttpGet(Name = "GetUnitsOfMeasure")]
@@ -38,11 +42,25 @@ namespace VikasFashionsAPI.Controllers
         [HttpPut("{id}", Name = "UpdateUnitsOfMeasure")]
         public async Task<ActionResult<UnitsOfMeasure>> Update(int id, UnitsOfMeasure unitsOfMeasure)
         {
+            var user = _userService.GetLoginUser();
+            if (user != null)
+            {
+                unitsOfMeasure.UpdatedBy = user.UserId;
+                unitsOfMeasure.UpdatedOn = CommonVars.CurrentDateTime;
+            }
             return Ok(await _unitsOfMeasureService.UpdateUnitsOfMeasureAsync(unitsOfMeasure));
         }
         [HttpPost(Name = "CreateUnitsOfMeasure")]
         public async Task<ActionResult<UnitsOfMeasure>> Create(UnitsOfMeasure unitsOfMeasure)
         {
+            var user = _userService.GetLoginUser();
+            if (user != null)
+            {
+                unitsOfMeasure.CreatedBy = user.UserId;
+                unitsOfMeasure.CreatedOn = CommonVars.CurrentDateTime;
+                unitsOfMeasure.UpdatedBy = user.UserId;
+                unitsOfMeasure.UpdatedOn = CommonVars.CurrentDateTime;
+            }
             return Ok(await _unitsOfMeasureService.AddUnitsOfMeasureAsync(unitsOfMeasure));
         }
     }
