@@ -2,6 +2,8 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using VikasFashionsAPI.APIServices.DesignService;
+using VikasFashionsAPI.APIServices.UserService;
+using VikasFashionsAPI.Common;
 using VikasFashionsAPI.Data;
 
 namespace VikasFashionsAPI.Controllers
@@ -13,11 +15,13 @@ namespace VikasFashionsAPI.Controllers
     {
         private readonly ILogger<DesignController> _logger;
         private readonly IDesignService _designService;
+        private readonly IUserService _userService;
 
-        public DesignController(ILogger<DesignController> logger, IDesignService designService)
+        public DesignController(ILogger<DesignController> logger, IDesignService designService , IUserService userService)
         {
             _logger = logger;
             _designService = designService;
+            _userService = userService;
         }
 
         [HttpGet(Name = "GetDesign")]
@@ -38,11 +42,25 @@ namespace VikasFashionsAPI.Controllers
         [HttpPut("{id}", Name = "UpdateDesign")]
         public async Task<ActionResult<Design>> Update(int id, Design design)
         {
+            var user = _userService.GetLoginUser();
+            if (user != null)
+            {
+                design.UpdatedBy = user.UserId;
+                design.UpdatedOn = CommonVars.CurrentDateTime;
+            }
             return Ok(await _designService.UpdateDesignAsync(design));
         }
         [HttpPost(Name = "CreateDesign")]
         public async Task<ActionResult<Design>> Create(Design design)
         {
+            var user = _userService.GetLoginUser();
+            if (user != null)
+            {
+                design.CreatedBy = user.UserId;
+                design.CreatedOn = CommonVars.CurrentDateTime;
+                design.UpdatedBy = user.UserId;
+                design.UpdatedOn = CommonVars.CurrentDateTime;
+            }
             return Ok(await _designService.AddDesignAsync(design));
         }
     }

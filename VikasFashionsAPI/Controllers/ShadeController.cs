@@ -2,6 +2,8 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using VikasFashionsAPI.APIServices.ShadeService;
+using VikasFashionsAPI.APIServices.UserService;
+using VikasFashionsAPI.Common;
 using VikasFashionsAPI.Data;
 
 namespace VikasFashionsAPI.Controllers
@@ -13,11 +15,13 @@ namespace VikasFashionsAPI.Controllers
     {
         private readonly ILogger<ShadeController> _logger;
         private readonly IShadeService _shadeService;
+        private readonly IUserService _userService;
 
-        public ShadeController(ILogger<ShadeController> logger, IShadeService shadeService)
+        public ShadeController(ILogger<ShadeController> logger, IShadeService shadeService , IUserService userService)
         {
             _logger = logger;
             _shadeService = shadeService;
+            _userService = userService;
         }
 
         [HttpGet(Name = "GetShade")]
@@ -38,11 +42,25 @@ namespace VikasFashionsAPI.Controllers
         [HttpPut("{id}", Name = "UpdateShade")]
         public async Task<ActionResult<Shade>> Update(int id, Shade shade)
         {
+            var user = _userService.GetLoginUser();
+            if (user != null)
+            {
+                shade.UpdatedBy = user.UserId;
+                shade.UpdatedOn = CommonVars.CurrentDateTime;
+            }
             return Ok(await _shadeService.UpdateShadeAsync(shade));
         }
         [HttpPost(Name = "CreateShade")]
         public async Task<ActionResult<Shade>> Create(Shade shade)
         {
+            var user = _userService.GetLoginUser();
+            if (user != null)
+            {
+                shade.CreatedBy = user.UserId;
+                shade.CreatedOn = CommonVars.CurrentDateTime;
+                shade.UpdatedBy = user.UserId;
+                shade.UpdatedOn = CommonVars.CurrentDateTime;
+            }
             return Ok(await _shadeService.AddShadeAsync(shade));
         }
     }

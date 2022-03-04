@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
 using VikasFashionsAPI.APIServices.UserService;
+using VikasFashionsAPI.Common;
 
 namespace VikasFashionsAPI.Controllers
 {
@@ -53,11 +54,25 @@ namespace VikasFashionsAPI.Controllers
         [HttpPut("{id}", Name = "UpdateState")]
         public async Task<ActionResult<State>> Update(int id, State state)
         {
+            var user = _userService.GetLoginUser();
+            if (user != null)
+            {
+                state.UpdatedBy = user.UserId;
+                state.UpdatedOn = CommonVars.CurrentDateTime;
+            }
             return Ok(await _stateService.UpdateStateAsync(state));
         }
         [HttpPost(Name = "CreateState")]
         public async Task<ActionResult<State>> Create(State state)
         {
+            var user = _userService.GetLoginUser();
+            if (user != null)
+            {
+                state.CreatedBy = user.UserId;
+                state.CreatedOn = CommonVars.CurrentDateTime;
+                state.UpdatedBy = user.UserId;
+                state.UpdatedOn = CommonVars.CurrentDateTime;
+            }
             return Ok(await _stateService.AddStateAsync(state));
         }
 

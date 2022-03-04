@@ -2,6 +2,8 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using VikasFashionsAPI.APIServices.MaterialService;
+using VikasFashionsAPI.APIServices.UserService;
+using VikasFashionsAPI.Common;
 using VikasFashionsAPI.Data;
 
 namespace VikasFashionsAPI.Controllers
@@ -13,11 +15,13 @@ namespace VikasFashionsAPI.Controllers
     {
         private readonly ILogger<MaterialController> _logger;
         private readonly IMaterialService _materialService;
+        private readonly IUserService _userService;
 
-        public MaterialController(ILogger<MaterialController> logger, IMaterialService materialService)
+        public MaterialController(ILogger<MaterialController> logger, IMaterialService materialService,IUserService userService)
         {
             _logger = logger;
             _materialService = materialService;
+            _userService = userService;
         }
 
         [HttpGet(Name = "GetMaterial")]
@@ -38,11 +42,25 @@ namespace VikasFashionsAPI.Controllers
         [HttpPut("{id}", Name = "UpdateMaterial")]
         public async Task<ActionResult<Material>> Update(int id, Material material)
         {
+            var user = _userService.GetLoginUser();
+            if (user != null)
+            {
+                material.UpdatedBy = user.UserId;
+                material.UpdatedOn = CommonVars.CurrentDateTime;
+            }
             return Ok(await _materialService.UpdateMaterialAsync(material));
         }
         [HttpPost(Name = "CreatMaterial")]
         public async Task<ActionResult<Material>> Create(Material material)
         {
+            var user = _userService.GetLoginUser();
+            if (user != null)
+            {
+                material.CreatedBy = user.UserId;
+                material.CreatedOn = CommonVars.CurrentDateTime;
+                material.UpdatedBy = user.UserId;
+                material.UpdatedOn = CommonVars.CurrentDateTime;
+            }
             return Ok(await _materialService.AddMaterialAsync(material));
         }
     }

@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using VikasFashionsAPI.APIServices.MaterialGroupService;
+using VikasFashionsAPI.APIServices.UserService;
+using VikasFashionsAPI.Common;
 using VikasFashionsAPI.Data;
 
 namespace VikasFashionsAPI.Controllers
@@ -14,11 +16,13 @@ namespace VikasFashionsAPI.Controllers
     {
         private readonly ILogger<MaterialGroupController> _logger;
         private readonly IMaterialGroupService _materialGroupService;
+        private readonly IUserService _userService;
 
-        public MaterialGroupController(ILogger<MaterialGroupController> logger, IMaterialGroupService materialGroupService)
+        public MaterialGroupController(ILogger<MaterialGroupController> logger, IMaterialGroupService materialGroupService,IUserService userService)
         {
             _logger = logger;
             _materialGroupService = materialGroupService;
+            _userService = userService;
         }
 
         [HttpGet(Name = "GetMaterialGroup")]
@@ -39,11 +43,26 @@ namespace VikasFashionsAPI.Controllers
         [HttpPut("{id}", Name = "UpdateMaterialGroup")]
         public async Task<ActionResult<MaterialGroup>> Update(int id, MaterialGroup materialGroup)
         {
+            var user = _userService.GetLoginUser();
+            if (user != null)
+            {
+                materialGroup.UpdatedBy = user.UserId;
+                materialGroup.UpdatedOn = CommonVars.CurrentDateTime;
+            }
             return Ok(await _materialGroupService.UpdateMaterialGroupAsync(materialGroup));
         }
         [HttpPost(Name = "CreateMaterialGroup")]
         public async Task<ActionResult<MaterialGroup>> Create(MaterialGroup materialGroup)
         {
+            var user = _userService.GetLoginUser();
+            if (user != null)
+            {
+                materialGroup.CreatedBy = user.UserId;
+                materialGroup.CreatedOn = CommonVars.CurrentDateTime;
+                materialGroup.UpdatedBy = user.UserId;
+                materialGroup.UpdatedOn = CommonVars.CurrentDateTime;
+            }
+
             return Ok(await _materialGroupService.AddMaterialGroupAsync(materialGroup));
         }
     }
