@@ -2,7 +2,7 @@
 {
     public interface IUserService
     {
-        Task<IEnumerable<User>> GetAllAsync();
+        Task<IEnumerable<User>> GetAllAsync(string? keyword);
         Task<User?> GetByIdAsync(int userId);
         Task<User?> GetByUserNameAsync(string userName);
         Task<User?> GetByEmailAsync(string email);
