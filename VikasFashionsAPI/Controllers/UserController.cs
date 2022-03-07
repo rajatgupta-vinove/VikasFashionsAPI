@@ -124,5 +124,26 @@ namespace VikasFashionsAPI.Controllers
             var jwt = new JwtSecurityTokenHandler().WriteToken(token);
             return jwt;
         }
+
+        [HttpPut]
+        [Route("ChangeUserStatus/{id}")]
+        public async Task<ActionResult<User>> ChangeUserStatus(int userId)
+        {
+            var loggedInUser = _userService.GetLoginUser();
+            var  user = await _userService.GetByIdAsync(userId);
+            if (user != null)
+            {
+                if (loggedInUser != null)
+                {
+                    user.UpdatedBy = loggedInUser.UserId;
+                    user.UpdatedOn = CommonVars.CurrentDateTime;
+                }
+            }
+            else
+            {
+                return BadRequest("No such user found");
+            }
+            return Ok(await _userService.ChangeUserStatusAsync(userId));
+        }
     }
 }

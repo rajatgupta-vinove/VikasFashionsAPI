@@ -140,6 +140,25 @@
             return plantBranch;
         }
 
+        public async Task<PlantBranch?> ChangePlantBranchStatusAsync(int plantId)
+        {
+            PlantBranch? exisingPlantBranch = null;
+            try
+            {
+                exisingPlantBranch = await _context.PlantBranches.FirstOrDefaultAsync(m => m.PlantId == plantId);
+                if (exisingPlantBranch == null)
+                    return null;
+                exisingPlantBranch.IsActive = !exisingPlantBranch.IsActive;
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                exisingPlantBranch = null;
+                _log.LogError("Error while updating Plant Branch", ex);
+            }
+            return exisingPlantBranch;
+        }
+
      
     }
 }

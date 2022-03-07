@@ -135,6 +135,25 @@
             return warehouse;
         }
 
+        public async Task<Warehouse?> ChangeWarehouseStatusAsync(int warehouseId)
+        {
+            Warehouse? existingWarehouse = null;
+            try
+            {
+                existingWarehouse = await _context.Warehouses.FirstOrDefaultAsync(m => m.WarehouseId == warehouseId);
+                if (existingWarehouse == null)
+                    return null;
+                existingWarehouse.IsActive = !existingWarehouse.IsActive;
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                existingWarehouse = null;
+                _log.LogError("Error while updating Warehouse", ex);
+            }
+            return existingWarehouse;
+        }
+
      
     }
 }
