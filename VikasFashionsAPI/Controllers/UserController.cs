@@ -84,6 +84,8 @@ namespace VikasFashionsAPI.Controllers
             string token = CreateJWTToken(user);
             return Ok(token);
         }
+
+
         private void CreatePasswordHash(string password, out byte[] passwordHash, out byte[] passwordSalt)
         {
             using (var hmac = new HMACSHA512())
@@ -123,6 +125,27 @@ namespace VikasFashionsAPI.Controllers
                 signingCredentials: creds);
             var jwt = new JwtSecurityTokenHandler().WriteToken(token);
             return jwt;
+        }
+
+        [HttpPut]
+        [Route("ChangeStatus/{id}")]
+        public async Task<ActionResult<User>> ChangeStatus(int id)
+        {
+            var user = _userService.GetLoginUser();
+            var userObj = await _userService.GetByIdAsync(id);
+            if (userObj != null)
+            {
+                if (user != null)
+                {
+                    userObj.UpdatedBy = user.UserId;
+                    userObj.UpdatedOn = CommonVars.CurrentDateTime;
+                }
+            }
+            else
+            {
+                return BadRequest("No such user found");
+            }
+            return Ok(await _userService.ChangeUserStatusAsync(id, userObj.UpdatedBy, userObj.UpdatedOn));
         }
     }
 }

@@ -8,7 +8,7 @@
         Task<User?> GetByEmailAsync(string email);
         Task<User> AddUserAsync(User user);
         Task<User?> UpdateUserAsync(User user);
-        Task<bool> ChangeUserStatusAsync(int userId);
+        Task<bool> ChangeUserStatusAsync(int userId , int updatedBy , DateTime updatedOn);
         User? GetLoginUser();
     }
 }
