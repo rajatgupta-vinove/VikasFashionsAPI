@@ -67,7 +67,7 @@ namespace VikasFashionsAPI.Controllers
             {
                 return BadRequest("No such country found");
             }
-            return Ok(await _countryService.ChangeCountryStatusAsync(id));
+            return Ok(await _countryService.ChangeCountryStatusAsync(id, country.UpdatedBy, country.UpdatedOn));
         }
         [HttpPost(Name = "CreateCountry")]
         public async Task<ActionResult<Country>> Create(Country country)
