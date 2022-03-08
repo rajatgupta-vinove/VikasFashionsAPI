@@ -134,7 +134,22 @@
             }
             return warehouse;
         }
+        public async Task<bool> CheckWarehouseStatusAsync(int warehouseId , string warehouseCode)
+        {
+            bool isExists = false;
+            try
+            {
+                if (string.IsNullOrEmpty(warehouseCode))
+                    return isExists;
+                isExists = await _context.Warehouses.AnyAsync(m => m.WarehouseCode == warehouseCode && m.WarehouseId != warehouseId);
+            }
+            catch (Exception ex)
+            {
+                _log.LogError("Error while getting warehouse", ex);
+            }
+            return isExists;
+        }
 
-     
+
     }
 }

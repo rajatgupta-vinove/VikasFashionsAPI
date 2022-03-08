@@ -139,6 +139,22 @@
             }
             return plantBranch;
         }
+        public async Task<bool> CheckPlantBranchStatusAsync(int plantId , string plantCode)
+        {
+            bool isExists = false;
+            try
+            {
+                if (string.IsNullOrEmpty(plantCode))
+                    return isExists;
+                isExists = await _context.PlantBranches.AnyAsync(m => m.PlantCode == plantCode && m.PlantId != plantId);
+
+            }
+            catch(Exception ex)
+            {
+                _log.LogError("Error while getting plantBranch", ex);
+            }
+            return isExists;
+        }
 
      
     }

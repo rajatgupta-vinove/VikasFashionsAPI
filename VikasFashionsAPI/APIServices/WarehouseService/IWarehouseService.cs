@@ -7,5 +7,6 @@
         Task<Warehouse> AddWarehouseAsync(Warehouse warehouse);
         Task<Warehouse?> UpdateWarehouseAsync(Warehouse warehouse);
         Task<bool> DeleteWarehouseAsync(int warehouseId);
+        Task<bool> CheckWarehouseStatusAsync(int userId, string usercode);
     }
 }
