@@ -16,30 +16,30 @@ namespace VikasFashionsAPI.Controllers
         private readonly ICompanyService _companyService;
         private readonly IUserService _userService;
 
-
         public CompanyController(ILogger<CompanyController> logger, ICompanyService CompanyService, IUserService userService)
         {
             _logger = logger;
             _companyService = CompanyService;
             _userService = userService;
-
-
         }
 
         [HttpGet(Name = "GetCompany")]
         public async Task<ActionResult<List<Company>>> Get()
         {
-            return Ok(await _companyService.GetAllCompanyAsync());
+            var result = await _companyService.GetAllCompanyAsync();
+            return Ok(new ResponseGlobal() { ResponseCode = ((int)System.Net.HttpStatusCode.OK), Message = Common.CommonVars.MessageResults.SuccessGet.GetEnumDisplayName(), Data = result });
         }
         [HttpGet("{id}", Name = "GetCompanyById")]
         public async Task<ActionResult<Company>> Get(int id)
         {
-            return Ok(await _companyService.GetByCompanyIdAsync(id));
+            var result = await _companyService.GetByCompanyIdAsync(id);
+            return Ok(new ResponseGlobal() { ResponseCode = ((int)System.Net.HttpStatusCode.OK), Message = Common.CommonVars.MessageResults.SuccessGet.GetEnumDisplayName(), Data = result });
         }
         [HttpDelete("{id}", Name = "DeleteCompanyById")]
         public async Task<ActionResult<bool>> Delete(int id)
         {
-            return Ok(await _companyService.DeleteCompanyAsync(id));
+            var result = await _companyService.DeleteCompanyAsync(id);
+            return Ok(new ResponseGlobal() { ResponseCode = ((int)System.Net.HttpStatusCode.OK), Message = Common.CommonVars.MessageResults.SuccessDelete.GetEnumDisplayName(), Data = result });
         }
         [HttpPut("{id}", Name = "UpdateCompany")]
         public async Task<ActionResult<Company>> Update(int id, Company company)
@@ -50,7 +50,8 @@ namespace VikasFashionsAPI.Controllers
                 company.UpdatedBy = user.UserId;
                 company.UpdatedOn = CommonVars.CurrentDateTime;
             }
-            return Ok(await _companyService.UpdateCompanyAsync(company));
+            var result = await _companyService.UpdateCompanyAsync(company);
+            return Ok(new ResponseGlobal() { ResponseCode = ((int)System.Net.HttpStatusCode.OK), Message = Common.CommonVars.MessageResults.SuccessUpdate.GetEnumDisplayName(), Data = result });
         }
         [HttpPost(Name = "CreateCompany")]
         public async Task<ActionResult<Company>> Create(Company company)
@@ -63,7 +64,8 @@ namespace VikasFashionsAPI.Controllers
                 company.UpdatedBy = user.UserId;
                 company.UpdatedOn = CommonVars.CurrentDateTime;
             }
-            return Ok(await _companyService.AddCompanyAsync(company));
+            var result = await _companyService.AddCompanyAsync(company);
+            return Ok(new ResponseGlobal() { ResponseCode = ((int)System.Net.HttpStatusCode.OK), Message = Common.CommonVars.MessageResults.SuccessSave.GetEnumDisplayName(), Data = result });
         }
     }
 }

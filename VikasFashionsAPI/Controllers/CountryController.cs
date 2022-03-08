@@ -26,17 +26,20 @@ namespace VikasFashionsAPI.Controllers
         [HttpGet(Name = "GetCountry")]
         public async Task<ActionResult<List<Country>>> Get()
         {
-            return Ok(await _countryService.GetAllAsync());
+            var result = await _countryService.GetAllAsync();
+            return Ok(new ResponseGlobal() { ResponseCode = ((int)System.Net.HttpStatusCode.OK), Message = Common.CommonVars.MessageResults.SuccessGet.GetEnumDisplayName(), Data = result });
         }
         [HttpGet("{id}", Name = "GetCountryById")]
         public async Task<ActionResult<Country>> Get(int id)
         {
-            return Ok(await _countryService.GetByIdAsync(id));
+            var result = await _countryService.GetByIdAsync(id);
+            return Ok(new ResponseGlobal() { ResponseCode = ((int)System.Net.HttpStatusCode.OK), Message = Common.CommonVars.MessageResults.SuccessGet.GetEnumDisplayName(), Data = result });
         }
         [HttpDelete("{id}", Name = "DeleteCountryById")]
         public async Task<ActionResult<bool>> Delete(int id)
         {
-            return Ok(await _countryService.DeleteCountryAsync(id));
+            var result = await _countryService.DeleteCountryAsync(id);
+            return Ok(new ResponseGlobal() { ResponseCode = ((int)System.Net.HttpStatusCode.OK), Message = Common.CommonVars.MessageResults.SuccessDelete.GetEnumDisplayName(), Data = result });
         }
         [HttpPut("{id}", Name = "UpdateCountry")]
         public async Task<ActionResult<Country>> Update(int id, Country country)
@@ -47,7 +50,8 @@ namespace VikasFashionsAPI.Controllers
                 country.UpdatedBy = user.UserId;
                 country.UpdatedOn = CommonVars.CurrentDateTime;
             }
-            return Ok(await _countryService.UpdateCountryAsync(country));
+            var result = await _countryService.UpdateCountryAsync(country);
+            return Ok(new ResponseGlobal() { ResponseCode = ((int)System.Net.HttpStatusCode.OK), Message = Common.CommonVars.MessageResults.SuccessUpdate.GetEnumDisplayName(), Data = result });
         }
         [HttpPut]
         [Route("ChangeStatus/{id}")]
@@ -64,11 +68,13 @@ namespace VikasFashionsAPI.Controllers
                 }
             }
             else
-            {
-                return BadRequest("No such country found");
+            {              
+                return BadRequest(new ResponseGlobal() { ResponseCode = ((int)System.Net.HttpStatusCode.BadRequest), Message = Common.CommonVars.MessageResults.CountryNotFound.GetEnumDisplayName() });
             }
-            return Ok(await _countryService.ChangeCountryStatusAsync(id, country.UpdatedBy, country.UpdatedOn));
+            var result = await _countryService.ChangeCountryStatusAsync(id, country.UpdatedBy, country.UpdatedOn);
+            return Ok(new ResponseGlobal() { ResponseCode = ((int)System.Net.HttpStatusCode.OK), Message = Common.CommonVars.MessageResults.SuccessUpdate.GetEnumDisplayName(), Data = result });
         }
+      
         [HttpPost(Name = "CreateCountry")]
         public async Task<ActionResult<Country>> Create(Country country)
         {
@@ -80,7 +86,8 @@ namespace VikasFashionsAPI.Controllers
                 country.UpdatedBy = user.UserId;
                 country.UpdatedOn = CommonVars.CurrentDateTime;
             }
-            return Ok(await _countryService.AddCountryAsync(country));
+            var result = await _countryService.AddCountryAsync(country);
+            return Ok(new ResponseGlobal() { ResponseCode = ((int)System.Net.HttpStatusCode.OK), Message = Common.CommonVars.MessageResults.SuccessSave.GetEnumDisplayName(), Data = result });
         }
     }
 }

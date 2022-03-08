@@ -29,8 +29,10 @@ namespace VikasFashionsAPI.Controllers
         [HttpGet(Name = "GetCatalog")]
         public async Task<ActionResult<List<Catalog>>> Get()
         {
-            return Ok(await _catalogService.GetAllAsync());
-        }
+            var result = await _catalogService.GetAllAsync();            
+            return Ok(new ResponseGlobal() { ResponseCode = ((int)System.Net.HttpStatusCode.OK), Message = Common.CommonVars.MessageResults.SuccessGet.GetEnumDisplayName(), Data = result });
+         }
+    
         [HttpPost(Name = "CreateCatalog")]
         public async Task<ActionResult<Catalog>> Create(Catalog catalog)
         {
@@ -42,18 +44,23 @@ namespace VikasFashionsAPI.Controllers
                 catalog.UpdatedBy = user.UserId;
                 catalog.UpdatedOn = CommonVars.CurrentDateTime;
             }
-            return Ok(await _catalogService.AddCatalogAsync(catalog));
+            var result = await _catalogService.AddCatalogAsync(catalog);
+            return Ok(new ResponseGlobal() { ResponseCode = ((int)System.Net.HttpStatusCode.OK), Message = Common.CommonVars.MessageResults.SuccessSave.GetEnumDisplayName(), Data = result });
         }
         [HttpGet("{id}", Name = "GetCatalogById")]
         public async Task<ActionResult<Catalog>> Get(int id)
         {
-            return Ok(await _catalogService.GetByIdAsync(id));
+            var result = await _catalogService.GetByIdAsync(id);
+            return Ok(new ResponseGlobal() { ResponseCode = ((int)System.Net.HttpStatusCode.OK), Message = Common.CommonVars.MessageResults.SuccessGet.GetEnumDisplayName(), Data = result });
         }
+
         [HttpDelete("{id}", Name = "DeleteCatalogById")]
         public async Task<ActionResult<bool>> Delete(int id)
         {
-            return Ok(await _catalogService.DeleteCatalogAsync(id));
+            var result = await _catalogService.DeleteCatalogAsync(id);
+            return Ok(new ResponseGlobal() { ResponseCode = ((int)System.Net.HttpStatusCode.OK), Message = Common.CommonVars.MessageResults.SuccessDelete.GetEnumDisplayName(), Data = result });
         }
+
         [HttpPut("{id}", Name = "UpdateCatalog")]
         public async Task<ActionResult<Country>> Update(int id, Catalog catalog)
         {
@@ -63,8 +70,9 @@ namespace VikasFashionsAPI.Controllers
                 catalog.UpdatedBy = user.UserId;
                 catalog.UpdatedOn = CommonVars.CurrentDateTime;
             }
-            return Ok(await _catalogService.UpdateCatalogAsync(catalog));
+            var result = await _catalogService.UpdateCatalogAsync(catalog);
+            return Ok(new ResponseGlobal() { ResponseCode = ((int)System.Net.HttpStatusCode.OK), Message = Common.CommonVars.MessageResults.SuccessUpdate.GetEnumDisplayName(), Data = result });
         }
-
     }
 }
+

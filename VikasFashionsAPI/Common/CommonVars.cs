@@ -42,7 +42,10 @@ namespace VikasFashionsAPI.Common
             UserDuplicateCode,
             [Display(Name = "Invalid login details!")]
             [Description("Invalid login details!")]
-            InvalidLogin
+            InvalidLogin,
+            [Display(Name = "No such country found!")]
+            [Description("No such country found!")]
+            CountryNotFound
         }
 
     }
