@@ -14,5 +14,7 @@
         Task<Chart> AddChartAsync(Chart Chart);
         Task<Chart?> UpdateChartAsync(Chart ChartChart);
         Task<bool> DeleteChartAsync(int chartId);
+        Task<Chart?> ChangeChartStatusAsync(int chartId, int updatedBy, DateTime updatedOn);
+
     }
 }

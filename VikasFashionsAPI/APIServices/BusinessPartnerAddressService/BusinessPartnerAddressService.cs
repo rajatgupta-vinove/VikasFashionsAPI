@@ -124,6 +124,8 @@
                 exisingBusinessPartnerAddress.GSTIN = businessPartnerAddress.GSTIN;
                 exisingBusinessPartnerAddress.GSTType = businessPartnerAddress.GSTType;
                 exisingBusinessPartnerAddress.IsDefault = businessPartnerAddress.IsDefault;
+                exisingBusinessPartnerAddress.UpdatedBy = businessPartnerAddress.UpdatedBy;
+                exisingBusinessPartnerAddress.UpdatedOn = businessPartnerAddress.UpdatedOn;
                
                 await _context.SaveChangesAsync();
             }
@@ -133,6 +135,28 @@
             }
             return businessPartnerAddress;
         }
+
+        public async Task<BusinessPartnerAddress?> ChangeBusinessPartnerAddressStatusAsync(int businessPartnerAddressId, int updatedBy, DateTime updatedOn)
+        {
+            BusinessPartnerAddress? existingBusinessPartnerAddress = null;
+            try
+            {
+                existingBusinessPartnerAddress = await _context.BusinessPartnerAddresses.FirstOrDefaultAsync(m => m.BusinessPartnerAddressId == businessPartnerAddressId);
+                if (existingBusinessPartnerAddress == null)
+                    return null;
+                existingBusinessPartnerAddress.IsActive = !existingBusinessPartnerAddress.IsActive;
+                existingBusinessPartnerAddress.UpdatedBy = updatedBy;
+                existingBusinessPartnerAddress.UpdatedOn = updatedOn;
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                existingBusinessPartnerAddress = null;
+                _log.LogError("Error while updating Business Partner Address", ex);
+            }
+            return existingBusinessPartnerAddress;
+        }
+
 
      
     }

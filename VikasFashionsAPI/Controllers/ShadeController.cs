@@ -93,5 +93,27 @@ namespace VikasFashionsAPI.Controllers
                     Data = result
                 });
         }
+
+        [HttpPut]
+        [Route("ChangeStatus/{id}")]
+        public async Task<ActionResult<Shade>> ChangeStatus(int id)
+        {
+            var user = _userService.GetLoginUser();
+            var shade = await _shadeService.GetByIdAsync(id)
+;
+            if (shade != null)
+            {
+                if (user != null)
+                {
+                    shade.UpdatedBy = user.UserId;
+                    shade.UpdatedOn = CommonVars.CurrentDateTime;
+                }
+            }
+            else
+            {
+                return BadRequest("No such shade found");
+            }
+            return Ok(await _shadeService.ChangeShadeStatusAsync(id, shade.UpdatedBy, shade.UpdatedOn));
+        }
     }
 }

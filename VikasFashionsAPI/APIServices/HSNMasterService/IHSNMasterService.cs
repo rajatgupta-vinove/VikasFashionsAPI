@@ -7,5 +7,8 @@
         Task<HSN> AddHsnAsync(HSN hsn);
         Task<HSN?> UpdateHsnAsync(HSN hsn);
         Task<bool> DeleteHsnAsync(int hsnId);
+        Task<HSN?> ChangeHSNStatusAsync(int hsnId, int updatedBy, DateTime updatedOn);
+
+
     }
 }

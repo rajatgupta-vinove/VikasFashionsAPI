@@ -10,5 +10,7 @@
         Task<State> AddStateAsync(State State);
         Task<State?> UpdateStateAsync(State State);
         Task<bool> DeleteStateAsync(int StateId);
+        Task<State?> ChangeStateStatusAsync(int StateId, int updatedBy, DateTime updatedOn);
+
     }
 }

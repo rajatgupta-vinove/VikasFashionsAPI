@@ -113,5 +113,6 @@ namespace VikasFashionsAPI.Controllers
                     Data = result
                 });
         }
+
     }
 }

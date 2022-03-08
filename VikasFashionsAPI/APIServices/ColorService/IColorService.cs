@@ -7,5 +7,7 @@
         Task<Color> AddColorAsync(Color color);
         Task<Color?> UpdateColorAsync(Color color);
         Task<bool> DeleteColorAsync(int colorId);
+        Task<Color?> ChangeColorStatusAsync(int colorId, int updatedBy, DateTime updatedOn);
+
     }
 }

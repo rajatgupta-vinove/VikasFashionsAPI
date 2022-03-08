@@ -7,5 +7,7 @@
         Task<Area> AddAreaAsync(Area area);
         Task<Area?> UpdateAreaAsync(Area area);
         Task<bool> DeleteAreaAsync(int areaId);
+        Task<Area?> ChangeAreaStatusAsync(int areaId, int updatedBy, DateTime updatedOn);
+
     }
 }

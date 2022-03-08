@@ -101,5 +101,26 @@ namespace VikasFashionsAPI.Controllers
                     Data = result
                 });
         }
+        [HttpPut]
+        [Route("ChangeStatus/{id}")]
+        public async Task<ActionResult<BinLocation>> ChangeStatus(int binLocId)
+        {
+            var user = _userService.GetLoginUser();
+            var binLocation = await _binLocationService.GetByBinLocationIdAsync(binLocId);
+            if (binLocation != null)
+            {
+                if (user != null)
+                {
+                    binLocation.UpdatedBy = user.UserId;
+                    binLocation.UpdatedOn = CommonVars.CurrentDateTime;
+                }
+            }
+            else
+            {
+                return BadRequest("No such Bin Location found");
+            }
+            return Ok(await _binLocationService.ChangeBinlocationStatusAsync(binLocId, binLocation.UpdatedBy, binLocation.UpdatedOn));
+        }
+
     }
 }

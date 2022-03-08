@@ -73,6 +73,27 @@ namespace VikasFashionsAPI.Controllers
             var result = await _catalogService.UpdateCatalogAsync(catalog);
             return Ok(new ResponseGlobal() { ResponseCode = ((int)System.Net.HttpStatusCode.OK), Message = Common.CommonVars.MessageResults.SuccessUpdate.GetEnumDisplayName(), Data = result });
         }
+        [HttpPut]
+        [Route("ChangeStatus/{id}")]
+        public async Task<ActionResult<Catalog>> ChangeStatus(int id)
+        {
+            var user = _userService.GetLoginUser();
+            var catalog = await _catalogService.GetByIdAsync(id);
+            if (catalog != null)
+            {
+                if (user != null)
+                {
+                    catalog.UpdatedBy = user.UserId;
+                    catalog.UpdatedOn = CommonVars.CurrentDateTime;
+                }
+            }
+            else
+            {
+                return BadRequest("No such catalog found");
+            }
+            return Ok(await _catalogService.ChangeCatalogStatusAsync(id, catalog.UpdatedBy, catalog.UpdatedOn));
+        }
+
     }
 }
 

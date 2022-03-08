@@ -58,7 +58,8 @@ namespace VikasFashionsAPI.Controllers
         public async Task<ActionResult<Country>> ChangeStatus(int id)
         {
             var user = _userService.GetLoginUser();
-            var country = await _countryService.GetByIdAsync(id);
+            var country = await _countryService.GetByIdAsync(id)
+;
             if (country != null)
             {
                 if (user != null)

@@ -98,5 +98,27 @@ namespace VikasFashionsAPI.Controllers
                     Data = result
                 });
         }
+
+        [HttpPut]
+        [Route("ChangeStatus/{id}")]
+        public async Task<ActionResult<UnitsOfMeasure>> ChangeStatus(int id)
+        {
+            var user = _userService.GetLoginUser();
+            var unitsOfMeasure = await _unitsOfMeasureService.GetByIdAsync(id)
+;
+            if (unitsOfMeasure != null)
+            {
+                if (user != null)
+                {
+                    unitsOfMeasure.UpdatedBy = user.UserId;
+                    unitsOfMeasure.UpdatedOn = CommonVars.CurrentDateTime;
+                }
+            }
+            else
+            {
+                return BadRequest("No such UnitsOfMeasure found");
+            }
+            return Ok(await _unitsOfMeasureService.ChangeUnitsOfMeasureStatusAsync(id, unitsOfMeasure.UpdatedBy, unitsOfMeasure.UpdatedOn));
+        }
     }
 }

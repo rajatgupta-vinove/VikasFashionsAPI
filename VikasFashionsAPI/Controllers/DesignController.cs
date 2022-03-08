@@ -68,5 +68,26 @@ namespace VikasFashionsAPI.Controllers
             var result = await _designService.AddDesignAsync(design);
             return Ok(new ResponseGlobal() { ResponseCode = ((int)System.Net.HttpStatusCode.OK), Message = Common.CommonVars.MessageResults.SuccessSave.GetEnumDisplayName(), Data = result });
         }
+        [HttpPut]
+        [Route("ChangeStatus/{id}")]
+        public async Task<ActionResult<Design>> ChangeStatus(int id)
+        {
+            var user = _userService.GetLoginUser();
+            var design = await _designService.GetByIdAsync(id)
+;
+            if (design != null)
+            {
+                if (user != null)
+                {
+                    design.UpdatedBy = user.UserId;
+                    design.UpdatedOn = CommonVars.CurrentDateTime;
+                }
+            }
+            else
+            {
+                return BadRequest("No such Design found");
+            }
+            return Ok(await _designService.ChangeDesignStatusAsync(id, design.UpdatedBy, design.UpdatedOn));
+        }
     }
 }

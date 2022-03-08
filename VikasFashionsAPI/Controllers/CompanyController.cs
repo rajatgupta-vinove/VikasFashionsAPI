@@ -67,5 +67,27 @@ namespace VikasFashionsAPI.Controllers
             var result = await _companyService.AddCompanyAsync(company);
             return Ok(new ResponseGlobal() { ResponseCode = ((int)System.Net.HttpStatusCode.OK), Message = Common.CommonVars.MessageResults.SuccessSave.GetEnumDisplayName(), Data = result });
         }
+
+        [HttpPut]
+        [Route("ChangeStatus/{id}")]
+        public async Task<ActionResult<Company>> ChangeStatus(int id)
+        {
+            var user = _userService.GetLoginUser();
+            var company = await _companyService.GetByCompanyIdAsync(id)
+;
+            if (company != null)
+            {
+                if (user != null)
+                {
+                    company.UpdatedBy = user.UserId;
+                    company.UpdatedOn = CommonVars.CurrentDateTime;
+                }
+            }
+            else
+            {
+                return BadRequest("No such company found");
+            }
+            return Ok(await _companyService.ChangeCompanyStatusAsync(id, company.UpdatedBy, company.UpdatedOn));
+        }
     }
 }
