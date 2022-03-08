@@ -141,7 +141,7 @@
             }
             return plantBranch;
         }
-        public async Task<bool> CheckPlantBranchStatusAsync(int plantId , string plantCode)
+        public async Task<bool> CheckPlantBranchStatusAsync(int plantId, string plantCode)
         {
             bool isExists = false;
             try
@@ -151,11 +151,12 @@
                 isExists = await _context.PlantBranches.AnyAsync(m => m.PlantCode == plantCode && m.PlantId != plantId);
 
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 _log.LogError("Error while getting plantBranch", ex);
             }
             return isExists;
+        }
         public async Task<PlantBranch?> ChangePlantBranchStatusAsync(int plantId, int updatedBy , DateTime updatedOn)
         {
             PlantBranch? exisingPlantBranch = null;
