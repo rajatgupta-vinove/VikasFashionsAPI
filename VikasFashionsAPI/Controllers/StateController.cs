@@ -29,12 +29,26 @@ namespace VikasFashionsAPI.Controllers
         [HttpGet(Name = "GetState")]
         public async Task<ActionResult<List<State>>> Get()
         {
-            return Ok(await _stateService.GetAllAsync());
+            var result = await _stateService.GetAllAsync();
+            return Ok(
+                new ResponseGlobal()
+                {
+                    ResponseCode = ((int)System.Net.HttpStatusCode.OK),
+                    Message = Common.CommonVars.MessageResults.SuccessGet.GetEnumDisplayName(),
+                    Data = result
+                });
         }
         [HttpGet("{id}", Name = "GetStateById")]
         public async Task<ActionResult<State>> Get(int id)
         {
-            return Ok(await _stateService.GetByIdAsync(id));
+            var result = await _stateService.GetByIdAsync(id);
+            return Ok(
+                new ResponseGlobal()
+                {
+                    ResponseCode = ((int)System.Net.HttpStatusCode.OK),
+                    Message = Common.CommonVars.MessageResults.SuccessGet.GetEnumDisplayName(),
+                    Data = result
+                });
         }
         [HttpGet]
         [Route("GetStateByCountryId/{id}")]
@@ -44,12 +58,26 @@ namespace VikasFashionsAPI.Controllers
             var name = User.FindFirstValue(ClaimTypes.Name);
             var role = User.FindFirstValue(ClaimTypes.Role);
             var userServiceName = _userService.GetLoginUser();
-            return Ok(await _stateService.GetAllByCountryAndStatusAsync(id, true));
+            var result = await _stateService.GetAllByCountryAndStatusAsync(id, true);
+            return Ok(
+                new ResponseGlobal()
+                {
+                    ResponseCode = ((int)System.Net.HttpStatusCode.OK),
+                    Message = Common.CommonVars.MessageResults.SuccessGet.GetEnumDisplayName(),
+                    Data = result
+                });
         }
         [HttpDelete("{id}", Name = "DeleteStateById")]
         public async Task<ActionResult<bool>> Delete(int id)
         {
-            return Ok(await _stateService.DeleteStateAsync(id));
+            var result = await _stateService.DeleteStateAsync(id);
+            return Ok(
+                new ResponseGlobal()
+                {
+                    ResponseCode = ((int)System.Net.HttpStatusCode.OK),
+                    Message = Common.CommonVars.MessageResults.SuccessDelete.GetEnumDisplayName(),
+                    Data = result
+                });
         }
         [HttpPut("{id}", Name = "UpdateState")]
         public async Task<ActionResult<State>> Update(int id, State state)
@@ -60,7 +88,14 @@ namespace VikasFashionsAPI.Controllers
                 state.UpdatedBy = user.UserId;
                 state.UpdatedOn = CommonVars.CurrentDateTime;
             }
-            return Ok(await _stateService.UpdateStateAsync(state));
+            var result = await _stateService.UpdateStateAsync(state);
+            return Ok(
+                new ResponseGlobal()
+                {
+                    ResponseCode = ((int)System.Net.HttpStatusCode.OK),
+                    Message = Common.CommonVars.MessageResults.SuccessUpdate.GetEnumDisplayName(),
+                    Data = result
+                });
         }
         [HttpPost(Name = "CreateState")]
         public async Task<ActionResult<State>> Create(State state)
@@ -73,7 +108,14 @@ namespace VikasFashionsAPI.Controllers
                 state.UpdatedBy = user.UserId;
                 state.UpdatedOn = CommonVars.CurrentDateTime;
             }
-            return Ok(await _stateService.AddStateAsync(state));
+            var result = await _stateService.AddStateAsync(state);
+            return Ok(
+                new ResponseGlobal()
+                {
+                    ResponseCode = ((int)System.Net.HttpStatusCode.OK),
+                    Message = Common.CommonVars.MessageResults.SuccessSave.GetEnumDisplayName(),
+                    Data = result
+                });
         }
 
     }

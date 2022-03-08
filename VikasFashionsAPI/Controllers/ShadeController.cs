@@ -27,17 +27,35 @@ namespace VikasFashionsAPI.Controllers
         [HttpGet(Name = "GetShade")]
         public async Task<ActionResult<List<Shade>>> Get()
         {
-            return Ok(await _shadeService.GetAllAsync());
+            var result = await _shadeService.GetAllAsync();
+            return Ok( new ResponseGlobal()
+                {
+                    ResponseCode = ((int)System.Net.HttpStatusCode.OK),
+                    Message = Common.CommonVars.MessageResults.SuccessGet.GetEnumDisplayName(),
+                    Data = result
+                });
         }
         [HttpGet("{id}", Name = "GetShadeById")]
         public async Task<ActionResult<Shade>> Get(int id)
         {
-            return Ok(await _shadeService.GetByIdAsync(id));
+            var result = await _shadeService.GetByIdAsync(id);
+            return Ok(new ResponseGlobal()
+                {
+                    ResponseCode = ((int)System.Net.HttpStatusCode.OK),
+                    Message = Common.CommonVars.MessageResults.SuccessGet.GetEnumDisplayName(),
+                    Data = result
+                } );
         }
         [HttpDelete("{id}", Name = "DeleteShadeById")]
         public async Task<ActionResult<bool>> Delete(int id)
         {
-            return Ok(await _shadeService.DeleteShadeAsync(id));
+            var result = await _shadeService.DeleteShadeAsync(id);
+            return Ok(new ResponseGlobal()
+                {
+                    ResponseCode = ((int)System.Net.HttpStatusCode.OK),
+                    Message = Common.CommonVars.MessageResults.SuccessDelete.GetEnumDisplayName(),
+                    Data = result
+                } );
         }
         [HttpPut("{id}", Name = "UpdateShade")]
         public async Task<ActionResult<Shade>> Update(int id, Shade shade)
@@ -48,7 +66,13 @@ namespace VikasFashionsAPI.Controllers
                 shade.UpdatedBy = user.UserId;
                 shade.UpdatedOn = CommonVars.CurrentDateTime;
             }
-            return Ok(await _shadeService.UpdateShadeAsync(shade));
+            var result = await _shadeService.UpdateShadeAsync(shade);
+            return Ok(  new ResponseGlobal()
+                {
+                    ResponseCode = ((int)System.Net.HttpStatusCode.OK),
+                    Message = Common.CommonVars.MessageResults.SuccessUpdate.GetEnumDisplayName(),
+                    Data = result
+                });
         }
         [HttpPost(Name = "CreateShade")]
         public async Task<ActionResult<Shade>> Create(Shade shade)
@@ -61,7 +85,13 @@ namespace VikasFashionsAPI.Controllers
                 shade.UpdatedBy = user.UserId;
                 shade.UpdatedOn = CommonVars.CurrentDateTime;
             }
-            return Ok(await _shadeService.AddShadeAsync(shade));
+            var result = await _shadeService.AddShadeAsync(shade);
+            return Ok( new ResponseGlobal()
+                {
+                    ResponseCode = ((int)System.Net.HttpStatusCode.OK),
+                    Message = Common.CommonVars.MessageResults.SuccessSave.GetEnumDisplayName(),
+                    Data = result
+                });
         }
     }
 }

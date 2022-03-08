@@ -28,17 +28,38 @@ namespace VikasFashionsAPI.Controllers
         [HttpGet(Name = "GetBusinessPartnersBankDetail")]
         public async Task<ActionResult<List<BusinessPartnersBankDetail>>> Get()
         {
-            return Ok(await _businessPartnersBankDetailService.GetAllBusinessPartnersBankDetailAsync());
+            var result = await _businessPartnersBankDetailService.GetAllBusinessPartnersBankDetailAsync();
+            return Ok(
+                new ResponseGlobal()
+                {
+                    ResponseCode = ((int)System.Net.HttpStatusCode.OK),
+                    Message = Common.CommonVars.MessageResults.SuccessGet.GetEnumDisplayName(),
+                    Data = result
+                });
         }
         [HttpGet("{id}", Name = "GetBusinessPartnersBankDetailById")]
         public async Task<ActionResult<BusinessPartnersBankDetail>> Get(int id)
         {
-            return Ok(await _businessPartnersBankDetailService.GetByBusinessPartnersBankDetailIdAsync(id));
+            var result = await _businessPartnersBankDetailService.GetByBusinessPartnersBankDetailIdAsync(id);
+            return Ok(
+                new ResponseGlobal()
+                {
+                    ResponseCode = ((int)System.Net.HttpStatusCode.OK),
+                    Message = Common.CommonVars.MessageResults.SuccessGet.GetEnumDisplayName(),
+                    Data = result
+                });
         }
         [HttpDelete("{id}", Name = "DeleteBusinessPartnersBankDetailById")]
         public async Task<ActionResult<bool>> Delete(int id)
         {
-            return Ok(await _businessPartnersBankDetailService.DeleteBusinessPartnersBankDetailAsync(id));
+            var result = await _businessPartnersBankDetailService.DeleteBusinessPartnersBankDetailAsync(id);
+            return Ok(
+                new ResponseGlobal()
+                {
+                    ResponseCode = ((int)System.Net.HttpStatusCode.OK),
+                    Message = Common.CommonVars.MessageResults.SuccessDelete.GetEnumDisplayName(),
+                    Data = result
+                });
         }
         [HttpPut("{id}", Name = "UpdateBusinessPartnersBankDetail")]
         public async Task<ActionResult<BusinessPartnersBankDetail>> Update(int id, BusinessPartnersBankDetail businessPartnersBankDetail)
@@ -49,7 +70,14 @@ namespace VikasFashionsAPI.Controllers
                 businessPartnersBankDetail.UpdatedBy = user.UserId;
                 businessPartnersBankDetail.UpdatedOn = CommonVars.CurrentDateTime;
             }
-            return Ok(await _businessPartnersBankDetailService.UpdateBusinessPartnersBankDetailAsync(businessPartnersBankDetail));
+            var result = await _businessPartnersBankDetailService.UpdateBusinessPartnersBankDetailAsync(businessPartnersBankDetail);
+            return Ok(
+                new ResponseGlobal()
+                {
+                    ResponseCode = ((int)System.Net.HttpStatusCode.OK),
+                    Message = Common.CommonVars.MessageResults.SuccessUpdate.GetEnumDisplayName(),
+                    Data = result
+                });
         }
         [HttpPost(Name = "CreateBusinessPartnersBankDetail")]
         public async Task<ActionResult<BusinessPartnersBankDetail>> Create(BusinessPartnersBankDetail businessPartnersBankDetail)
@@ -62,7 +90,14 @@ namespace VikasFashionsAPI.Controllers
                 businessPartnersBankDetail.UpdatedBy = user.UserId;
                 businessPartnersBankDetail.UpdatedOn = CommonVars.CurrentDateTime;
             }
-            return Ok(await _businessPartnersBankDetailService.AddBusinessPartnersBankDetailAsync(businessPartnersBankDetail));
+            var result = await _businessPartnersBankDetailService.AddBusinessPartnersBankDetailAsync(businessPartnersBankDetail);
+            return Ok(
+                new ResponseGlobal()
+                {
+                    ResponseCode = ((int)System.Net.HttpStatusCode.OK),
+                    Message = Common.CommonVars.MessageResults.SuccessSave.GetEnumDisplayName(),
+                    Data = result
+                });
         }
     }
 }

@@ -25,6 +25,12 @@ namespace VikasFashionsAPI.Common
             [Display(Name = "Error while saving!")]
             [Description("Error while saving!")]
             ErrorSave,
+            [Display(Name = "Successfully deleted!")]
+            [Description("Successfully deleted!")]
+            SuccessDelete,
+            [Display(Name = "Error while deleting!")]
+            [Description("Error while deleting!")]
+            ErrorDelete,
             [Display(Name = "Error while geting data!")]
             [Description("Error while geting data!")]
             ErrorGet,
