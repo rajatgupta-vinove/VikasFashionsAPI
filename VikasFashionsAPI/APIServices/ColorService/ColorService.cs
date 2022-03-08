@@ -83,6 +83,8 @@
                 exisingColor.ColorNumber = color.ColorNumber;
                 exisingColor.ColorId = color.ColorId;
                 exisingColor.ColorName = color.ColorName;
+                exisingColor.UpdatedBy = color.UpdatedBy;
+                exisingColor.UpdatedOn = color.UpdatedOn;
                 await _context.SaveChangesAsync();
             }
             catch (Exception ex)
@@ -90,6 +92,27 @@
                 _log.LogError("Error while updating country", ex);
             }
             return color;
+        }
+
+        public async Task<Color?> ChangeColorStatusAsync(int colorId, int updatedBy, DateTime updatedOn)
+        {
+            Color? exisingColor = null;
+            try
+            {
+                exisingColor = await _context.Colors.FirstOrDefaultAsync(m => m.ColorId == colorId);
+                if (exisingColor == null)
+                    return null;
+                exisingColor.IsActive = !exisingColor.IsActive;
+                exisingColor.UpdatedBy = updatedBy;
+                exisingColor.UpdatedOn = updatedOn;
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                exisingColor = null;
+                _log.LogError("Error while updating color", ex);
+            }
+            return exisingColor;
         }
     }
 }

@@ -87,6 +87,8 @@
                     return null;
                 exisingPaymentTerm.PaymentTermId = paymentTerm.PaymentTermId;
                 exisingPaymentTerm.PaymentTermName = paymentTerm.PaymentTermName;
+                exisingPaymentTerm.UpdatedOn = paymentTerm.UpdatedOn;
+                exisingPaymentTerm.UpdatedBy = paymentTerm.UpdatedBy;
                 await _context.SaveChangesAsync();
             }
             catch (Exception ex)
@@ -94,6 +96,27 @@
                 _log.LogError("Error while updating paymentTerm", ex);
             }
             return paymentTerm;
+        }
+
+        public async Task<PaymentTerm?> ChangePaymentTermStatusAsync(int paymentTermId, int updatedBy, DateTime updatedOn)
+        {
+            PaymentTerm? exisingPaymentTerm = null;
+            try
+            {
+                exisingPaymentTerm = await _context.PaymentTerms.FirstOrDefaultAsync(m => m.PaymentTermId == paymentTermId);
+                if (exisingPaymentTerm == null)
+                    return null;
+                exisingPaymentTerm.IsActive = !exisingPaymentTerm.IsActive;
+                exisingPaymentTerm.UpdatedBy = updatedBy;
+                exisingPaymentTerm.UpdatedOn = updatedOn;
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                exisingPaymentTerm = null;
+                _log.LogError("Error while updating PaymentTerm", ex);
+            }
+            return exisingPaymentTerm;
         }
     }
 }

@@ -99,5 +99,27 @@ namespace VikasFashionsAPI.Controllers
                 });
         }
 
+        [HttpPut]
+        [Route("ChangeStatus/{id}")]
+        public async Task<ActionResult<WithHoldingTax>> ChangeStatus(int id)
+        {
+            var user = _userService.GetLoginUser();
+            var WithHoldingTax = await _WithHoldingTaxService.GetByIdAsync(id)
+;
+            if (WithHoldingTax != null)
+            {
+                if (user != null)
+                {
+                    WithHoldingTax.UpdatedBy = user.UserId;
+                    WithHoldingTax.UpdatedOn = CommonVars.CurrentDateTime;
+                }
+            }
+            else
+            {
+                return BadRequest("No such WithHoldingTax found");
+            }
+            return Ok(await _WithHoldingTaxService.ChangeWithHoldingTaxStatusAsync(id, WithHoldingTax.UpdatedBy, WithHoldingTax.UpdatedOn));
+        }
+
     }
 }

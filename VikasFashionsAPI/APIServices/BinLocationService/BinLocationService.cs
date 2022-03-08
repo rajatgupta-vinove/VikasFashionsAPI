@@ -119,6 +119,8 @@
                 exisingBinLocation.SL3 = binLocation.SL3;
                 exisingBinLocation.SL4 = binLocation.SL4;
                 exisingBinLocation.Remark = binLocation.Remark;
+                exisingBinLocation.UpdatedBy = binLocation.UpdatedBy;
+                exisingBinLocation.UpdatedOn = binLocation.UpdatedOn;
 
                 await _context.SaveChangesAsync();
             }
@@ -127,6 +129,27 @@
                 _log.LogError("Error while updating bin location", ex);
             }
             return binLocation;
+        }
+
+        public async Task<BinLocation?> ChangeBinlocationStatusAsync(int binLocId, int updatedBy, DateTime updatedOn)
+        {
+            BinLocation? existingBinLocation = null;
+            try
+            {
+                existingBinLocation = await _context.BinLocations.FirstOrDefaultAsync(m => m.BinLocId == binLocId);
+                if (existingBinLocation == null)
+                    return null;
+                existingBinLocation.IsActive = !existingBinLocation.IsActive;
+                existingBinLocation.UpdatedBy = updatedBy;
+                existingBinLocation.UpdatedOn = updatedOn;
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                existingBinLocation = null;
+                _log.LogError("Error while updating Bin Location", ex);
+            }
+            return existingBinLocation;
         }
 
      

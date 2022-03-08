@@ -7,5 +7,7 @@
         Task<CompanyGroup> AddCompanyGroupAsync(CompanyGroup companyGroup);
         Task<CompanyGroup?> UpdateCompanyGroupAsync(CompanyGroup companyGroup);
         Task<bool> DeleteCompanyGroupAsync(int companyGroupId);
+        Task<CompanyGroup?> ChangeCompanyGroupStatusAsync(int companyGroupId, int updatedBy, DateTime updatedOn);
+
     }
 }

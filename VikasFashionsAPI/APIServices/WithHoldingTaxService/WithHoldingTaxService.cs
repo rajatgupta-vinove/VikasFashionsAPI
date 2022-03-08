@@ -86,6 +86,8 @@
                 if (exisingWithHoldingTax == null)
                     return null;
                 exisingWithHoldingTax.WithHoldingTaxId = withHoldingTax.WithHoldingTaxId;
+                exisingWithHoldingTax.UpdatedBy = withHoldingTax.UpdatedBy;
+                exisingWithHoldingTax.UpdatedOn = withHoldingTax.UpdatedOn;
                 await _context.SaveChangesAsync();
             }
             catch (Exception ex)
@@ -93,6 +95,27 @@
                 _log.LogError("Error while updating withHoldingTax", ex);
             }
             return withHoldingTax;
+        }
+
+        public async Task<WithHoldingTax?> ChangeWithHoldingTaxStatusAsync(int withHoldingTaxId, int updatedBy, DateTime updatedOn)
+        {
+            WithHoldingTax? exisingWithHoldingTax = null;
+            try
+            {
+                exisingWithHoldingTax = await _context.WithHoldingTaxes.FirstOrDefaultAsync(m => m.WithHoldingTaxId == withHoldingTaxId);
+                if (exisingWithHoldingTax == null)
+                    return null;
+                exisingWithHoldingTax.IsActive = !exisingWithHoldingTax.IsActive;
+                exisingWithHoldingTax.UpdatedBy = updatedBy;
+                exisingWithHoldingTax.UpdatedOn = updatedOn;
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                exisingWithHoldingTax = null;
+                _log.LogError("Error while updating WithHoldingTax", ex);
+            }
+            return exisingWithHoldingTax;
         }
     }
 }

@@ -7,5 +7,6 @@
         Task<Catalog> AddCatalogAsync(Catalog catalog);
         Task<Catalog?> UpdateCatalogAsync(Catalog catalog);
         Task<bool> DeleteCatalogAsync(int catalogId);
+        Task<Catalog?> ChangeCatalogStatusAsync(int catalogId, int updatedBy, DateTime updatedOn);
     }
 }

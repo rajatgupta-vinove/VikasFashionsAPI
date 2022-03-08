@@ -94,5 +94,26 @@ namespace VikasFashionsAPI.Controllers
                     Data = result
                 });
         }
+        [HttpPut]
+        [Route("ChangeStatus/{id}")]
+        public async Task<ActionResult<MaterialType>> ChangeStatus(int id)
+        {
+            var user = _userService.GetLoginUser();
+            var materialType = await _materialTypeService.GetByIdAsync(id)
+;
+            if (materialType != null)
+            {
+                if (user != null)
+                {
+                    materialType.UpdatedBy = user.UserId;
+                    materialType.UpdatedOn = CommonVars.CurrentDateTime;
+                }
+            }
+            else
+            {
+                return BadRequest("No such materialType found");
+            }
+            return Ok(await _materialTypeService.ChangeMaterialTypeStatusAsync(id, materialType.UpdatedBy, materialType.UpdatedOn));
+        }
     }
 }

@@ -7,5 +7,7 @@
         Task<BusinessPartnerAddress> AddBusinessPartnerAddressAsync(BusinessPartnerAddress businessPartnerAddress);
         Task<BusinessPartnerAddress?> UpdateBusinessPartnerAddressAsync(BusinessPartnerAddress businessPartnerAddress);
         Task<bool> DeleteBusinessPartnerAddressAsync(int businessPartnerAddressId);
+        Task<BusinessPartnerAddress?> ChangeBusinessPartnerAddressStatusAsync(int businessPartnerAddressId, int updatedBy, DateTime updatedOn);
+
     }
 }

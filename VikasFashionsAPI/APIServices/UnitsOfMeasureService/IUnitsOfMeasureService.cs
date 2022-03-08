@@ -7,6 +7,8 @@
         Task<UnitsOfMeasure> AddUnitsOfMeasureAsync(UnitsOfMeasure unitsOfMeasure);
         Task<UnitsOfMeasure?> UpdateUnitsOfMeasureAsync(UnitsOfMeasure unitsOfMeasure);
         Task<bool> DeleteUnitsOfMeasureAsync(int UnitsofMeasureId);
+        Task<UnitsOfMeasure?> ChangeUnitsOfMeasureStatusAsync(int UnitsofMeasureId, int updatedBy, DateTime updatedOn);
+
 
 
     }

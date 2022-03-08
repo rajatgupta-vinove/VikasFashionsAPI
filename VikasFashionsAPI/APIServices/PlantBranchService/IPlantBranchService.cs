@@ -8,5 +8,8 @@
         Task<PlantBranch?> UpdatePlantBranchAsync(PlantBranch plantBranch);
         Task<bool> DeletePlantBranchAsync(int plantId);
         Task<bool> CheckPlantBranchStatusAsync(int plantId , string plantCode);
+        Task<PlantBranch?> ChangePlantBranchStatusAsync(int plantId, int updatedBy, DateTime updatedOn);
+
+
     }
 }

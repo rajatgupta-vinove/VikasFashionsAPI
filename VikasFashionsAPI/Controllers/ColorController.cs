@@ -72,5 +72,26 @@ namespace VikasFashionsAPI.Controllers
               var result = await _colorService.AddColorAsync(color);
               return Ok(new ResponseGlobal() { ResponseCode = ((int)System.Net.HttpStatusCode.OK), Message = Common.CommonVars.MessageResults.SuccessSave.GetEnumDisplayName(), Data = result });
         }
+        [HttpPut]
+        [Route("ChangeStatus/{id}")]
+        public async Task<ActionResult<Color>> ChangeStatus(int id)
+        {
+            var user = _userService.GetLoginUser();
+            var color = await _colorService.GetByIdAsync(id)
+;
+            if (color != null)
+            {
+                if (user != null)
+                {
+                    color.UpdatedBy = user.UserId;
+                    color.UpdatedOn = CommonVars.CurrentDateTime;
+                }
+            }
+            else
+            {
+                return BadRequest("No such color found");
+            }
+            return Ok(await _colorService.ChangeColorStatusAsync(id, color.UpdatedBy, color.UpdatedOn));
+        }
     }
 }

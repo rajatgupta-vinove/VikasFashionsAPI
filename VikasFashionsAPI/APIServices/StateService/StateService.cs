@@ -99,6 +99,8 @@
                 exisingState.StateCode = State.StateCode;
                 exisingState.StateId = State.StateId;
                 exisingState.StateName = State.StateName;
+                exisingState.UpdatedOn = State.UpdatedOn;
+                exisingState.UpdatedBy = State.UpdatedBy;
                 await _context.SaveChangesAsync();
             }
             catch (Exception ex)
@@ -106,6 +108,27 @@
                 _log.LogError("Error while updating State", ex);
             }
             return State;
+        }
+
+        public async Task<State?> ChangeStateStatusAsync(int StateId, int updatedBy, DateTime updatedOn)
+        {
+            State? exisingState = null;
+            try
+            {
+                exisingState = await _context.States.FirstOrDefaultAsync(m => m.StateId == StateId);
+                if (exisingState == null)
+                    return null;
+                exisingState.IsActive = !exisingState.IsActive;
+                exisingState.UpdatedBy = updatedBy;
+                exisingState.UpdatedOn = updatedOn;
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                exisingState = null;
+                _log.LogError("Error while updating State", ex);
+            }
+            return exisingState;
         }
     }
 }

@@ -82,6 +82,8 @@
                 exisingShade.CreatedBy = shade.CreatedBy;
                 exisingShade.ShadeId = shade.ShadeId;
                 exisingShade.ShadeName = shade.ShadeName;
+                exisingShade.UpdatedOn = shade.UpdatedOn;
+                exisingShade.UpdatedBy = shade.UpdatedBy;
                 await _context.SaveChangesAsync();
             }
             catch (Exception ex)
@@ -89,6 +91,27 @@
                 _log.LogError("Error while updating shade", ex);
             }
             return shade;
+        }
+
+        public async Task<Shade?> ChangeShadeStatusAsync(int shadeId, int updatedBy, DateTime updatedOn)
+        {
+            Shade? exisingShade = null;
+            try
+            {
+                exisingShade = await _context.Shades.FirstOrDefaultAsync(m => m.ShadeId == shadeId);
+                if (exisingShade == null)
+                    return null;
+                exisingShade.IsActive = !exisingShade.IsActive;
+                exisingShade.UpdatedBy = updatedBy;
+                exisingShade.UpdatedOn = updatedOn;
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                exisingShade = null;
+                _log.LogError("Error while updating Shade", ex);
+            }
+            return exisingShade;
         }
     }
 }

@@ -99,6 +99,8 @@
                 exisingCity.CityCode = City.CityCode;
                 exisingCity.CityId = City.CityId;
                 exisingCity.CityName = City.CityName;
+                exisingCity.UpdatedOn = City.UpdatedOn;
+                exisingCity.UpdatedBy = City.UpdatedBy;
                 await _context.SaveChangesAsync();
             }
             catch (Exception ex)
@@ -106,6 +108,27 @@
                 _log.LogError("Error while updating City", ex);
             }
             return City;
+        }
+
+        public async Task<City?> ChangeCityStatusAsync(int cityId, int updatedBy, DateTime updatedOn)
+        {
+            City? exisingCity = null;
+            try
+            {
+                exisingCity = await _context.Cities.FirstOrDefaultAsync(m => m.CityId == cityId);
+                if (exisingCity == null)
+                    return null;
+                exisingCity.IsActive = !exisingCity.IsActive;
+                exisingCity.UpdatedBy = updatedBy;
+                exisingCity.UpdatedOn = updatedOn;
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                exisingCity = null;
+                _log.LogError("Error while updating city", ex);
+            }
+            return exisingCity;
         }
     }
 }

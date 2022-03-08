@@ -7,5 +7,6 @@
         Task<BusinessPartnersBankDetail> AddBusinessPartnersBankDetailAsync(BusinessPartnersBankDetail BusinessPartnersBankDetail);
         Task<BusinessPartnersBankDetail?> UpdateBusinessPartnersBankDetailAsync(BusinessPartnersBankDetail BusinessPartnersBankDetail);
         Task<bool> DeleteBusinessPartnersBankDetailAsync(int BusinessPartnersBankDetailId);
+        Task<BusinessPartnersBankDetail?> ChangeBusinessPartnersBankDetailStatusAsync(int BusinessPartnersBankDetailId, int updatedBy, DateTime updatedOn);
     }
 }

@@ -77,5 +77,27 @@ namespace VikasFashionsAPI.Controllers
             return Ok(new ResponseGlobal() { ResponseCode = ((int)System.Net.HttpStatusCode.OK), Message = Common.CommonVars.MessageResults.SuccessSave.GetEnumDisplayName(), Data = result });
         }
 
+        [HttpPut]
+        [Route("ChangeStatus/{id}")]
+        public async Task<ActionResult<City>> ChangeStatus(int id)
+        {
+            var user = _userService.GetLoginUser();
+            var city = await _cityService.GetByIdAsync(id)
+;
+            if (city != null)
+            {
+                if (user != null)
+                {
+                    city.UpdatedBy = user.UserId;
+                    city.UpdatedOn = CommonVars.CurrentDateTime;
+                }
+            }
+            else
+            {
+                return BadRequest("No such city found");
+            }
+            return Ok(await _cityService.ChangeCityStatusAsync(id, city.UpdatedBy, city.UpdatedOn));
+        }
+
     }
 }

@@ -130,8 +130,10 @@
                 exisingPlantBranch.Logo = plantBranch.Logo;
                 exisingPlantBranch.CompanyId = plantBranch.CompanyId;
                 exisingPlantBranch.BranchType= plantBranch.BranchType;
+                exisingPlantBranch.UpdatedBy = plantBranch.UpdatedBy;
+                exisingPlantBranch.UpdatedOn = plantBranch.UpdatedOn;
 
-               await _context.SaveChangesAsync();
+                await _context.SaveChangesAsync();
             }
             catch (Exception ex)
             {
@@ -154,6 +156,25 @@
                 _log.LogError("Error while getting plantBranch", ex);
             }
             return isExists;
+        public async Task<PlantBranch?> ChangePlantBranchStatusAsync(int plantId, int updatedBy , DateTime updatedOn)
+        {
+            PlantBranch? exisingPlantBranch = null;
+            try
+            {
+                exisingPlantBranch = await _context.PlantBranches.FirstOrDefaultAsync(m => m.PlantId == plantId);
+                if (exisingPlantBranch == null)
+                    return null;
+                exisingPlantBranch.IsActive = !exisingPlantBranch.IsActive;
+                exisingPlantBranch.UpdatedBy = updatedBy;
+                exisingPlantBranch.UpdatedOn = updatedOn;
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                exisingPlantBranch = null;
+                _log.LogError("Error while updating plant branch", ex);
+            }
+            return exisingPlantBranch;
         }
 
      

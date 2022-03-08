@@ -118,5 +118,27 @@ namespace VikasFashionsAPI.Controllers
                 });
         }
 
+        [HttpPut]
+        [Route("ChangeStatus/{id}")]
+        public async Task<ActionResult<State>> ChangeStatus(int id)
+        {
+            var user = _userService.GetLoginUser();
+            var state = await _stateService.GetByIdAsync(id)
+;
+            if (state != null)
+            {
+                if (user != null)
+                {
+                    state.UpdatedBy = user.UserId;
+                    state.UpdatedOn = CommonVars.CurrentDateTime;
+                }
+            }
+            else
+            {
+                return BadRequest("No such state found");
+            }
+            return Ok(await _stateService.ChangeStateStatusAsync(id, state.UpdatedBy, state.UpdatedOn));
+        }
+
     }
 }

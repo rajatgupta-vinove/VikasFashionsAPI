@@ -125,8 +125,10 @@
 
                 exisingWarehouse.IsDropShip = warehouse.IsDropShip;
                 exisingWarehouse.IsBinLoc = warehouse.IsBinLoc;
+                exisingWarehouse.UpdatedBy = warehouse.UpdatedBy;
+                exisingWarehouse.UpdatedOn = warehouse.UpdatedOn;
 
-                     await _context.SaveChangesAsync();
+                await _context.SaveChangesAsync();
             }
             catch (Exception ex)
             {
@@ -151,5 +153,25 @@
         }
 
 
+        public async Task<Warehouse?> ChangeWarehouseStatusAsync(int warehouseId, int updatedBy, DateTime updatedOn)
+        {
+            Warehouse? exisingWarehouse = null;
+            try
+            {
+                exisingWarehouse = await _context.Warehouses.FirstOrDefaultAsync(m => m.WarehouseId == warehouseId);
+                if (exisingWarehouse == null)
+                    return null;
+                exisingWarehouse.IsActive = !exisingWarehouse.IsActive;
+                exisingWarehouse.UpdatedBy = updatedBy;
+                exisingWarehouse.UpdatedOn = updatedOn;
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                exisingWarehouse = null;
+                _log.LogError("Error while updating country", ex);
+            }
+            return exisingWarehouse;
+        }
     }
 }

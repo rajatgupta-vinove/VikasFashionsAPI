@@ -93,6 +93,29 @@ namespace VikasFashionsAPI.Controllers
                     Data = result
                 });
         }
+
+        [HttpPut]
+        [Route("ChangeStatus/{id}")]
+        public async Task<ActionResult<Warehouse>> ChangeStatus(int id)
+        {
+            var user = _userService.GetLoginUser();
+            var warehouse = await _warehouseService.GetByWarehouseIdAsync(id);
+            if (warehouse != null)
+            {
+                if (user != null)
+                {
+                    warehouse.UpdatedBy = user.UserId;
+                    warehouse.UpdatedOn = CommonVars.CurrentDateTime;
+                }
+            }
+            else
+            {
+                return BadRequest("No such warehouse found");
+            }
+            return Ok(await _warehouseService.ChangeWarehouseStatusAsync(id, warehouse.UpdatedBy, warehouse.UpdatedOn));
+        }
+
+
         [HttpPost(Name = "CreateWarehouse")]
         public async Task<ActionResult<Warehouse>> Create(Warehouse Warehouse)
         {

@@ -7,5 +7,7 @@
         Task<Material> AddMaterialAsync(Material material);
         Task<Material?> UpdateMaterialAsync(Material material);
         Task<bool> DeleteMaterialAsync(int materialId);
+        Task<Material?> ChangeMaterialStatusAsync(int materialId, int updatedBy, DateTime updatedOn);
+
     }
 }
