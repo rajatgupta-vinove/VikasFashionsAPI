@@ -35,6 +35,22 @@ namespace VikasFashionsAPI.Controllers
                     Data = result
                 });
         }
+        [HttpGet]
+        [Route("CheckWarehouseExists")]
+        public async Task<ActionResult<bool>> CheckWarehouseExists([FromQuery] int id,[FromQuery] string code )
+        {
+            _logger.LogInformation($"Check warehouse existance called with id: {id}, code: {code}");
+            var result = await _warehouseService.CheckWarehouseStatusAsync(id, code);
+            return Ok(
+                new ResponseGlobal() { 
+                    ResponseCode = ((int)System.Net.HttpStatusCode.OK),
+                    Message = Common.CommonVars.MessageResults.SuccessGet.GetEnumDisplayName(),
+                    Data = result 
+                });
+        }
+
+
+
         [HttpGet("{id}", Name = "GetWarehouseById")]
         public async Task<ActionResult<Warehouse>> Get(int id)
         {

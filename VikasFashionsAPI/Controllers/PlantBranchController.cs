@@ -34,6 +34,20 @@ namespace VikasFashionsAPI.Controllers
                     Data = result
                 });
         }
+        [HttpGet]
+        [Route("CheckPlantbranchExists")]
+        public async Task<ActionResult<bool>> CheckPlantBranchExists([FromQuery] int id , [FromQuery] string code)
+        {
+            _logger.LogInformation($"Check plantBranch existance called with id: {id}, code: {code}");
+            var result = await _userService.CheckUserStatusAsync(id, code);
+            return Ok(
+                new ResponseGlobal()
+                {
+                    ResponseCode = ((int)System.Net.HttpStatusCode.OK),
+                    Message = Common.CommonVars.MessageResults.SuccessGet.GetEnumDisplayName(),
+                    Data = result
+                });
+        }
         [HttpGet("{id}", Name = "GetPlantBranchById")]
         public async Task<ActionResult<PlantBranch>> Get(int id)
         {
