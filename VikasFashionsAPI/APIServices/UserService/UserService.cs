@@ -145,5 +145,22 @@ namespace VikasFashionsAPI.APIServices.UserService
             }
             return user;
         }
+
+        public async Task<bool> CheckUserStatusAsync(int userId, string userCode)
+        {
+            bool isExists = false;
+            try
+            {
+                if (string.IsNullOrEmpty(userCode))
+                    return isExists;
+                isExists = await _context.Users.AnyAsync(m => m.UserCode == userCode && m.UserId != userId);
+            }
+            catch (Exception ex)
+            {
+
+                _log.LogError("Error while getting user", ex);
+            }
+            return isExists;
+        }
     }
 }

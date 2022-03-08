@@ -9,6 +9,7 @@
         Task<User> AddUserAsync(User user);
         Task<User?> UpdateUserAsync(User user);
         Task<bool> ChangeUserStatusAsync(int userId);
+        Task<bool> CheckUserStatusAsync(int userId, string userCode);
         User? GetLoginUser();
     }
 }

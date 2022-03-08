@@ -81,7 +81,7 @@ namespace VikasFashionsAPI.Controllers
         }
 
         [HttpGet(Name = "GetUsers/{keyword?}")]
-        public async Task<ActionResult<List<State>>> Get(string? keyword)
+        public async Task<ActionResult<List<User>>> Get(string? keyword)
         {
             _logger.LogInformation($"Get users called with keyword {keyword}");
             var result = await _userService.GetAllAsync(keyword);
@@ -94,8 +94,23 @@ namespace VikasFashionsAPI.Controllers
                 });
         }
 
+        [HttpGet]
+        [Route("CheckUserExists")]
+        public async Task<ActionResult<bool>> CheckUserExists([FromQuery] int id, [FromQuery] string code)
+        {
+            _logger.LogInformation($"Check user existance called with id: {id}, code: {code}");
+            var result = await _userService.CheckUserStatusAsync(id, code);
+            return Ok(
+                new ResponseGlobal()
+                {
+                    ResponseCode = ((int)System.Net.HttpStatusCode.OK),
+                    Message = Common.CommonVars.MessageResults.SuccessGet.GetEnumDisplayName(),
+                    Data = result
+                });
+        }
+
         [HttpGet("{id}", Name = "GetUserById")]
-        public async Task<ActionResult<State>> Get(int id)
+        public async Task<ActionResult<User>> Get(int id)
         {
             var result = await _userService.GetByIdAsync(id);
             return Ok(
