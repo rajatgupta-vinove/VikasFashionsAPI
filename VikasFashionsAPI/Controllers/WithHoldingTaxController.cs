@@ -27,17 +27,38 @@ namespace VikasFashionsAPI.Controllers
         [HttpGet(Name = "GetWithHoldingTax")]
         public async Task<ActionResult<List<WithHoldingTax>>> Get()
         {
-            return Ok(await _WithHoldingTaxService.GetAllAsync());
+            var result = await _WithHoldingTaxService.GetAllAsync();
+            return Ok(
+                new ResponseGlobal()
+                {
+                    ResponseCode = ((int)System.Net.HttpStatusCode.OK),
+                    Message = Common.CommonVars.MessageResults.SuccessGet.GetEnumDisplayName(),
+                    Data = result
+                });
         }
         [HttpGet("{id}", Name = "GetWithHoldingTaxById")]
         public async Task<ActionResult<WithHoldingTax>> Get(int id)
         {
-            return Ok(await _WithHoldingTaxService.GetByIdAsync(id));
+            var result = await _WithHoldingTaxService.GetByIdAsync(id);
+            return Ok(
+                new ResponseGlobal()
+                {
+                    ResponseCode = ((int)System.Net.HttpStatusCode.OK),
+                    Message = Common.CommonVars.MessageResults.SuccessGet.GetEnumDisplayName(),
+                    Data = result
+                });
         }
         [HttpDelete("{id}", Name = "DeleteWithHoldingTaxById")]
         public async Task<ActionResult<bool>> Delete(int id)
         {
-            return Ok(await _WithHoldingTaxService.DeleteWithHoldingTaxAsync(id));
+            var result = await _WithHoldingTaxService.DeleteWithHoldingTaxAsync(id);
+            return Ok(
+                new ResponseGlobal()
+                {
+                    ResponseCode = ((int)System.Net.HttpStatusCode.OK),
+                    Message = Common.CommonVars.MessageResults.SuccessDelete.GetEnumDisplayName(),
+                    Data = result
+                });
         }
         [HttpPut("{id}", Name = "UpdateWithHoldingTax")]
         public async Task<ActionResult<WithHoldingTax>> Update(int id, WithHoldingTax WithHoldingTax)
@@ -48,7 +69,14 @@ namespace VikasFashionsAPI.Controllers
                 WithHoldingTax.UpdatedBy = user.UserId;
                 WithHoldingTax.UpdatedOn = CommonVars.CurrentDateTime;
             }
-            return Ok(await _WithHoldingTaxService.UpdateWithHoldingTaxAsync(WithHoldingTax));
+            var result = await _WithHoldingTaxService.UpdateWithHoldingTaxAsync(WithHoldingTax);
+            return Ok(
+                new ResponseGlobal()
+                {
+                    ResponseCode = ((int)System.Net.HttpStatusCode.OK),
+                    Message = Common.CommonVars.MessageResults.SuccessUpdate.GetEnumDisplayName(),
+                    Data = result
+                });
         }
         [HttpPost(Name = "CreateWithHoldingTax")]
         public async Task<ActionResult<WithHoldingTax>> Create(WithHoldingTax WithHoldingTax)
@@ -61,7 +89,14 @@ namespace VikasFashionsAPI.Controllers
                 WithHoldingTax.UpdatedBy = user.UserId;
                 WithHoldingTax.UpdatedOn = CommonVars.CurrentDateTime;
             }
-            return Ok(await _WithHoldingTaxService.AddWithHoldingTaxAsync(WithHoldingTax));
+            var result = await _WithHoldingTaxService.AddWithHoldingTaxAsync(WithHoldingTax);
+            return Ok(
+                new ResponseGlobal()
+                {
+                    ResponseCode = ((int)System.Net.HttpStatusCode.OK),
+                    Message = Common.CommonVars.MessageResults.SuccessSave.GetEnumDisplayName(),
+                    Data = result
+                });
         }
 
     }

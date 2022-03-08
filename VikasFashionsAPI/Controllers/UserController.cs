@@ -34,10 +34,20 @@ namespace VikasFashionsAPI.Controllers
         {
             var checkUser = await _userService.GetByEmailAsync(loginUser.Email);
             if (checkUser != null)
-                return BadRequest(new ResponseGlobal() { ResponseCode = ((int)System.Net.HttpStatusCode.BadRequest), Message = Common.CommonVars.MessageResults.UserDuplicateEmail.GetEnumDisplayName() });
+                return BadRequest(
+                    new ResponseGlobal()
+                    {
+                        ResponseCode = ((int)System.Net.HttpStatusCode.BadRequest),
+                        Message = Common.CommonVars.MessageResults.UserDuplicateEmail.GetEnumDisplayName()
+                    });
             checkUser = await _userService.GetByUserNameAsync(loginUser.UserCode);
             if (checkUser != null)
-                return BadRequest(new ResponseGlobal() { ResponseCode = ((int)System.Net.HttpStatusCode.BadRequest), Message = Common.CommonVars.MessageResults.UserDuplicateCode.GetEnumDisplayName() });
+                return BadRequest(
+                    new ResponseGlobal()
+                    {
+                        ResponseCode = ((int)System.Net.HttpStatusCode.BadRequest),
+                        Message = Common.CommonVars.MessageResults.UserDuplicateCode.GetEnumDisplayName()
+                    });
             CreatePasswordHash(loginUser.Password, out byte[] passwordHash, out byte[] passwordSalt);
             User user = new User
             {
@@ -61,7 +71,13 @@ namespace VikasFashionsAPI.Controllers
                 UpdatedOn = CommonVars.CurrentDateTime,
             };
             var result = await _userService.AddUserAsync(user);
-            return Ok(new ResponseGlobal() { ResponseCode = ((int)System.Net.HttpStatusCode.OK), Message = Common.CommonVars.MessageResults.SuccessSave.GetEnumDisplayName(), Data = result });
+            return Ok(
+                new ResponseGlobal()
+                {
+                    ResponseCode = ((int)System.Net.HttpStatusCode.OK),
+                    Message = Common.CommonVars.MessageResults.SuccessSave.GetEnumDisplayName(),
+                    Data = result
+                });
         }
 
         [HttpGet(Name = "GetUsers/{keyword?}")]
@@ -69,14 +85,26 @@ namespace VikasFashionsAPI.Controllers
         {
             _logger.LogInformation($"Get users called with keyword {keyword}");
             var result = await _userService.GetAllAsync(keyword);
-            return Ok(new ResponseGlobal() { ResponseCode = ((int)System.Net.HttpStatusCode.OK), Message = Common.CommonVars.MessageResults.SuccessGet.GetEnumDisplayName(), Data = result });
+            return Ok(
+                new ResponseGlobal()
+                {
+                    ResponseCode = ((int)System.Net.HttpStatusCode.OK),
+                    Message = Common.CommonVars.MessageResults.SuccessGet.GetEnumDisplayName(),
+                    Data = result
+                });
         }
 
         [HttpGet("{id}", Name = "GetUserById")]
         public async Task<ActionResult<State>> Get(int id)
         {
             var result = await _userService.GetByIdAsync(id);
-            return Ok(new ResponseGlobal() { ResponseCode = ((int)System.Net.HttpStatusCode.OK), Message = Common.CommonVars.MessageResults.SuccessGet.GetEnumDisplayName(), Data = result });
+            return Ok(
+                new ResponseGlobal()
+                {
+                    ResponseCode = ((int)System.Net.HttpStatusCode.OK),
+                    Message = Common.CommonVars.MessageResults.SuccessGet.GetEnumDisplayName(),
+                    Data = result
+                });
         }
 
         [AllowAnonymous]
@@ -85,14 +113,35 @@ namespace VikasFashionsAPI.Controllers
         public async Task<ActionResult<string>> Login(UserLogin userLogin)
         {
             if (userLogin == null)
-                return BadRequest(new ResponseGlobal() { ResponseCode = ((int)System.Net.HttpStatusCode.BadRequest), Message = Common.CommonVars.MessageResults.InvalidLogin.GetEnumDisplayName() });
+                return BadRequest(
+                    new ResponseGlobal()
+                    {
+                        ResponseCode = ((int)System.Net.HttpStatusCode.BadRequest),
+                        Message = Common.CommonVars.MessageResults.InvalidLogin.GetEnumDisplayName()
+                    });
             var user = await _userService.GetByEmailAsync(userLogin.Email);
             if (user == null)
-                return BadRequest(new ResponseGlobal() { ResponseCode = ((int)System.Net.HttpStatusCode.BadRequest), Message = Common.CommonVars.MessageResults.InvalidLogin.GetEnumDisplayName() });
+                return BadRequest(
+                    new ResponseGlobal()
+                    {
+                        ResponseCode = ((int)System.Net.HttpStatusCode.BadRequest),
+                        Message = Common.CommonVars.MessageResults.InvalidLogin.GetEnumDisplayName()
+                    });
             if (!VerifyPasswordHash(userLogin.Password, user.PasswordSalt, user.PasswordHash))
-                return BadRequest(new ResponseGlobal() { ResponseCode = ((int)System.Net.HttpStatusCode.BadRequest), Message = Common.CommonVars.MessageResults.InvalidLogin.GetEnumDisplayName() });
+                return BadRequest(
+                    new ResponseGlobal()
+                    {
+                        ResponseCode = ((int)System.Net.HttpStatusCode.BadRequest),
+                        Message = Common.CommonVars.MessageResults.InvalidLogin.GetEnumDisplayName()
+                    });
             string token = CreateJWTToken(user);
-            return Ok(new ResponseGlobal() { ResponseCode = ((int)System.Net.HttpStatusCode.OK), Message = Common.CommonVars.MessageResults.SuccessGet.GetEnumDisplayName(), Data = token });
+            return Ok(
+                new ResponseGlobal()
+                {
+                    ResponseCode = ((int)System.Net.HttpStatusCode.OK),
+                    Message = Common.CommonVars.MessageResults.SuccessGet.GetEnumDisplayName(),
+                    Data = token
+                });
         }
         private void CreatePasswordHash(string password, out byte[] passwordHash, out byte[] passwordSalt)
         {

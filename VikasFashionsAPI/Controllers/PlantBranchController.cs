@@ -26,17 +26,35 @@ namespace VikasFashionsAPI.Controllers
         [HttpGet(Name = "GetPlantBranch")]
         public async Task<ActionResult<List<PlantBranch>>> Get()
         {
-            return Ok(await _plantBranchService.GetAllPlantBranchAsync());
+            var result = await _plantBranchService.GetAllPlantBranchAsync();
+            return Ok( new ResponseGlobal()
+                {
+                    ResponseCode = ((int)System.Net.HttpStatusCode.OK),
+                    Message = Common.CommonVars.MessageResults.SuccessGet.GetEnumDisplayName(),
+                    Data = result
+                });
         }
         [HttpGet("{id}", Name = "GetPlantBranchById")]
         public async Task<ActionResult<PlantBranch>> Get(int id)
         {
-            return Ok(await _plantBranchService.GetByPlantBranchIdAsync(id));
+            var result = await _plantBranchService.GetByPlantBranchIdAsync(id);
+            return Ok( new ResponseGlobal()
+                {
+                    ResponseCode = ((int)System.Net.HttpStatusCode.OK),
+                    Message = Common.CommonVars.MessageResults.SuccessGet.GetEnumDisplayName(),
+                    Data = result
+                });
         }
         [HttpDelete("{id}", Name = "DeletePlantBranchById")]
         public async Task<ActionResult<bool>> Delete(int id)
         {
-            return Ok(await _plantBranchService.DeletePlantBranchAsync(id));
+            var result = await _plantBranchService.DeletePlantBranchAsync(id);
+            return Ok( new ResponseGlobal()
+                {
+                    ResponseCode = ((int)System.Net.HttpStatusCode.OK),
+                    Message = Common.CommonVars.MessageResults.SuccessDelete.GetEnumDisplayName(),
+                    Data = result
+                });
         }
         [HttpPut("{id}", Name = "UpdatePlantBranch")]
         public async Task<ActionResult<PlantBranch>> Update(int id, PlantBranch plantBranch)
@@ -47,7 +65,13 @@ namespace VikasFashionsAPI.Controllers
                 plantBranch.UpdatedBy = user.UserId;
                 plantBranch.UpdatedOn = CommonVars.CurrentDateTime;
             }
-            return Ok(await _plantBranchService.UpdatePlantBranchAsync(plantBranch));
+            var result = await _plantBranchService.UpdatePlantBranchAsync(plantBranch);
+            return Ok(new ResponseGlobal()
+                {
+                    ResponseCode = ((int)System.Net.HttpStatusCode.OK),
+                    Message = Common.CommonVars.MessageResults.SuccessUpdate.GetEnumDisplayName(),
+                    Data = result
+                });
         }
         [HttpPost(Name = "CreatePlantBranch")]
         public async Task<ActionResult<PlantBranch>> Create(PlantBranch plantBranch)
@@ -60,7 +84,13 @@ namespace VikasFashionsAPI.Controllers
                 plantBranch.UpdatedBy = user.UserId;
                 plantBranch.UpdatedOn = CommonVars.CurrentDateTime;
             }
-            return Ok(await _plantBranchService.AddPlantBranchAsync(plantBranch));
+            var result = await _plantBranchService.AddPlantBranchAsync(plantBranch);
+            return Ok( new ResponseGlobal()
+                {
+                    ResponseCode = ((int)System.Net.HttpStatusCode.OK),
+                    Message = Common.CommonVars.MessageResults.SuccessSave.GetEnumDisplayName(),
+                    Data = result
+                });
         }
     }
 }

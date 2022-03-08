@@ -18,7 +18,7 @@ namespace VikasFashionsAPI.Controllers
         private readonly IUserService _userService;
 
 
-        public AreaController(ILogger<AreaController> logger, IAreaService areaService , IUserService userService)
+        public AreaController(ILogger<AreaController> logger, IAreaService areaService, IUserService userService)
         {
             _logger = logger;
             _areaService = areaService;
@@ -29,7 +29,14 @@ namespace VikasFashionsAPI.Controllers
         [HttpGet(Name = "GetArea")]
         public async Task<ActionResult<List<Area>>> Get()
         {
-            return Ok(await _areaService.GetAllAsync());
+            var result = await _areaService.GetAllAsync();
+            return Ok(
+                new ResponseGlobal()
+                {
+                    ResponseCode = ((int)System.Net.HttpStatusCode.OK),
+                    Message = Common.CommonVars.MessageResults.SuccessGet.GetEnumDisplayName(),
+                    Data = result
+                });
         }
 
         [HttpPost(Name = "CreateArea")]
@@ -43,19 +50,40 @@ namespace VikasFashionsAPI.Controllers
                 area.UpdatedBy = user.UserId;
                 area.UpdatedOn = CommonVars.CurrentDateTime;
             }
-            return Ok(await _areaService.AddAreaAsync(area));
+            var result = await _areaService.AddAreaAsync(area);
+            return Ok(
+                new ResponseGlobal()
+                {
+                    ResponseCode = ((int)System.Net.HttpStatusCode.OK),
+                    Message = Common.CommonVars.MessageResults.SuccessSave.GetEnumDisplayName(),
+                    Data = result
+                });
         }
 
         [HttpGet("{id}", Name = "GetAreaById")]
         public async Task<ActionResult<Area>> Get(int id)
         {
-            return Ok(await _areaService.GetByIdAsync(id));
+            var result = await _areaService.GetByIdAsync(id);
+            return Ok(
+                new ResponseGlobal()
+                {
+                    ResponseCode = ((int)System.Net.HttpStatusCode.OK),
+                    Message = Common.CommonVars.MessageResults.SuccessGet.GetEnumDisplayName(),
+                    Data = result
+                });
         }
 
         [HttpDelete("{id}", Name = "DeleteAreaById")]
         public async Task<ActionResult<bool>> Delete(int id)
         {
-            return Ok(await _areaService.DeleteAreaAsync(id));
+            var result = await _areaService.DeleteAreaAsync(id);
+            return Ok(
+                new ResponseGlobal()
+                {
+                    ResponseCode = ((int)System.Net.HttpStatusCode.OK),
+                    Message = Common.CommonVars.MessageResults.SuccessDelete.GetEnumDisplayName(),
+                    Data = result
+                });
         }
 
         [HttpPut("{id}", Name = "UpdateArea")]
@@ -67,7 +95,14 @@ namespace VikasFashionsAPI.Controllers
                 area.UpdatedBy = user.UserId;
                 area.UpdatedOn = CommonVars.CurrentDateTime;
             }
-            return Ok(await _areaService.UpdateAreaAsync(area));
+            var result = await _areaService.UpdateAreaAsync(area);
+            return Ok(
+                new ResponseGlobal()
+                {
+                    ResponseCode = ((int)System.Net.HttpStatusCode.OK),
+                    Message = Common.CommonVars.MessageResults.SuccessUpdate.GetEnumDisplayName(),
+                    Data = result
+                });
         }
     }
 }
