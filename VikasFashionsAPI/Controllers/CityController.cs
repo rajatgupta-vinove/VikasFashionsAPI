@@ -18,35 +18,37 @@ namespace VikasFashionsAPI.Controllers
         private readonly ICityService _cityService;
         private readonly IUserService _userService;
 
-
         public CityController(ILogger<CityController> logger, ICityService cityService, IUserService userService)
         {
             _logger = logger;
             _cityService = cityService;
             _userService = userService;
-
         }
 
         [HttpGet(Name = "GetCity")]
         public async Task<ActionResult<List<City>>> Get()
         {
-            return Ok(await _cityService.GetAllAsync());
+            var result = await _cityService.GetAllAsync();
+            return Ok(new ResponseGlobal() { ResponseCode = ((int)System.Net.HttpStatusCode.OK), Message = Common.CommonVars.MessageResults.SuccessGet.GetEnumDisplayName(), Data = result });
         }
         [HttpGet("{id}", Name = "GetCityById")]
         public async Task<ActionResult<City>> Get(int id)
         {
-            return Ok(await _cityService.GetByIdAsync(id));
+            var result = await _cityService.GetByIdAsync(id);
+            return Ok(new ResponseGlobal() { ResponseCode = ((int)System.Net.HttpStatusCode.OK), Message = Common.CommonVars.MessageResults.SuccessGet.GetEnumDisplayName(), Data = result });
         }
         [HttpGet]
         [Route("GetCityByStateId/{id}")]
         public async Task<ActionResult<City>> GetCityByStateId(int id)
         {
-            return Ok(await _cityService.GetAllByStateAndStatusAsync(id, true));
+            var result = await _cityService.GetAllByStateAndStatusAsync(id, true);
+            return Ok(new ResponseGlobal() { ResponseCode = ((int)System.Net.HttpStatusCode.OK), Message = Common.CommonVars.MessageResults.SuccessGet.GetEnumDisplayName(), Data = result });
         }
         [HttpDelete("{id}", Name = "DeleteCityById")]
         public async Task<ActionResult<bool>> Delete(int id)
         {
-            return Ok(await _cityService.DeleteCityAsync(id));
+            var result = await _cityService.DeleteCityAsync(id);
+            return Ok(new ResponseGlobal() { ResponseCode = ((int)System.Net.HttpStatusCode.OK), Message = Common.CommonVars.MessageResults.SuccessDelete.GetEnumDisplayName(), Data = result });
         }
         [HttpPut("{id}", Name = "UpdateCity")]
         public async Task<ActionResult<City>> Update(int id, City city)
@@ -57,7 +59,8 @@ namespace VikasFashionsAPI.Controllers
                 city.UpdatedBy = user.UserId;
                 city.UpdatedOn = CommonVars.CurrentDateTime;
             }
-            return Ok(await _cityService.UpdateCityAsync(city));
+            var result = await _cityService.UpdateCityAsync(city);
+            return Ok(new ResponseGlobal() { ResponseCode = ((int)System.Net.HttpStatusCode.OK), Message = Common.CommonVars.MessageResults.SuccessUpdate.GetEnumDisplayName(), Data = result });
         }
         [HttpPost(Name = "CreateCity")]
         public async Task<ActionResult<City>> Create(City city)
@@ -70,7 +73,8 @@ namespace VikasFashionsAPI.Controllers
                 city.UpdatedBy = user.UserId;
                 city.UpdatedOn = CommonVars.CurrentDateTime;
             }
-            return Ok(await _cityService.AddCityAsync(city));
+            var result = await _cityService.AddCityAsync(city);
+            return Ok(new ResponseGlobal() { ResponseCode = ((int)System.Net.HttpStatusCode.OK), Message = Common.CommonVars.MessageResults.SuccessSave.GetEnumDisplayName(), Data = result });
         }
 
     }
