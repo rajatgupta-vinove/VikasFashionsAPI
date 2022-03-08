@@ -14,7 +14,17 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Logging.AddFile("Logs/VikasFashionLog-{Date}.txt");
 
 builder.Services.AddControllers();
-builder.Services.AddCors();
+builder.Services.AddCors(options =>
+{
+    options.AddDefaultPolicy(
+        builder =>
+        {
+            builder.WithOrigins("https://localhost:3000", "http://localhost:4200")
+                                .AllowAnyHeader()
+                                .AllowAnyMethod()
+                                .AllowAnyOrigin();
+        });
+});
 builder.Services.AddHttpContextAccessor();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
@@ -122,7 +132,7 @@ if (!app.Environment.IsDevelopment())
 }
 
 
-app.UseCors(builder => builder.AllowAnyMethod().AllowAnyHeader().AllowAnyOrigin());
+app.UseCors(builder => builder.AllowAnyMethod().AllowAnyHeader().AllowAnyOrigin().SetIsOriginAllowed(origin => true));
 
 app.UseHttpsRedirection();
 
