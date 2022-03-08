@@ -65,5 +65,27 @@ namespace VikasFashionsAPI.Controllers
 
             return Ok(await _materialGroupService.AddMaterialGroupAsync(materialGroup));
         }
+
+        [HttpPut]
+        [Route("ChangeStatus/{id}")]
+        public async Task<ActionResult<MaterialGroup>> ChangeStatus(int id)
+        {
+            var user = _userService.GetLoginUser();
+            var materialGroup = await _materialGroupService.GetByIdAsync(id)
+;
+            if (materialGroup != null)
+            {
+                if (user != null)
+                {
+                    materialGroup.UpdatedBy = user.UserId;
+                    materialGroup.UpdatedOn = CommonVars.CurrentDateTime;
+                }
+            }
+            else
+            {
+                return BadRequest("No such materialGroup found");
+            }
+            return Ok(await _materialGroupService.ChangeMaterialGroupStatusAsync(id, materialGroup.UpdatedBy, materialGroup.UpdatedOn));
+        }
     }
 }

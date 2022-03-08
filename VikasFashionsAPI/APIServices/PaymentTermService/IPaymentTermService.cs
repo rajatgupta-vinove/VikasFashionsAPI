@@ -8,5 +8,7 @@
         Task<PaymentTerm> AddPaymentTermAsync(PaymentTerm paymentTerm);
         Task<PaymentTerm?> UpdatePaymentTermAsync(PaymentTerm paymentTerm);
         Task<bool> DeletePaymentTermAsync(int paymentTermId);
+        Task<PaymentTerm?> ChangePaymentTermStatusAsync(int paymentTermId, int updatedBy, DateTime updatedOn);
+
     }
 }

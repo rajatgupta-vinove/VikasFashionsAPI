@@ -82,6 +82,8 @@
                 exisingMaterialType.MaterialName = materialType.MaterialName;
                 exisingMaterialType.MaterialCode = materialType.MaterialCode;
                 exisingMaterialType.Remark = materialType.Remark;
+                exisingMaterialType.UpdatedOn = materialType.UpdatedOn;
+                exisingMaterialType.UpdatedBy = materialType.UpdatedBy;
 
                 await _context.SaveChangesAsync();
             }
@@ -90,6 +92,27 @@
                 _log.LogError("Error while updating material type", ex);
             }
             return materialType;
+        }
+
+        public async Task<MaterialType?> ChangeMaterialTypeStatusAsync(int materialTypeId, int updatedBy, DateTime updatedOn)
+        {
+            MaterialType? exisingMaterialType = null;
+            try
+            {
+                exisingMaterialType = await _context.materialTypes.FirstOrDefaultAsync(m => m.MaterialTypeId == materialTypeId);
+                if (exisingMaterialType == null)
+                    return null;
+                exisingMaterialType.IsActive = !exisingMaterialType.IsActive;
+                exisingMaterialType.UpdatedBy = updatedBy;
+                exisingMaterialType.UpdatedOn = updatedOn;
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                exisingMaterialType = null;
+                _log.LogError("Error while updating MaterialType Status", ex);
+            }
+            return exisingMaterialType;
         }
     }
 }

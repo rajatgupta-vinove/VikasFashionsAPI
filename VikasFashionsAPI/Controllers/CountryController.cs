@@ -54,7 +54,8 @@ namespace VikasFashionsAPI.Controllers
         public async Task<ActionResult<Country>> ChangeStatus(int id)
         {
             var user = _userService.GetLoginUser();
-            var country = await _countryService.GetByIdAsync(id);
+            var country = await _countryService.GetByIdAsync(id)
+;
             if (country != null)
             {
                 if (user != null)
@@ -67,7 +68,7 @@ namespace VikasFashionsAPI.Controllers
             {
                 return BadRequest("No such country found");
             }
-            return Ok(await _countryService.ChangeCountryStatusAsync(id));
+            return Ok(await _countryService.ChangeCountryStatusAsync(id, country.UpdatedBy, country.UpdatedOn));
         }
         [HttpPost(Name = "CreateCountry")]
         public async Task<ActionResult<Country>> Create(Country country)

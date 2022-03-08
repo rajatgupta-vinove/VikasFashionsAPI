@@ -64,5 +64,27 @@ namespace VikasFashionsAPI.Controllers
             return Ok(await _paymentTermService.AddPaymentTermAsync(paymentTerm));
         }
 
+        [HttpPut]
+        [Route("ChangeStatus/{id}")]
+        public async Task<ActionResult<PaymentTerm>> ChangeStatus(int id)
+        {
+            var user = _userService.GetLoginUser();
+            var paymentTerm = await _paymentTermService.GetByIdAsync(id)
+;
+            if (paymentTerm != null)
+            {
+                if (user != null)
+                {
+                    paymentTerm.UpdatedBy = user.UserId;
+                    paymentTerm.UpdatedOn = CommonVars.CurrentDateTime;
+                }
+            }
+            else
+            {
+                return BadRequest("No such PaymentTerm found");
+            }
+            return Ok(await _paymentTermService.ChangePaymentTermStatusAsync(id, paymentTerm.UpdatedBy, paymentTerm.UpdatedOn));
+        }
+
     }
 }

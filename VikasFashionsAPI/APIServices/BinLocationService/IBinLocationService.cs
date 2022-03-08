@@ -8,5 +8,7 @@ namespace VikasFashionsAPI.APIServices.BinLocationService
         Task<BinLocation> AddBinLocationAsync(BinLocation binLocation);
         Task<BinLocation?> UpdateBinLocationAsync(BinLocation binLocation);
         Task<bool> DeleteBinLocationAsync(int binLocId);
+        Task<BinLocation?> ChangeBinlocationStatusAsync(int binLocId, int updatedBy, DateTime updatedOn);
+
     }
 }

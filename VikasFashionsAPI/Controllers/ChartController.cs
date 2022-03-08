@@ -66,5 +66,27 @@ namespace VikasFashionsAPI.Controllers
             }
             return Ok(await _chartService.AddChartAsync(chart));
         }
+
+        [HttpPut]
+        [Route("ChangeStatus/{id}")]
+        public async Task<ActionResult<Chart>> ChangeStatus(int id)
+        {
+            var user = _userService.GetLoginUser();
+            var chart = await _chartService.GetByIdAsync(id)
+;
+            if (chart != null)
+            {
+                if (user != null)
+                {
+                    chart.UpdatedBy = user.UserId;
+                    chart.UpdatedOn = CommonVars.CurrentDateTime;
+                }
+            }
+            else
+            {
+                return BadRequest("No such chart found");
+            }
+            return Ok(await _chartService.ChangeChartStatusAsync(id, chart.UpdatedBy, chart.UpdatedOn));
+        }
     }
 }

@@ -83,6 +83,8 @@
                 exisingMaterialGroup.MaterialGroupCode = materialGroup.MaterialGroupCode;
                 exisingMaterialGroup.UnitsOfMeasureId = materialGroup.UnitsOfMeasureId;
                 exisingMaterialGroup.Remark = materialGroup.Remark;
+                exisingMaterialGroup.UpdatedBy = materialGroup.UpdatedBy;
+                exisingMaterialGroup.UpdatedOn = materialGroup.UpdatedOn;
 
 
                 await _context.SaveChangesAsync();
@@ -92,6 +94,27 @@
                 _log.LogError("Error while updating MaterialGroup", ex);
             }
             return materialGroup;
+        }
+
+        public async Task<MaterialGroup?> ChangeMaterialGroupStatusAsync(int materialGroupId, int updatedBy, DateTime updatedOn)
+        {
+            MaterialGroup? exisingMaterialGroup = null;
+            try
+            {
+                exisingMaterialGroup = await _context.MaterialGroups.FirstOrDefaultAsync(m => m.MaterialGroupId == materialGroupId);
+                if (exisingMaterialGroup == null)
+                    return null;
+                exisingMaterialGroup.IsActive = !exisingMaterialGroup.IsActive;
+                exisingMaterialGroup.UpdatedBy = updatedBy;
+                exisingMaterialGroup.UpdatedOn = updatedOn;
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                exisingMaterialGroup = null;
+                _log.LogError("Error while updating material group", ex);
+            }
+            return exisingMaterialGroup;
         }
     }
 }

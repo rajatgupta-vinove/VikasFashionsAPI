@@ -82,6 +82,8 @@
                 existingHsn.HSNName = hsn.HSNName;
                 existingHsn.HSNCode = hsn.HSNCode;
                 existingHsn.Remark = hsn.Remark;
+                existingHsn.UpdatedBy = hsn.UpdatedBy;
+                existingHsn.UpdatedOn = hsn.UpdatedOn;
 
 
                 await _context.SaveChangesAsync();
@@ -91,6 +93,27 @@
                 _log.LogError("Error while updating HSN", ex);
             }
             return hsn;
+        }
+
+        public async Task<HSN?> ChangeHSNStatusAsync(int hsnId, int updatedBy, DateTime updatedOn)
+        {
+            HSN? exisingHSN = null;
+            try
+            {
+                exisingHSN = await _context.HSNs.FirstOrDefaultAsync(m => m.HSNId == hsnId);
+                if (exisingHSN == null)
+                    return null;
+                exisingHSN.IsActive = !exisingHSN.IsActive;
+                exisingHSN.UpdatedBy = updatedBy;
+                exisingHSN.UpdatedOn = updatedOn;
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                exisingHSN = null;
+                _log.LogError("Error while updating HSN", ex);
+            }
+            return exisingHSN;
         }
     }
 }

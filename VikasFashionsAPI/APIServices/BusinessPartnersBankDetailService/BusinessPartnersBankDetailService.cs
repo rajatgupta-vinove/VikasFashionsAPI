@@ -129,7 +129,12 @@
                 exisingBusinessPartnersBankDetail.BankCountry = businessPartnersBankDetail.BankCountry;
                 exisingBusinessPartnersBankDetail.BankPinCode = businessPartnersBankDetail.BankPinCode;
                 exisingBusinessPartnersBankDetail.IsDefault = businessPartnersBankDetail.IsDefault;
-        
+                exisingBusinessPartnersBankDetail.UpdatedOn = businessPartnersBankDetail.UpdatedOn;
+                exisingBusinessPartnersBankDetail.UpdatedBy = businessPartnersBankDetail.UpdatedBy;
+
+
+
+
                 await _context.SaveChangesAsync();
             }
             catch (Exception ex)
@@ -138,6 +143,30 @@
             }
             return businessPartnersBankDetail;
         }
+
+        public async Task<BusinessPartnersBankDetail?> ChangeBusinessPartnersBankDetailStatusAsync(int BusinessPartnersBankDetailId, int updatedBy, DateTime updatedOn)
+        {
+            BusinessPartnersBankDetail? existingBusinessPartnersBankDetail= null;
+            try
+            {
+                existingBusinessPartnersBankDetail = await _context.BusinessPartnersBankDetails.FirstOrDefaultAsync(m => m.BPBankId == BusinessPartnersBankDetailId);
+                if (existingBusinessPartnersBankDetail == null)
+                    return null;
+                existingBusinessPartnersBankDetail.IsActive = !existingBusinessPartnersBankDetail.IsActive;
+                existingBusinessPartnersBankDetail.UpdatedBy = updatedBy;
+                existingBusinessPartnersBankDetail.UpdatedOn = updatedOn;
+
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                existingBusinessPartnersBankDetail = null;
+                _log.LogError("Error while updating Business Partners BankDetail", ex);
+            }
+            return existingBusinessPartnersBankDetail;
+        }
+
+
 
      
     }

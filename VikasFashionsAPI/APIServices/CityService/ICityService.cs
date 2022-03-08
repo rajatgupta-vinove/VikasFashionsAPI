@@ -10,5 +10,7 @@
         Task<City> AddCityAsync(City City);
         Task<City?> UpdateCityAsync(City City);
         Task<bool> DeleteCityAsync(int CityId);
+        Task<City?> ChangeCityStatusAsync(int CityId, int updatedBy, DateTime updatedOn);
+
     }
 }

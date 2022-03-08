@@ -63,25 +63,5 @@ namespace VikasFashionsAPI.Controllers
             return Ok(await _plantBranchService.AddPlantBranchAsync(plantBranch));
         }
 
-        [HttpPut]
-        [Route("ChangeStatus/{id}")]
-        public async Task<ActionResult<PlantBranch>> ChangePlantBranchStatus(int plantId)
-        {
-            var user = _userService.GetLoginUser();
-            var plantBranch = await _plantBranchService.GetByIdAsync(plantId);
-            if (plantBranch != null)
-            {
-                if (user != null)
-                {
-                    plantBranch.UpdatedBy = user.UserId;
-                    plantBranch.UpdatedOn = CommonVars.CurrentDateTime;
-                }
-            }
-            else
-            {
-                return BadRequest("No such Plant Branch found");
-            }
-            return Ok(await _plantBranchService.ChangePlantBranchStatusAsync(plantId));
-        }
     }
 }

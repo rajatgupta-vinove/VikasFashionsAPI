@@ -64,5 +64,27 @@ namespace VikasFashionsAPI.Controllers
             }
             return Ok(await _HSNService.AddHsnAsync(hsn));
         }
+
+        [HttpPut]
+        [Route("ChangeStatus/{id}")]
+        public async Task<ActionResult<HSN>> ChangeStatus(int id)
+        {
+            var user = _userService.GetLoginUser();
+            var hsn = await _HSNService.GetByIdAsync(id)
+;
+            if (hsn != null)
+            {
+                if (user != null)
+                {
+                    hsn.UpdatedBy = user.UserId;
+                    hsn.UpdatedOn = CommonVars.CurrentDateTime;
+                }
+            }
+            else
+            {
+                return BadRequest("No such HSN found");
+            }
+            return Ok(await _HSNService.ChangeHSNStatusAsync(id, hsn.UpdatedBy, hsn.UpdatedOn));
+        }
     }
 }

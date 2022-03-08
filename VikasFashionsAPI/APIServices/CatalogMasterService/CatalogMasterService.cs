@@ -82,6 +82,8 @@
                 existingCatalog.CatalogName = catalog.CatalogName;
                 existingCatalog.CatalogIndex = catalog.CatalogIndex;
                 existingCatalog.Remark = catalog.Remark;
+                existingCatalog.UpdatedBy = catalog.UpdatedBy;
+                existingCatalog.UpdatedOn = catalog.UpdatedOn;
 
                 await _context.SaveChangesAsync();
             }
@@ -90,6 +92,27 @@
                 _log.LogError("Error while updating Catalog", ex);
             }
             return catalog;
+        }
+
+        public async Task<Catalog?> ChangeCatalogStatusAsync(int catalogId, int updatedBy, DateTime updatedOn)
+        {
+            Catalog? existingCatalog = null;
+            try
+            {
+                existingCatalog = await _context.Catalogs.FirstOrDefaultAsync(m => m.CatalogId == catalogId);
+                if (existingCatalog == null)
+                    return null;
+                existingCatalog.IsActive = !existingCatalog.IsActive;
+                existingCatalog.UpdatedBy = updatedBy;
+                existingCatalog.UpdatedOn = updatedOn;
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                existingCatalog = null;
+                _log.LogError("Error while updating catalog", ex);
+            }
+            return existingCatalog;
         }
     }
 }

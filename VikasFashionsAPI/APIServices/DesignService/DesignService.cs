@@ -82,6 +82,8 @@
                 exisingDesign.DesignNumber = design.DesignNumber;
                 exisingDesign.DesignId = design.DesignId;
                 exisingDesign.DesignName = design.DesignName;
+                exisingDesign.UpdatedOn = design.UpdatedOn;
+                exisingDesign.UpdatedBy = design.UpdatedBy;
                 await _context.SaveChangesAsync();
             }
             catch (Exception ex)
@@ -89,6 +91,27 @@
                 _log.LogError("Error while updating design", ex);
             }
             return design;
+        }
+
+        public async Task<Design?> ChangeDesignStatusAsync(int designId, int updatedBy, DateTime updatedOn)
+        {
+            Design? exisingDesign = null;
+            try
+            {
+                exisingDesign = await _context.Designs.FirstOrDefaultAsync(m => m.DesignId == designId);
+                if (exisingDesign == null)
+                    return null;
+                exisingDesign.IsActive = !exisingDesign.IsActive;
+                exisingDesign.UpdatedBy = updatedBy;
+                exisingDesign.UpdatedOn = updatedOn;
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                exisingDesign = null;
+                _log.LogError("Error while updating Design", ex);
+            }
+            return exisingDesign;
         }
     }
 }

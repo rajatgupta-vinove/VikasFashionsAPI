@@ -67,5 +67,25 @@ namespace VikasFashionsAPI.Controllers
             }
             return Ok(await _businessPartnerService.AddBusinessPartnerAsync(businessPartner));
         }
+        [HttpPut]
+        [Route("ChangeStatus/{id}")]
+        public async Task<ActionResult<BusinessPartner>> ChangeStatus(int businessPartnerId)
+        {
+            var user = _userService.GetLoginUser();
+            var businessPartner = await _businessPartnerService.GetByIdAsync(businessPartnerId);
+            if (businessPartner != null)
+            {
+                if (user != null)
+                {
+                    businessPartner.UpdatedBy = user.UserId;
+                    businessPartner.UpdatedOn = CommonVars.CurrentDateTime;
+                }
+            }
+            else
+            {
+                return BadRequest("No such Business Partner found");
+            }
+            return Ok(await _businessPartnerService.ChangeBusinessPartnerStatusAsync(businessPartnerId, businessPartner.UpdatedBy, businessPartner.UpdatedOn));
+        }
     }
 }

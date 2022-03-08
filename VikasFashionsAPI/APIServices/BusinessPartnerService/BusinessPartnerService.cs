@@ -83,7 +83,8 @@
                 exisingBusinessPartner.BusinessPartnerName = businessPartner.BusinessPartnerName;
                 exisingBusinessPartner.BPLegalName = businessPartner.BPLegalName;
                 exisingBusinessPartner.PANNo = businessPartner.PANNo;
-
+                exisingBusinessPartner.UpdatedBy = businessPartner.UpdatedBy;
+                exisingBusinessPartner.UpdatedOn = businessPartner.UpdatedOn;
 
                 await _context.SaveChangesAsync();
             }
@@ -92,6 +93,27 @@
                 _log.LogError("Error while updating BusinessPartner", ex);
             }
             return businessPartner;
+        }
+
+        public async Task<BusinessPartner?> ChangeBusinessPartnerStatusAsync(int businessPartnerId, int updatedBy, DateTime updatedOn)
+        {
+            BusinessPartner? existingBusinessPartner = null;
+            try
+            {
+                existingBusinessPartner = await _context.BusinessPartners.FirstOrDefaultAsync(m => m.BusinessPartnerId == businessPartnerId);
+                if (existingBusinessPartner == null)
+                    return null;
+                existingBusinessPartner.IsActive = !existingBusinessPartner.IsActive;
+                existingBusinessPartner.UpdatedBy = updatedBy;
+                existingBusinessPartner.UpdatedOn = updatedOn;
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                existingBusinessPartner = null;
+                _log.LogError("Error while updating Business Partner", ex);
+            }
+            return existingBusinessPartner;
         }
     }
 }

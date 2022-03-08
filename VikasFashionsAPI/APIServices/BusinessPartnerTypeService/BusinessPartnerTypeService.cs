@@ -85,7 +85,8 @@
                 exisingBusinessPartnerType.BusinessPartnerTypeName = businessPartnerType.BusinessPartnerTypeName;
                 exisingBusinessPartnerType.Remark = businessPartnerType.Remark;
                 exisingBusinessPartnerType.CreatedBy = businessPartnerType.CreatedBy;
-
+                exisingBusinessPartnerType.UpdatedBy = businessPartnerType.UpdatedBy;
+                exisingBusinessPartnerType.UpdatedOn = businessPartnerType.UpdatedOn;
 
                 await _context.SaveChangesAsync();
             }
@@ -94,6 +95,27 @@
                 _log.LogError("Error while updating BusinessPartnerType", ex);
             }
             return businessPartnerType;
+        }
+        
+        public async Task<BusinessPartnerType?> ChangeBusinessPartnerTypeStatusAsync(int businessPartnerTypeId, int updatedBy, DateTime updatedOn)
+        {
+            BusinessPartnerType? existingBusinessPartnerType = null;
+            try
+            {
+                existingBusinessPartnerType = await _context.BusinessPartnerTypes.FirstOrDefaultAsync(m => m.BusinessPartnerTypeId == businessPartnerTypeId);
+                if (existingBusinessPartnerType == null)
+                    return null;
+                existingBusinessPartnerType.IsActive = !existingBusinessPartnerType.IsActive;
+                existingBusinessPartnerType.UpdatedBy = updatedBy;
+                existingBusinessPartnerType.UpdatedOn = updatedOn;
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                existingBusinessPartnerType = null;
+                _log.LogError("Error while updating existing Business Partner Type", ex);
+            }
+            return existingBusinessPartnerType;
         }
     }
 }

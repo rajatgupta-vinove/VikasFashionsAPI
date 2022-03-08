@@ -69,5 +69,25 @@ namespace VikasFashionsAPI.Controllers
             }
             return Ok(await _areaService.UpdateAreaAsync(area));
         }
+        [HttpPut]
+        [Route("ChangeStatus/{id}")]
+        public async Task<ActionResult<Area>> ChangeStatus(int areaId)
+        {
+            var user = _userService.GetLoginUser();
+            var area = await _areaService.GetByIdAsync(areaId);
+            if (area != null)
+            {
+                if (user != null)
+                {
+                    area.UpdatedBy = user.UserId;
+                    area.UpdatedOn = CommonVars.CurrentDateTime;
+                }
+            }
+            else
+            {
+                return BadRequest("No such area found");
+            }
+            return Ok(await _areaService.ChangeAreaStatusAsync(areaId,area.UpdatedBy,area.UpdatedOn));
+        }
     }
 }

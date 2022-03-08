@@ -82,6 +82,8 @@
                 exisingMaterial.CreatedBy = material.CreatedBy;
                 exisingMaterial.MaterialId = material.MaterialId;
                 exisingMaterial.MaterialName = material.MaterialName;
+                exisingMaterial.UpdatedOn = material.UpdatedOn;
+                exisingMaterial.UpdatedBy = material.UpdatedBy;
                 await _context.SaveChangesAsync();
             }
             catch (Exception ex)
@@ -89,6 +91,27 @@
                 _log.LogError("Error while updating material", ex);
             }
             return material;
+        }
+
+        public async Task<Material?> ChangeMaterialStatusAsync(int materialId, int updatedBy, DateTime updatedOn)
+        {
+            Material? exisingMaterial = null;
+            try
+            {
+                exisingMaterial = await _context.Materials.FirstOrDefaultAsync(m => m.MaterialId == materialId);
+                if (exisingMaterial == null)
+                    return null;
+                exisingMaterial.IsActive = !exisingMaterial.IsActive;
+                exisingMaterial.UpdatedBy = updatedBy;
+                exisingMaterial.UpdatedOn = updatedOn;
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                exisingMaterial = null;
+                _log.LogError("Error while updating Material", ex);
+            }
+            return exisingMaterial;
         }
     }
 }

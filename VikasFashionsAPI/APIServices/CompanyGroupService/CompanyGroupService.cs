@@ -82,6 +82,8 @@
                 existingCompanyGroup.CompanyGroupId = companyGroup.CompanyGroupId;
                 existingCompanyGroup.CompanyGroupName = companyGroup.CompanyGroupName;
                 existingCompanyGroup.Remark = companyGroup.Remark;
+                existingCompanyGroup.UpdatedOn = companyGroup.UpdatedOn;
+                existingCompanyGroup.UpdatedBy = companyGroup.UpdatedBy;
 
                 await _context.SaveChangesAsync();
             }
@@ -90,6 +92,27 @@
                 _log.LogError("Error while updating Company Group", ex);
             }
             return companyGroup;
+        }
+
+        public async Task<CompanyGroup?> ChangeCompanyGroupStatusAsync(int companyGroupId, int updatedBy, DateTime updatedOn)
+        {
+            CompanyGroup? exisingCompanyGroup = null;
+            try
+            {
+                exisingCompanyGroup = await _context.CompanyGroups.FirstOrDefaultAsync(m => m.CompanyGroupId == companyGroupId);
+                if (exisingCompanyGroup == null)
+                    return null;
+                exisingCompanyGroup.IsActive = !exisingCompanyGroup.IsActive;
+                exisingCompanyGroup.UpdatedBy = updatedBy;
+                exisingCompanyGroup.UpdatedOn = updatedOn;
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                exisingCompanyGroup = null;
+                _log.LogError("Error while updating Company Group", ex);
+            }
+            return exisingCompanyGroup;
         }
     }
 }

@@ -83,6 +83,8 @@
                 existingUnitsOfMeasure.UnitsOfMeasureCode = unitsOfMeasure.UnitsOfMeasureCode;
                 existingUnitsOfMeasure.UnitsOfMeasureName = unitsOfMeasure.UnitsOfMeasureName;
                 existingUnitsOfMeasure.Remark = unitsOfMeasure.Remark;
+                existingUnitsOfMeasure.UpdatedOn = unitsOfMeasure.UpdatedOn;    
+                existingUnitsOfMeasure.UpdatedBy = unitsOfMeasure.UpdatedBy;
 
                 await _context.SaveChangesAsync();
             }
@@ -91,6 +93,27 @@
                 _log.LogError("Error while Updating Units of Measure", ex);
             }
             return unitsOfMeasure;
+        }
+
+        public async Task<UnitsOfMeasure?> ChangeUnitsOfMeasureStatusAsync(int UnitsofMeasureId, int updatedBy, DateTime updatedOn)
+        {
+            UnitsOfMeasure? exisingUnitsOfMeasure = null;
+            try
+            {
+                exisingUnitsOfMeasure = await _context.UnitsOfMeasures.FirstOrDefaultAsync(m => m.UnitsOfMeasureId == UnitsofMeasureId);
+                if (exisingUnitsOfMeasure == null)
+                    return null;
+                exisingUnitsOfMeasure.IsActive = !exisingUnitsOfMeasure.IsActive;
+                exisingUnitsOfMeasure.UpdatedBy = updatedBy;
+                exisingUnitsOfMeasure.UpdatedOn = updatedOn;
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                exisingUnitsOfMeasure = null;
+                _log.LogError("Error while updating UnitsOfMeasure", ex);
+            }
+            return exisingUnitsOfMeasure;
         }
     }
 }

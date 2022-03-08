@@ -88,6 +88,8 @@
                 exisingCountry.CountryCode = country.CountryCode;
                 exisingCountry.CountryId = country.CountryId;
                 exisingCountry.CountryName = country.CountryName;
+                exisingCountry.UpdatedBy = country.UpdatedBy;
+                exisingCountry.UpdatedOn = country.UpdatedOn;
                 await _context.SaveChangesAsync();
             }
             catch (Exception ex)
@@ -96,7 +98,7 @@
             }
             return country;
         }
-        public async Task<Country?> ChangeCountryStatusAsync(int countryId)
+        public async Task<Country?> ChangeCountryStatusAsync(int countryId, int updatedBy, DateTime updatedOn)
         {
             Country? exisingCountry = null;
             try
@@ -105,6 +107,8 @@
                 if (exisingCountry == null)
                     return null;
                 exisingCountry.IsActive = !exisingCountry.IsActive;
+                exisingCountry.UpdatedBy = updatedBy;
+                exisingCountry.UpdatedOn = updatedOn;
                 await _context.SaveChangesAsync();
             }
             catch (Exception ex)

@@ -7,5 +7,7 @@
         Task<MaterialGroup> AddMaterialGroupAsync(MaterialGroup materialGroup);
         Task<MaterialGroup?> UpdateMaterialGroupAsync(MaterialGroup materialGroup);
         Task<bool> DeleteMaterialGroupAsync(int materialGroupId);
+        Task<MaterialGroup?> ChangeMaterialGroupStatusAsync(int materialGroupId, int updatedBy, DateTime updatedOn);
+
     }
 }

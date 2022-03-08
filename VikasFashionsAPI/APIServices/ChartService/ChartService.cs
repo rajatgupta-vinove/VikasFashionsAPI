@@ -86,6 +86,9 @@
                 exisingChart.ChartCode = chart.ChartCode;
                 exisingChart.ChartId = chart.ChartId;
                 exisingChart.ChartName = chart.ChartName;
+                exisingChart.UpdatedOn = chart.UpdatedOn;
+                exisingChart.UpdatedBy = chart.UpdatedBy;
+
                 await _context.SaveChangesAsync();
             }
             catch (Exception ex)
@@ -93,6 +96,27 @@
                 _log.LogError("Error while updating country", ex);
             }
             return chart;
+        }
+
+        public async Task<Chart?> ChangeChartStatusAsync(int chartId, int updatedBy, DateTime updatedOn)
+        {
+            Chart? existingChart = null;
+            try
+            {
+                existingChart = await _context.Charts.FirstOrDefaultAsync(m => m.ChartId == chartId);
+                if (existingChart == null)
+                    return null;
+                existingChart.IsActive = !existingChart.IsActive;
+                existingChart.UpdatedBy = updatedBy;
+                existingChart.UpdatedOn = updatedOn;
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                existingChart = null;
+                _log.LogError("Error while updating chart", ex);
+            }
+            return existingChart;
         }
     }
 }

@@ -8,5 +8,7 @@
         Task<WithHoldingTax> AddWithHoldingTaxAsync(WithHoldingTax withHoldingTax);
         Task<WithHoldingTax?> UpdateWithHoldingTaxAsync(WithHoldingTax withHoldingTax);
         Task<bool> DeleteWithHoldingTaxAsync(int withHoldingTaxId);
+        Task<WithHoldingTax?> ChangeWithHoldingTaxStatusAsync(int withHoldingTaxId, int updatedBy, DateTime updatedOn);
+
     }
 }

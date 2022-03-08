@@ -131,6 +131,8 @@
                 exisingCompany.CSTNo = company.CSTNo;
                 exisingCompany.Remark = company.Remark;
                 exisingCompany.Logo = company.Logo;
+                exisingCompany.UpdatedOn = company.UpdatedOn;
+                exisingCompany.UpdatedBy = company.UpdatedBy;
 
         await _context.SaveChangesAsync();
             }
@@ -139,6 +141,27 @@
                 _log.LogError("Error while updating company", ex);
             }
             return company;
+        }
+
+        public async Task<Company?> ChangeCompanyStatusAsync(int companyId, int updatedBy, DateTime updatedOn)
+        {
+            Company? exisingCompany = null;
+            try
+            {
+                exisingCompany = await _context.Companies.FirstOrDefaultAsync(m => m.CompanyId == companyId);
+                if (exisingCompany == null)
+                    return null;
+                exisingCompany.IsActive = !exisingCompany.IsActive;
+                exisingCompany.UpdatedBy = updatedBy;
+                exisingCompany.UpdatedOn = updatedOn;
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                exisingCompany = null;
+                _log.LogError("Error while updating company", ex);
+            }
+            return exisingCompany;
         }
     }
 }

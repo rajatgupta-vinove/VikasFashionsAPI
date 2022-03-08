@@ -3,9 +3,12 @@
     public interface IShadeService
     {
         Task<IEnumerable<Shade>> GetAllAsync();
-        Task<Shade?> GetByIdAsync(int chartId);
-        Task<Shade> AddShadeAsync(Shade Chart);
-        Task<Shade?> UpdateShadeAsync(Shade ChartChart);
-        Task<bool> DeleteShadeAsync(int chartId);
+        Task<Shade?> GetByIdAsync(int shadeId);
+        Task<Shade> AddShadeAsync(Shade shade);
+        Task<Shade?> UpdateShadeAsync(Shade shade);
+        Task<bool> DeleteShadeAsync(int shadeId);
+        Task<Shade?> ChangeShadeStatusAsync(int shadeId, int updatedBy, DateTime updatedOn);
+
+
     }
 }

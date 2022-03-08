@@ -81,6 +81,8 @@
                 existingArea.AreaId = area.AreaId;  
                 existingArea.AreaName = area.AreaName;
                 existingArea.AreaCode = area.AreaCode;
+                existingArea.UpdatedOn = area.UpdatedOn;
+                existingArea.UpdatedBy = area.UpdatedBy;
 
                 await _context.SaveChangesAsync();
             }
@@ -89,6 +91,27 @@
                 _log.LogError("Error while updating Area", ex);
             }
             return area;
+        }
+
+        public async Task<Area?> ChangeAreaStatusAsync(int areaId, int updatedBy, DateTime updatedOn)
+        {
+            Area? existingArea = null;
+            try
+            {
+                existingArea = await _context.Areas.FirstOrDefaultAsync(m => m.AreaId == areaId);
+                if (existingArea == null)
+                    return null;
+                existingArea.IsActive = !existingArea.IsActive;
+                existingArea.UpdatedBy = updatedBy;
+                existingArea.UpdatedOn = updatedOn;
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                existingArea = null;
+                _log.LogError("Error while updating area", ex);
+            }
+            return existingArea;
         }
     }
 }
