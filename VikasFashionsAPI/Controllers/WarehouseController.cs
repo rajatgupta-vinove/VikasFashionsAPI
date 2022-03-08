@@ -26,17 +26,38 @@ namespace VikasFashionsAPI.Controllers
         [HttpGet(Name = "GetWarehouse")]
         public async Task<ActionResult<List<Warehouse>>> Get()
         {
-            return Ok(await _warehouseService.GetAllWarehouseAsync());
+            var result = await _warehouseService.GetAllWarehouseAsync();
+            return Ok(
+                new ResponseGlobal()
+                {
+                    ResponseCode = ((int)System.Net.HttpStatusCode.OK),
+                    Message = Common.CommonVars.MessageResults.SuccessGet.GetEnumDisplayName(),
+                    Data = result
+                });
         }
         [HttpGet("{id}", Name = "GetWarehouseById")]
         public async Task<ActionResult<Warehouse>> Get(int id)
         {
-            return Ok(await _warehouseService.GetByWarehouseIdAsync(id));
+            var result = await _warehouseService.GetByWarehouseIdAsync(id);
+            return Ok(
+                new ResponseGlobal()
+                {
+                    ResponseCode = ((int)System.Net.HttpStatusCode.OK),
+                    Message = Common.CommonVars.MessageResults.SuccessGet.GetEnumDisplayName(),
+                    Data = result
+                });
         }
         [HttpDelete("{id}", Name = "DeleteWarehouseById")]
         public async Task<ActionResult<bool>> Delete(int id)
         {
-            return Ok(await _warehouseService.DeleteWarehouseAsync(id));
+            var result = await _warehouseService.DeleteWarehouseAsync(id);
+            return Ok(
+                new ResponseGlobal()
+                {
+                    ResponseCode = ((int)System.Net.HttpStatusCode.OK),
+                    Message = Common.CommonVars.MessageResults.SuccessDelete.GetEnumDisplayName(),
+                    Data = result
+                });
         }
         [HttpPut("{id}", Name = "UpdateWarehouse")]
         public async Task<ActionResult<Warehouse>> Update(int id, Warehouse Warehouse)
@@ -47,7 +68,14 @@ namespace VikasFashionsAPI.Controllers
                 Warehouse.UpdatedBy = user.UserId;
                 Warehouse.UpdatedOn = CommonVars.CurrentDateTime;
             }
-            return Ok(await _warehouseService.UpdateWarehouseAsync(Warehouse));
+            var result = await _warehouseService.UpdateWarehouseAsync(Warehouse);
+            return Ok(
+                new ResponseGlobal()
+                {
+                    ResponseCode = ((int)System.Net.HttpStatusCode.OK),
+                    Message = Common.CommonVars.MessageResults.SuccessUpdate.GetEnumDisplayName(),
+                    Data = result
+                });
         }
         [HttpPost(Name = "CreateWarehouse")]
         public async Task<ActionResult<Warehouse>> Create(Warehouse Warehouse)
@@ -61,7 +89,14 @@ namespace VikasFashionsAPI.Controllers
                 Warehouse.UpdatedOn = CommonVars.CurrentDateTime;
             }
 
-            return Ok(await _warehouseService.AddWarehouseAsync(Warehouse));
+            var result = await _warehouseService.AddWarehouseAsync(Warehouse);
+            return Ok(
+                new ResponseGlobal()
+                {
+                    ResponseCode = ((int)System.Net.HttpStatusCode.OK),
+                    Message = Common.CommonVars.MessageResults.SuccessSave.GetEnumDisplayName(),
+                    Data = result
+                });
         }
     }
 }

@@ -26,19 +26,40 @@ namespace VikasFashionsAPI.Controllers
         [HttpGet(Name = "GetBinLocation")]
         public async Task<ActionResult<List<BinLocation>>> Get()
         {
-            return Ok(await _binLocationService.GetAllBinLocationAsync());
+            var result = await _binLocationService.GetAllBinLocationAsync();
+            return Ok(
+                new ResponseGlobal()
+                {
+                    ResponseCode = ((int)System.Net.HttpStatusCode.OK),
+                    Message = Common.CommonVars.MessageResults.SuccessGet.GetEnumDisplayName(),
+                    Data = result
+                });
         }
 
         [HttpGet("{binLocId}", Name = "GetBinLocationById")]
         public async Task<ActionResult<BinLocation>> Get(int binLocId)
         {
-            return Ok(await _binLocationService.GetByBinLocationIdAsync(binLocId));
+            var result = await _binLocationService.GetByBinLocationIdAsync(binLocId);
+            return Ok(
+                new ResponseGlobal()
+                {
+                    ResponseCode = ((int)System.Net.HttpStatusCode.OK),
+                    Message = Common.CommonVars.MessageResults.SuccessGet.GetEnumDisplayName(),
+                    Data = result
+                });
         }
 
         [HttpDelete("{binLocId}", Name = "DeleteBinLocationById")]
         public async Task<ActionResult<bool>> Delete(int binLocId)
         {
-            return Ok(await _binLocationService.DeleteBinLocationAsync(binLocId));
+            var result = await _binLocationService.DeleteBinLocationAsync(binLocId);
+            return Ok(
+                new ResponseGlobal()
+                {
+                    ResponseCode = ((int)System.Net.HttpStatusCode.OK),
+                    Message = Common.CommonVars.MessageResults.SuccessDelete.GetEnumDisplayName(),
+                    Data = result
+                });
         }
 
         [HttpPut("{binLocId}", Name = "UpdateBinLocation")]
@@ -50,7 +71,14 @@ namespace VikasFashionsAPI.Controllers
                 binLocation.UpdatedBy = user.UserId;
                 binLocation.UpdatedOn = CommonVars.CurrentDateTime;
             }
-            return Ok(await _binLocationService.UpdateBinLocationAsync(binLocation));
+            var result = await _binLocationService.UpdateBinLocationAsync(binLocation);
+            return Ok(
+                new ResponseGlobal()
+                {
+                    ResponseCode = ((int)System.Net.HttpStatusCode.OK),
+                    Message = Common.CommonVars.MessageResults.SuccessUpdate.GetEnumDisplayName(),
+                    Data = result
+                });
         }
 
         [HttpPost(Name = "CreateBinLocation")]
@@ -64,7 +92,14 @@ namespace VikasFashionsAPI.Controllers
                 binLocation.UpdatedBy = user.UserId;
                 binLocation.UpdatedOn = CommonVars.CurrentDateTime;
             }
-            return Ok(await _binLocationService.AddBinLocationAsync(binLocation));
+            var result = await _binLocationService.AddBinLocationAsync(binLocation);
+            return Ok(
+                new ResponseGlobal()
+                {
+                    ResponseCode = ((int)System.Net.HttpStatusCode.OK),
+                    Message = Common.CommonVars.MessageResults.SuccessSave.GetEnumDisplayName(),
+                    Data = result
+                });
         }
     }
 }

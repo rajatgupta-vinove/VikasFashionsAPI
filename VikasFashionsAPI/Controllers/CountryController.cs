@@ -74,6 +74,26 @@ namespace VikasFashionsAPI.Controllers
             var result = await _countryService.ChangeCountryStatusAsync(id, country.UpdatedBy, country.UpdatedOn);
             return Ok(new ResponseGlobal() { ResponseCode = ((int)System.Net.HttpStatusCode.OK), Message = Common.CommonVars.MessageResults.SuccessUpdate.GetEnumDisplayName(), Data = result });
         }
+        [HttpPut]
+        [Route("ChangeStatus/{id}")]
+        public async Task<ActionResult<Country>> ChangeStatus(int id)
+        {
+            var user = _userService.GetLoginUser();
+            var country = await _countryService.GetByIdAsync(id);
+            if (country != null)
+            {
+                if (user != null)
+                {
+                    country.UpdatedBy = user.UserId;
+                    country.UpdatedOn = CommonVars.CurrentDateTime;
+                }
+            }
+            else
+            {
+                return BadRequest("No such country found");
+            }
+            return Ok(await _countryService.ChangeCountryStatusAsync(id, country.UpdatedBy, country.UpdatedOn));
+        }
         [HttpPost(Name = "CreateCountry")]
         public async Task<ActionResult<Country>> Create(Country country)
         {

@@ -27,17 +27,38 @@ namespace VikasFashionsAPI.Controllers
         [HttpGet(Name = "GetUnitsOfMeasure")]
         public async Task<ActionResult<List<UnitsOfMeasure>>> Get()
         {
-            return Ok(await _unitsOfMeasureService.GetAllAsync());
+            var result = await _unitsOfMeasureService.GetAllAsync();
+            return Ok(
+                new ResponseGlobal()
+                {
+                    ResponseCode = ((int)System.Net.HttpStatusCode.OK),
+                    Message = Common.CommonVars.MessageResults.SuccessGet.GetEnumDisplayName(),
+                    Data = result
+                });
         }
         [HttpGet("{id}", Name = "GetUnitsOfMeasureById")]
         public async Task<ActionResult<UnitsOfMeasure>> Get(int id)
         {
-            return Ok(await _unitsOfMeasureService.GetByIdAsync(id));
+            var result = await _unitsOfMeasureService.GetByIdAsync(id);
+            return Ok(
+                new ResponseGlobal()
+                {
+                    ResponseCode = ((int)System.Net.HttpStatusCode.OK),
+                    Message = Common.CommonVars.MessageResults.SuccessGet.GetEnumDisplayName(),
+                    Data = result
+                });
         }
         [HttpDelete("{id}", Name = "DeleteUnitsOfMeasureById")]
         public async Task<ActionResult<bool>> Delete(int id)
         {
-            return Ok(await _unitsOfMeasureService.DeleteUnitsOfMeasureAsync(id));
+            var result = await _unitsOfMeasureService.DeleteUnitsOfMeasureAsync(id);
+            return Ok(
+                new ResponseGlobal()
+                {
+                    ResponseCode = ((int)System.Net.HttpStatusCode.OK),
+                    Message = Common.CommonVars.MessageResults.SuccessDelete.GetEnumDisplayName(),
+                    Data = result
+                });
         }
         [HttpPut("{id}", Name = "UpdateUnitsOfMeasure")]
         public async Task<ActionResult<UnitsOfMeasure>> Update(int id, UnitsOfMeasure unitsOfMeasure)
@@ -48,7 +69,14 @@ namespace VikasFashionsAPI.Controllers
                 unitsOfMeasure.UpdatedBy = user.UserId;
                 unitsOfMeasure.UpdatedOn = CommonVars.CurrentDateTime;
             }
-            return Ok(await _unitsOfMeasureService.UpdateUnitsOfMeasureAsync(unitsOfMeasure));
+            var result = await _unitsOfMeasureService.UpdateUnitsOfMeasureAsync(unitsOfMeasure);
+            return Ok(
+                new ResponseGlobal()
+                {
+                    ResponseCode = ((int)System.Net.HttpStatusCode.OK),
+                    Message = Common.CommonVars.MessageResults.SuccessUpdate.GetEnumDisplayName(),
+                    Data = result
+                });
         }
         [HttpPost(Name = "CreateUnitsOfMeasure")]
         public async Task<ActionResult<UnitsOfMeasure>> Create(UnitsOfMeasure unitsOfMeasure)
@@ -61,7 +89,14 @@ namespace VikasFashionsAPI.Controllers
                 unitsOfMeasure.UpdatedBy = user.UserId;
                 unitsOfMeasure.UpdatedOn = CommonVars.CurrentDateTime;
             }
-            return Ok(await _unitsOfMeasureService.AddUnitsOfMeasureAsync(unitsOfMeasure));
+            var result = await _unitsOfMeasureService.AddUnitsOfMeasureAsync(unitsOfMeasure);
+            return Ok(
+                new ResponseGlobal()
+                {
+                    ResponseCode = ((int)System.Net.HttpStatusCode.OK),
+                    Message = Common.CommonVars.MessageResults.SuccessSave.GetEnumDisplayName(),
+                    Data = result
+                });
         }
     }
 }

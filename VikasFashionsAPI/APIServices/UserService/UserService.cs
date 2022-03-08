@@ -54,10 +54,17 @@ namespace VikasFashionsAPI.APIServices.UserService
             return isDeleted;
         }
 
-        public async Task<IEnumerable<User>> GetAllAsync()
+        public async Task<IEnumerable<User>> GetAllAsync(string? keyword)
         {
             _log.LogInformation("User GetAll Called!");
-            return await _context.Users.ToListAsync();
+            if (!string.IsNullOrEmpty(keyword))
+            {
+                return await _context.Users.Where(u => !string.IsNullOrEmpty(keyword) && (u.UserCode.ToLower().Contains(keyword) || u.Name.ToLower().Contains(keyword))).ToListAsync();
+            }
+            else
+            {
+                return await _context.Users.ToListAsync();
+            }
         }
 
         public async Task<User?> GetByIdAsync(int userId)
@@ -76,14 +83,14 @@ namespace VikasFashionsAPI.APIServices.UserService
             }
             return user;
         }
-        public async Task<User?> GetByUserNameAsync(string userName)
+        public async Task<User?> GetByUserNameAsync(string userCode)
         {
             User? user = null;
             try
             {
-                if (string.IsNullOrEmpty(userName))
+                if (string.IsNullOrEmpty(userCode))
                     return user;
-                user = await _context.Users.FirstOrDefaultAsync(m => m.UserName == userName);
+                user = await _context.Users.FirstOrDefaultAsync(m => m.UserCode == userCode);
             }
             catch (Exception ex)
             {
@@ -117,7 +124,7 @@ namespace VikasFashionsAPI.APIServices.UserService
                 if (exisingUser == null)
                     return null;
                 exisingUser.UserId = user.UserId;
-                exisingUser.UserName = user.UserName;
+                exisingUser.UserCode = user.UserCode;
                 await _context.SaveChangesAsync();
             }
             catch (Exception ex)

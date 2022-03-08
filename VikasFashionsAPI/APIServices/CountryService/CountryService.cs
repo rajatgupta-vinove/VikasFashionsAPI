@@ -88,6 +88,8 @@
                 exisingCountry.CountryCode = country.CountryCode;
                 exisingCountry.CountryId = country.CountryId;
                 exisingCountry.CountryName = country.CountryName;
+                exisingCountry.UpdatedBy = country.UpdatedBy;
+                exisingCountry.UpdatedOn = country.UpdatedOn;
                 await _context.SaveChangesAsync();
             }
             catch (Exception ex)
@@ -95,6 +97,26 @@
                 _log.LogError("Error while updating country", ex);
             }
             return country;
+        }
+        public async Task<Country?> ChangeCountryStatusAsync(int countryId, int updatedBy, DateTime updatedOn)
+        {
+            Country? exisingCountry = null;
+            try
+            {
+                exisingCountry = await _context.Countries.FirstOrDefaultAsync(m => m.CountryId == countryId);
+                if (exisingCountry == null)
+                    return null;
+                exisingCountry.IsActive = !exisingCountry.IsActive;
+                exisingCountry.UpdatedBy = updatedBy;
+                exisingCountry.UpdatedOn = updatedOn;
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                exisingCountry = null;
+                _log.LogError("Error while updating country", ex);
+            }
+            return exisingCountry;
         }
     }
 }

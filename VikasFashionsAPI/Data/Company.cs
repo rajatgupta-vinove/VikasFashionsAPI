@@ -18,7 +18,7 @@ namespace VikasFashionsAPI.Data
         [Column(TypeName = "varchar(255)")]
         [Required(ErrorMessage = "Company Name is required")]
         public string CompanyName { get; set; }
-        public string CompanyShortName { get; set; }
+        public string CompanyCode { get; set; }
 
         [MaxLength(1000)]
         [Column(TypeName = "varchar(1000)")]
