@@ -28,17 +28,35 @@ namespace VikasFashionsAPI.Controllers
         [HttpGet(Name = "GetMaterialType")]
         public async Task<ActionResult<List<MaterialType>>> Get()
         {
-            return Ok(await _materialTypeService.GetAllAsync());
+            var result = await _materialTypeService.GetAllAsync();
+            return Ok( new ResponseGlobal()
+                {
+                    ResponseCode = ((int)System.Net.HttpStatusCode.OK),
+                    Message = Common.CommonVars.MessageResults.SuccessGet.GetEnumDisplayName(),
+                    Data = result
+                });
         }
         [HttpGet("{id}", Name = "GetMaterialTypeById")]
         public async Task<ActionResult<MaterialType>> Get(int id)
         {
-            return Ok(await _materialTypeService.GetByIdAsync(id));
+            var result = await _materialTypeService.GetByIdAsync(id);
+            return Ok( new ResponseGlobal()
+                {
+                    ResponseCode = ((int)System.Net.HttpStatusCode.OK),
+                    Message = Common.CommonVars.MessageResults.SuccessGet.GetEnumDisplayName(),
+                    Data = result
+                });
         }
         [HttpDelete("{id}", Name = "DeleteMaterialTypeById")]
         public async Task<ActionResult<bool>> Delete(int id)
         {
-            return Ok(await _materialTypeService.DeleteMaterialTypeAsync(id));
+            var result = await _materialTypeService.DeleteMaterialTypeAsync(id);
+            return Ok( new ResponseGlobal()
+                {
+                    ResponseCode = ((int)System.Net.HttpStatusCode.OK),
+                    Message = Common.CommonVars.MessageResults.SuccessDelete.GetEnumDisplayName(),
+                    Data = result
+                });
         }
         [HttpPut("{id}", Name = "UpdateMaterialType")]
         public async Task<ActionResult<MaterialType>> Update(int id, MaterialType materialType)
@@ -49,7 +67,13 @@ namespace VikasFashionsAPI.Controllers
                 materialType.UpdatedBy = user.UserId;
                 materialType.UpdatedOn = CommonVars.CurrentDateTime;
             }
-            return Ok(await _materialTypeService.UpdateMaterialTypeAsync(materialType));
+            var result = await _materialTypeService.UpdateMaterialTypeAsync(materialType);
+            return Ok(new ResponseGlobal()
+                {
+                    ResponseCode = ((int)System.Net.HttpStatusCode.OK),
+                    Message = Common.CommonVars.MessageResults.SuccessUpdate.GetEnumDisplayName(),
+                    Data = result
+                } );
         }
         [HttpPost(Name = "CreateMaterialType")]
         public async Task<ActionResult<MaterialType>> Create(MaterialType materialType)
@@ -62,7 +86,13 @@ namespace VikasFashionsAPI.Controllers
                 materialType.UpdatedBy = user.UserId;
                 materialType.UpdatedOn = CommonVars.CurrentDateTime;
             }
-            return Ok(await _materialTypeService.AddMaterialTypeAsync(materialType));
+            var result = await _materialTypeService.AddMaterialTypeAsync(materialType);
+            return Ok( new ResponseGlobal()
+                {
+                    ResponseCode = ((int)System.Net.HttpStatusCode.OK),
+                    Message = Common.CommonVars.MessageResults.SuccessSave.GetEnumDisplayName(),
+                    Data = result
+                });
         }
         [HttpPut]
         [Route("ChangeStatus/{id}")]

@@ -33,7 +33,7 @@ namespace VikasFashionsAPI.APIServices.UserService
             return user;
         }
 
-        public async Task<bool> ChangeUserStatusAsync(int userId)
+        public async Task<bool> ChangeUserStatusAsync(int userId , int updatedBy , DateTime updatedOn)
         {
             bool isDeleted = false;
             try
@@ -44,6 +44,8 @@ namespace VikasFashionsAPI.APIServices.UserService
                 if (user == null)
                     return isDeleted;
                 user.IsActive = !user.IsActive;
+                user.UpdatedBy = updatedBy;
+                user.UpdatedOn = updatedOn;
                 await _context.SaveChangesAsync();
                 isDeleted = true;
             }
@@ -54,10 +56,17 @@ namespace VikasFashionsAPI.APIServices.UserService
             return isDeleted;
         }
 
-        public async Task<IEnumerable<User>> GetAllAsync()
+        public async Task<IEnumerable<User>> GetAllAsync(string? keyword)
         {
             _log.LogInformation("User GetAll Called!");
-            return await _context.Users.ToListAsync();
+            if (!string.IsNullOrEmpty(keyword))
+            {
+                return await _context.Users.Where(u => !string.IsNullOrEmpty(keyword) && (u.UserCode.ToLower().Contains(keyword) || u.Name.ToLower().Contains(keyword))).ToListAsync();
+            }
+            else
+            {
+                return await _context.Users.ToListAsync();
+            }
         }
 
         public async Task<User?> GetByIdAsync(int userId)
@@ -118,6 +127,8 @@ namespace VikasFashionsAPI.APIServices.UserService
                     return null;
                 exisingUser.UserId = user.UserId;
                 exisingUser.UserCode = user.UserCode;
+                exisingUser.UpdatedBy = user.UpdatedBy;
+                exisingUser.UpdatedOn = user.UpdatedOn;
                 await _context.SaveChangesAsync();
             }
             catch (Exception ex)
@@ -137,6 +148,23 @@ namespace VikasFashionsAPI.APIServices.UserService
                 user = _context.Users.FirstOrDefault(m => m.Email == email);
             }
             return user;
+        }
+
+        public async Task<bool> CheckUserStatusAsync(int userId, string userCode)
+        {
+            bool isExists = false;
+            try
+            {
+                if (string.IsNullOrEmpty(userCode))
+                    return isExists;
+                isExists = await _context.Users.AnyAsync(m => m.UserCode == userCode && m.UserId != userId);
+            }
+            catch (Exception ex)
+            {
+
+                _log.LogError("Error while getting user", ex);
+            }
+            return isExists;
         }
     }
 }

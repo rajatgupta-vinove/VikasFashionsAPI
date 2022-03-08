@@ -27,18 +27,39 @@ namespace VikasFashionsAPI.Controllers
         [HttpGet(Name = "GetHSN")]
         public async Task<ActionResult<List<HSN>>> Get()
         {
-            return Ok(await _HSNService.GetAllAsync());
+            var result = await _HSNService.GetAllAsync();
+            return Ok(
+                new ResponseGlobal()
+                {
+                    ResponseCode = ((int)System.Net.HttpStatusCode.OK),
+                    Message = Common.CommonVars.MessageResults.SuccessGet.GetEnumDisplayName(),
+                    Data = result
+                });
         }
         [HttpGet("{id}", Name = "GetHSNById")]
         public async Task<ActionResult<HSN>> Get(int id)
         {
-            return Ok(await _HSNService.GetByIdAsync(id));
+            var result = await _HSNService.GetByIdAsync(id);
+            return Ok(
+                new ResponseGlobal()
+                {
+                    ResponseCode = ((int)System.Net.HttpStatusCode.OK),
+                    Message = Common.CommonVars.MessageResults.SuccessGet.GetEnumDisplayName(),
+                    Data = result
+                });
         }
         [HttpDelete("{id}", Name = "DeleteHSNById")]
         public async Task<ActionResult<bool>> Delete(int id)
         {
             
-            return Ok(await _HSNService.DeleteHsnAsync(id));
+            var result = await _HSNService.DeleteHsnAsync(id);
+            return Ok(
+                new ResponseGlobal()
+                {
+                    ResponseCode = ((int)System.Net.HttpStatusCode.OK),
+                    Message = Common.CommonVars.MessageResults.SuccessDelete.GetEnumDisplayName(),
+                    Data = result
+                });
         }
         [HttpPut("{id}", Name = "UpdateHSN")]
         public async Task<ActionResult<HSN>> Update(int id, HSN hsn)
@@ -49,7 +70,14 @@ namespace VikasFashionsAPI.Controllers
                 hsn.UpdatedBy = user.UserId;
                 hsn.UpdatedOn = CommonVars.CurrentDateTime;
             }
-            return Ok(await _HSNService.UpdateHsnAsync(hsn));
+            var result = await _HSNService.UpdateHsnAsync(hsn);
+            return Ok(
+                new ResponseGlobal()
+                {
+                    ResponseCode = ((int)System.Net.HttpStatusCode.OK),
+                    Message = Common.CommonVars.MessageResults.SuccessUpdate.GetEnumDisplayName(),
+                    Data = result
+                });
         }
         [HttpPost(Name = "CreateHSN")]
         public async Task<ActionResult<HSN>> Create(HSN hsn)
@@ -62,7 +90,14 @@ namespace VikasFashionsAPI.Controllers
                 hsn.UpdatedBy = user.UserId;
                 hsn.UpdatedOn = CommonVars.CurrentDateTime;
             }
-            return Ok(await _HSNService.AddHsnAsync(hsn));
+            var result = await _HSNService.AddHsnAsync(hsn);
+            return Ok(
+                new ResponseGlobal()
+                {
+                    ResponseCode = ((int)System.Net.HttpStatusCode.OK),
+                    Message = Common.CommonVars.MessageResults.SuccessSave.GetEnumDisplayName(),
+                    Data = result
+                });
         }
 
         [HttpPut]

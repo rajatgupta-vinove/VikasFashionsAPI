@@ -26,17 +26,38 @@ namespace VikasFashionsAPI.Controllers
         [HttpGet(Name = "GetWarehouse")]
         public async Task<ActionResult<List<Warehouse>>> Get()
         {
-            return Ok(await _warehouseService.GetAllWarehouseAsync());
+            var result = await _warehouseService.GetAllWarehouseAsync();
+            return Ok(
+                new ResponseGlobal()
+                {
+                    ResponseCode = ((int)System.Net.HttpStatusCode.OK),
+                    Message = Common.CommonVars.MessageResults.SuccessGet.GetEnumDisplayName(),
+                    Data = result
+                });
         }
         [HttpGet("{id}", Name = "GetWarehouseById")]
         public async Task<ActionResult<Warehouse>> Get(int id)
         {
-            return Ok(await _warehouseService.GetByWarehouseIdAsync(id));
+            var result = await _warehouseService.GetByWarehouseIdAsync(id);
+            return Ok(
+                new ResponseGlobal()
+                {
+                    ResponseCode = ((int)System.Net.HttpStatusCode.OK),
+                    Message = Common.CommonVars.MessageResults.SuccessGet.GetEnumDisplayName(),
+                    Data = result
+                });
         }
         [HttpDelete("{id}", Name = "DeleteWarehouseById")]
         public async Task<ActionResult<bool>> Delete(int id)
         {
-            return Ok(await _warehouseService.DeleteWarehouseAsync(id));
+            var result = await _warehouseService.DeleteWarehouseAsync(id);
+            return Ok(
+                new ResponseGlobal()
+                {
+                    ResponseCode = ((int)System.Net.HttpStatusCode.OK),
+                    Message = Common.CommonVars.MessageResults.SuccessDelete.GetEnumDisplayName(),
+                    Data = result
+                });
         }
         [HttpPut("{id}", Name = "UpdateWarehouse")]
         public async Task<ActionResult<Warehouse>> Update(int id, Warehouse Warehouse)
@@ -47,8 +68,38 @@ namespace VikasFashionsAPI.Controllers
                 Warehouse.UpdatedBy = user.UserId;
                 Warehouse.UpdatedOn = CommonVars.CurrentDateTime;
             }
-            return Ok(await _warehouseService.UpdateWarehouseAsync(Warehouse));
+            var result = await _warehouseService.UpdateWarehouseAsync(Warehouse);
+            return Ok(
+                new ResponseGlobal()
+                {
+                    ResponseCode = ((int)System.Net.HttpStatusCode.OK),
+                    Message = Common.CommonVars.MessageResults.SuccessUpdate.GetEnumDisplayName(),
+                    Data = result
+                });
         }
+
+        [HttpPut]
+        [Route("ChangeStatus/{id}")]
+        public async Task<ActionResult<Warehouse>> ChangeStatus(int id)
+        {
+            var user = _userService.GetLoginUser();
+            var warehouse = await _warehouseService.GetByWarehouseIdAsync(id);
+            if (warehouse != null)
+            {
+                if (user != null)
+                {
+                    warehouse.UpdatedBy = user.UserId;
+                    warehouse.UpdatedOn = CommonVars.CurrentDateTime;
+                }
+            }
+            else
+            {
+                return BadRequest("No such warehouse found");
+            }
+            return Ok(await _warehouseService.ChangeWarehouseStatusAsync(id, warehouse.UpdatedBy, warehouse.UpdatedOn));
+        }
+
+
         [HttpPost(Name = "CreateWarehouse")]
         public async Task<ActionResult<Warehouse>> Create(Warehouse Warehouse)
         {
@@ -61,7 +112,14 @@ namespace VikasFashionsAPI.Controllers
                 Warehouse.UpdatedOn = CommonVars.CurrentDateTime;
             }
 
-            return Ok(await _warehouseService.AddWarehouseAsync(Warehouse));
+            var result = await _warehouseService.AddWarehouseAsync(Warehouse);
+            return Ok(
+                new ResponseGlobal()
+                {
+                    ResponseCode = ((int)System.Net.HttpStatusCode.OK),
+                    Message = Common.CommonVars.MessageResults.SuccessSave.GetEnumDisplayName(),
+                    Data = result
+                });
         }
     }
 }

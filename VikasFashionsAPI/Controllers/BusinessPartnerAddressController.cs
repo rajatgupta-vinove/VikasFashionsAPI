@@ -26,17 +26,38 @@ namespace VikasFashionsAPI.Controllers
         [HttpGet(Name = "GetBusinessPartnerAddress")]
         public async Task<ActionResult<List<BusinessPartnerAddress>>> Get()
         {
-            return Ok(await _BusinessPartnerAddressService.GetAllBusinessPartnerAddressAsync());
+            var result = await _BusinessPartnerAddressService.GetAllBusinessPartnerAddressAsync();
+            return Ok(
+                new ResponseGlobal()
+                {
+                    ResponseCode = ((int)System.Net.HttpStatusCode.OK),
+                    Message = Common.CommonVars.MessageResults.SuccessGet.GetEnumDisplayName(),
+                    Data = result
+                });
         }
         [HttpGet("{id}", Name = "GetBusinessPartnerAddressById")]
         public async Task<ActionResult<BusinessPartnerAddress>> Get(int id)
         {
-            return Ok(await _BusinessPartnerAddressService.GetByBusinessPartnerAddressIdAsync(id));
+            var result = await _BusinessPartnerAddressService.GetByBusinessPartnerAddressIdAsync(id);
+            return Ok(
+                new ResponseGlobal()
+                {
+                    ResponseCode = ((int)System.Net.HttpStatusCode.OK),
+                    Message = Common.CommonVars.MessageResults.SuccessGet.GetEnumDisplayName(),
+                    Data = result
+                });
         }
         [HttpDelete("{id}", Name = "DeleteBusinessPartnerAddressById")]
         public async Task<ActionResult<bool>> Delete(int id)
         {
-            return Ok(await _BusinessPartnerAddressService.DeleteBusinessPartnerAddressAsync(id));
+            var result = await _BusinessPartnerAddressService.DeleteBusinessPartnerAddressAsync(id);
+            return Ok(
+                new ResponseGlobal()
+                {
+                    ResponseCode = ((int)System.Net.HttpStatusCode.OK),
+                    Message = Common.CommonVars.MessageResults.SuccessDelete.GetEnumDisplayName(),
+                    Data = result
+                });
         }
 
         [HttpPut("{id}", Name = "UpdateBusinessPartnerAddress")]
@@ -48,7 +69,14 @@ namespace VikasFashionsAPI.Controllers
                 businessPartnerAddress.UpdatedBy = user.UserId;
                 businessPartnerAddress.UpdatedOn = CommonVars.CurrentDateTime;
             }
-            return Ok(await _BusinessPartnerAddressService.UpdateBusinessPartnerAddressAsync(businessPartnerAddress));
+            var result = await _BusinessPartnerAddressService.UpdateBusinessPartnerAddressAsync(businessPartnerAddress);
+            return Ok(
+                new ResponseGlobal()
+                {
+                    ResponseCode = ((int)System.Net.HttpStatusCode.OK),
+                    Message = Common.CommonVars.MessageResults.SuccessUpdate.GetEnumDisplayName(),
+                    Data = result
+                });
         }
 
         [HttpPost(Name = "CreateBusinessPartnerAddress")]
@@ -62,7 +90,14 @@ namespace VikasFashionsAPI.Controllers
                 businessPartnerAddress.UpdatedBy = user.UserId;
                 businessPartnerAddress.UpdatedOn = CommonVars.CurrentDateTime;
             }
-            return Ok(await _BusinessPartnerAddressService.AddBusinessPartnerAddressAsync(businessPartnerAddress));
+            var result = await _BusinessPartnerAddressService.AddBusinessPartnerAddressAsync(businessPartnerAddress);
+            return Ok(
+                new ResponseGlobal()
+                {
+                    ResponseCode = ((int)System.Net.HttpStatusCode.OK),
+                    Message = Common.CommonVars.MessageResults.SuccessSave.GetEnumDisplayName(),
+                    Data = result
+                });
         }
         [HttpPut]
         [Route("ChangeStatus/{id}")]

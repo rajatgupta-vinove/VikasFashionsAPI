@@ -17,7 +17,6 @@ namespace VikasFashionsAPI.Controllers
         private readonly IColorService _colorService;
         private readonly IUserService _userService;
 
-
         public ColorController(ILogger<ColorController> logger, IColorService colorService, IUserService userService)
         {
             _logger = logger;
@@ -29,18 +28,24 @@ namespace VikasFashionsAPI.Controllers
         [HttpGet(Name = "GetColor")]
         public async Task<ActionResult<List<Color>>> Get()
         {
-            return Ok(await _colorService.GetAllAsync());
+            var result = await _colorService.GetAllAsync();
+            return Ok(new ResponseGlobal() { ResponseCode = ((int)System.Net.HttpStatusCode.OK), Message = Common.CommonVars.MessageResults.SuccessGet.GetEnumDisplayName(), Data = result });
         }
+
         [HttpGet("{id}", Name = "GetColorById")]
         public async Task<ActionResult<Color>> Get(int id)
         {
-            return Ok(await _colorService.GetByIdAsync(id));
+            var result = await _colorService.GetByIdAsync(id);
+            return Ok(new ResponseGlobal() { ResponseCode = ((int)System.Net.HttpStatusCode.OK), Message = Common.CommonVars.MessageResults.SuccessGet.GetEnumDisplayName(), Data = result });
         }
+
         [HttpDelete("{id}", Name = "DeleteColorById")]
         public async Task<ActionResult<bool>> Delete(int id)
         {
-            return Ok(await _colorService.DeleteColorAsync(id));
+            var result = await _colorService.DeleteColorAsync(id);
+            return Ok(new ResponseGlobal() { ResponseCode = ((int)System.Net.HttpStatusCode.OK), Message = Common.CommonVars.MessageResults.SuccessDelete.GetEnumDisplayName(), Data = result });
         }
+
         [HttpPut("{id}", Name = "UpdateColor")]
         public async Task<ActionResult<Color>> Update(int id, Color color)
         {
@@ -50,7 +55,8 @@ namespace VikasFashionsAPI.Controllers
                 color.UpdatedBy = user.UserId;
                 color.UpdatedOn = CommonVars.CurrentDateTime;
             }
-            return Ok(await _colorService.UpdateColorAsync(color));
+             var result = await _colorService.UpdateColorAsync(color);
+             return Ok(new ResponseGlobal() { ResponseCode = ((int)System.Net.HttpStatusCode.OK), Message = Common.CommonVars.MessageResults.SuccessUpdate.GetEnumDisplayName(), Data = result });
         }
         [HttpPost(Name = "CreateColor")]
         public async Task<ActionResult<Color>> Create(Color color)
@@ -63,7 +69,8 @@ namespace VikasFashionsAPI.Controllers
                 color.UpdatedBy = user.UserId;
                 color.UpdatedOn = CommonVars.CurrentDateTime;
             }
-            return Ok(await _colorService.AddColorAsync(color));
+              var result = await _colorService.AddColorAsync(color);
+              return Ok(new ResponseGlobal() { ResponseCode = ((int)System.Net.HttpStatusCode.OK), Message = Common.CommonVars.MessageResults.SuccessSave.GetEnumDisplayName(), Data = result });
         }
         [HttpPut]
         [Route("ChangeStatus/{id}")]

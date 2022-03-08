@@ -24,23 +24,26 @@ namespace VikasFashionsAPI.Controllers
             _logger = logger;
             _chartService = chartService;
             _userService = userService;
-
         }
 
         [HttpGet(Name = "GetChart")]
         public async Task<ActionResult<List<Chart>>> Get()
         {
-            return Ok(await _chartService.GetAllAsync());
+            var result = await _chartService.GetAllAsync();
+            return Ok(new ResponseGlobal() { ResponseCode = ((int)System.Net.HttpStatusCode.OK), Message = Common.CommonVars.MessageResults.SuccessGet.GetEnumDisplayName(), Data = result });
         }
+    
         [HttpGet("{id}", Name = "GetChartById")]
         public async Task<ActionResult<Chart>> Get(int id)
         {
-            return Ok(await _chartService.GetByIdAsync(id));
+            var result = await _chartService.GetByIdAsync(id);
+            return Ok(new ResponseGlobal() { ResponseCode = ((int)System.Net.HttpStatusCode.OK), Message = Common.CommonVars.MessageResults.SuccessGet.GetEnumDisplayName(), Data = result });
         }
         [HttpDelete("{id}", Name = "DeleteChartById")]
         public async Task<ActionResult<bool>> Delete(int id)
         {
-            return Ok(await _chartService.DeleteChartAsync(id));
+            var result = await _chartService.DeleteChartAsync(id);
+            return Ok(new ResponseGlobal() { ResponseCode = ((int)System.Net.HttpStatusCode.OK), Message = Common.CommonVars.MessageResults.SuccessDelete.GetEnumDisplayName(), Data = result });
         }
         [HttpPut("{id}", Name = "UpdateChart")]
         public async Task<ActionResult<Chart>> Update(int id, Chart chart)
@@ -51,7 +54,8 @@ namespace VikasFashionsAPI.Controllers
                 chart.UpdatedBy = user.UserId;
                 chart.UpdatedOn = CommonVars.CurrentDateTime;
             }
-            return Ok(await _chartService.UpdateChartAsync(chart));
+            var result = await _chartService.UpdateChartAsync(chart);
+            return Ok(new ResponseGlobal() { ResponseCode = ((int)System.Net.HttpStatusCode.OK), Message = Common.CommonVars.MessageResults.SuccessUpdate.GetEnumDisplayName(), Data = result });
         }
         [HttpPost(Name = "CreateChart")]
         public async Task<ActionResult<Chart>> Create(Chart chart)
@@ -64,7 +68,8 @@ namespace VikasFashionsAPI.Controllers
                 chart.UpdatedBy = user.UserId;
                 chart.UpdatedOn = CommonVars.CurrentDateTime;
             }
-            return Ok(await _chartService.AddChartAsync(chart));
+            var result = await _chartService.AddChartAsync(chart);
+            return Ok(new ResponseGlobal() { ResponseCode = ((int)System.Net.HttpStatusCode.OK), Message = Common.CommonVars.MessageResults.SuccessSave.GetEnumDisplayName(), Data = result });
         }
 
         [HttpPut]

@@ -27,17 +27,35 @@ namespace VikasFashionsAPI.Controllers
         [HttpGet(Name = "GetPaymentTerm")]
         public async Task<ActionResult<List<PaymentTerm>>> Get()
         {
-            return Ok(await _paymentTermService.GetAllAsync());
+            var result = await _paymentTermService.GetAllAsync();
+            return Ok(new ResponseGlobal()
+                {
+                    ResponseCode = ((int)System.Net.HttpStatusCode.OK),
+                    Message = Common.CommonVars.MessageResults.SuccessGet.GetEnumDisplayName(),
+                    Data = result
+                } );
         }
         [HttpGet("{id}", Name = "GetPaymentTermById")]
         public async Task<ActionResult<PaymentTerm>> Get(int id)
         {
-            return Ok(await _paymentTermService.GetByIdAsync(id));
+            var result = await _paymentTermService.GetByIdAsync(id);
+            return Ok(new ResponseGlobal()
+                {
+                    ResponseCode = ((int)System.Net.HttpStatusCode.OK),
+                    Message = Common.CommonVars.MessageResults.SuccessGet.GetEnumDisplayName(),
+                    Data = result
+                });
         }
         [HttpDelete("{id}", Name = "DeletePaymentTermById")]
         public async Task<ActionResult<bool>> Delete(int id)
         {
-            return Ok(await _paymentTermService.DeletePaymentTermAsync(id));
+            var result = await _paymentTermService.DeletePaymentTermAsync(id);
+            return Ok( new ResponseGlobal()
+                {
+                    ResponseCode = ((int)System.Net.HttpStatusCode.OK),
+                    Message = Common.CommonVars.MessageResults.SuccessDelete.GetEnumDisplayName(),
+                    Data = result
+                });
         }
         [HttpPut("{id}", Name = "UpdatePaymentTerm")]
         public async Task<ActionResult<PaymentTerm>> Update(int id, PaymentTerm paymentTerm)
@@ -48,7 +66,13 @@ namespace VikasFashionsAPI.Controllers
                 paymentTerm.UpdatedBy = user.UserId;
                 paymentTerm.UpdatedOn = CommonVars.CurrentDateTime;
             }
-            return Ok(await _paymentTermService.UpdatePaymentTermAsync(paymentTerm));
+            var result = await _paymentTermService.UpdatePaymentTermAsync(paymentTerm);
+            return Ok( new ResponseGlobal()
+                {
+                    ResponseCode = ((int)System.Net.HttpStatusCode.OK),
+                    Message = Common.CommonVars.MessageResults.SuccessUpdate.GetEnumDisplayName(),
+                    Data = result
+                } );
         }
         [HttpPost(Name = "CreatePaymentTerm")]
         public async Task<ActionResult<PaymentTerm>> Create(PaymentTerm paymentTerm)
@@ -61,7 +85,13 @@ namespace VikasFashionsAPI.Controllers
                 paymentTerm.UpdatedBy = user.UserId;
                 paymentTerm.UpdatedOn = CommonVars.CurrentDateTime;
             }
-            return Ok(await _paymentTermService.AddPaymentTermAsync(paymentTerm));
+            var result = await _paymentTermService.AddPaymentTermAsync(paymentTerm);
+            return Ok( new ResponseGlobal()
+                {
+                    ResponseCode = ((int)System.Net.HttpStatusCode.OK),
+                    Message = Common.CommonVars.MessageResults.SuccessSave.GetEnumDisplayName(),
+                    Data = result
+                });
         }
 
         [HttpPut]

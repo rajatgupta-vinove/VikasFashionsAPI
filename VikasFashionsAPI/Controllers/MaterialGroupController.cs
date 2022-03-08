@@ -28,17 +28,35 @@ namespace VikasFashionsAPI.Controllers
         [HttpGet(Name = "GetMaterialGroup")]
         public async Task<ActionResult<List<MaterialGroup>>> Get()
         {
-            return Ok(await _materialGroupService.GetAllAsync());
+            var result = await _materialGroupService.GetAllAsync();
+            return Ok( new ResponseGlobal()
+                {
+                    ResponseCode = ((int)System.Net.HttpStatusCode.OK),
+                    Message = Common.CommonVars.MessageResults.SuccessGet.GetEnumDisplayName(),
+                    Data = result
+                });
         }
         [HttpGet("{id}", Name = "GetMaterialGroupById")]
         public async Task<ActionResult<MaterialGroup>> Get(int id)
         {
-            return Ok(await _materialGroupService.GetByIdAsync(id));
+            var result = await _materialGroupService.GetByIdAsync(id);
+            return Ok(new ResponseGlobal()
+                {
+                    ResponseCode = ((int)System.Net.HttpStatusCode.OK),
+                    Message = Common.CommonVars.MessageResults.SuccessGet.GetEnumDisplayName(),
+                    Data = result
+                });
         }
         [HttpDelete("{id}", Name = "DeleteMaterialGroupById")]
         public async Task<ActionResult<bool>> Delete(int id)
         {
-            return Ok(await _materialGroupService.DeleteMaterialGroupAsync(id));
+            var result = await _materialGroupService.DeleteMaterialGroupAsync(id);
+            return Ok( new ResponseGlobal()
+                {
+                    ResponseCode = ((int)System.Net.HttpStatusCode.OK),
+                    Message = Common.CommonVars.MessageResults.SuccessDelete.GetEnumDisplayName(),
+                    Data = result
+                });
         }
         [HttpPut("{id}", Name = "UpdateMaterialGroup")]
         public async Task<ActionResult<MaterialGroup>> Update(int id, MaterialGroup materialGroup)
@@ -49,7 +67,13 @@ namespace VikasFashionsAPI.Controllers
                 materialGroup.UpdatedBy = user.UserId;
                 materialGroup.UpdatedOn = CommonVars.CurrentDateTime;
             }
-            return Ok(await _materialGroupService.UpdateMaterialGroupAsync(materialGroup));
+            var result = await _materialGroupService.UpdateMaterialGroupAsync(materialGroup);
+            return Ok( new ResponseGlobal()
+                {
+                    ResponseCode = ((int)System.Net.HttpStatusCode.OK),
+                    Message = Common.CommonVars.MessageResults.SuccessUpdate.GetEnumDisplayName(),
+                    Data = result
+                });
         }
         [HttpPost(Name = "CreateMaterialGroup")]
         public async Task<ActionResult<MaterialGroup>> Create(MaterialGroup materialGroup)
@@ -62,8 +86,13 @@ namespace VikasFashionsAPI.Controllers
                 materialGroup.UpdatedBy = user.UserId;
                 materialGroup.UpdatedOn = CommonVars.CurrentDateTime;
             }
-
-            return Ok(await _materialGroupService.AddMaterialGroupAsync(materialGroup));
+              var result = await _materialGroupService.AddMaterialGroupAsync(materialGroup);
+            return Ok( new ResponseGlobal()
+                {
+                    ResponseCode = ((int)System.Net.HttpStatusCode.OK),
+                    Message = Common.CommonVars.MessageResults.SuccessSave.GetEnumDisplayName(),
+                    Data = result
+                });
         }
 
         [HttpPut]
