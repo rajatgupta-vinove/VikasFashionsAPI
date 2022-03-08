@@ -33,7 +33,7 @@ namespace VikasFashionsAPI.APIServices.UserService
             return user;
         }
 
-        public async Task<bool> ChangeUserStatusAsync(int userId)
+        public async Task<bool> ChangeUserStatusAsync(int userId , int updatedBy , DateTime updatedOn)
         {
             bool isDeleted = false;
             try
@@ -44,6 +44,8 @@ namespace VikasFashionsAPI.APIServices.UserService
                 if (user == null)
                     return isDeleted;
                 user.IsActive = !user.IsActive;
+                user.UpdatedBy = updatedBy;
+                user.UpdatedOn = updatedOn;
                 await _context.SaveChangesAsync();
                 isDeleted = true;
             }
@@ -125,6 +127,8 @@ namespace VikasFashionsAPI.APIServices.UserService
                     return null;
                 exisingUser.UserId = user.UserId;
                 exisingUser.UserCode = user.UserCode;
+                exisingUser.UpdatedBy = user.UpdatedBy;
+                exisingUser.UpdatedOn = user.UpdatedOn;
                 await _context.SaveChangesAsync();
             }
             catch (Exception ex)

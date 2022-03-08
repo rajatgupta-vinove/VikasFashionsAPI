@@ -7,5 +7,8 @@
         Task<PlantBranch> AddPlantBranchAsync(PlantBranch plantBranch);
         Task<PlantBranch?> UpdatePlantBranchAsync(PlantBranch plantBranch);
         Task<bool> DeletePlantBranchAsync(int plantId);
+        Task<PlantBranch?> ChangePlantBranchStatusAsync(int plantId, int updatedBy, DateTime updatedOn);
+
+
     }
 }
