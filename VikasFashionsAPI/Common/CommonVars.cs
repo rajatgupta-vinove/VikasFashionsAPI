@@ -43,9 +43,12 @@ namespace VikasFashionsAPI.Common
             [Display(Name = "Invalid login details!")]
             [Description("Invalid login details!")]
             InvalidLogin,
-            [Display(Name = "No such country found!")]
-            [Description("No such country found!")]
-            CountryNotFound
+            [Display(Name = "No such user found!")]
+            [Description("No such user found!")]
+            UserNotFound,
+            [Display(Name = "No such Record found!")]
+            [Description("No such Record found!")]
+            RecordNotFound,
         }
 
     }

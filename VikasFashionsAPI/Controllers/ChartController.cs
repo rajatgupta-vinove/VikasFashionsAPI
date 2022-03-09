@@ -89,9 +89,11 @@ namespace VikasFashionsAPI.Controllers
             }
             else
             {
-                return BadRequest("No such chart found");
+                return BadRequest(new ResponseGlobal() { ResponseCode = ((int)System.Net.HttpStatusCode.BadRequest), Message = Common.CommonVars.MessageResults.RecordNotFound.GetEnumDisplayName() });
             }
-            return Ok(await _chartService.ChangeChartStatusAsync(id, chart.UpdatedBy, chart.UpdatedOn));
+            var result = await _chartService.ChangeChartStatusAsync(id, chart.UpdatedBy, chart.UpdatedOn);
+            return Ok(new ResponseGlobal() { ResponseCode = ((int)System.Net.HttpStatusCode.OK), Message = Common.CommonVars.MessageResults.SuccessUpdate.GetEnumDisplayName(), Data = result });
+
         }
     }
 }

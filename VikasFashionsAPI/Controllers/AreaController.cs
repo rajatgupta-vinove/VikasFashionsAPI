@@ -120,9 +120,10 @@ namespace VikasFashionsAPI.Controllers
             }
             else
             {
-                return BadRequest("No such area found");
+                return BadRequest(new ResponseGlobal() { ResponseCode = ((int)System.Net.HttpStatusCode.BadRequest), Message = Common.CommonVars.MessageResults.RecordNotFound.GetEnumDisplayName() });
             }
-            return Ok(await _areaService.ChangeAreaStatusAsync(areaId,area.UpdatedBy,area.UpdatedOn));
+            var result = await _areaService.ChangeAreaStatusAsync(areaId, area.UpdatedBy, area.UpdatedOn);
+            return Ok(new ResponseGlobal() { ResponseCode = ((int)System.Net.HttpStatusCode.OK), Message = Common.CommonVars.MessageResults.SuccessUpdate.GetEnumDisplayName(), Data = result });
         }
     }
 }
