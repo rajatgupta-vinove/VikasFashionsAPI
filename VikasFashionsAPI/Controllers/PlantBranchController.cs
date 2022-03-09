@@ -103,7 +103,7 @@ namespace VikasFashionsAPI.Controllers
             }
             else
             {
-                return BadRequest(new ResponseGlobal() { ResponseCode = ((int)System.Net.HttpStatusCode.BadRequest), Message = Common.CommonVars.MessageResults.PlantBranchNotFound.GetEnumDisplayName() });
+                return BadRequest(new ResponseGlobal() { ResponseCode = ((int)System.Net.HttpStatusCode.BadRequest), Message = Common.CommonVars.MessageResults.RecordNotFound.GetEnumDisplayName() });
             }
             var result = await _plantBranchService.ChangePlantBranchStatusAsync(id, plantBranch.UpdatedBy, plantBranch.UpdatedOn);
             return Ok(new ResponseGlobal() { ResponseCode = ((int)System.Net.HttpStatusCode.OK), Message = Common.CommonVars.MessageResults.SuccessUpdate.GetEnumDisplayName(), Data = result });

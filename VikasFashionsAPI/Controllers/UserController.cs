@@ -217,7 +217,7 @@ namespace VikasFashionsAPI.Controllers
             }
             else
             {
-                return BadRequest(new ResponseGlobal() { ResponseCode = ((int)System.Net.HttpStatusCode.BadRequest), Message = Common.CommonVars.MessageResults.UserNotFound.GetEnumDisplayName() });
+                return BadRequest(new ResponseGlobal() { ResponseCode = ((int)System.Net.HttpStatusCode.BadRequest), Message = Common.CommonVars.MessageResults.RecordNotFound.GetEnumDisplayName() });
             }
             var result = await _userService.ChangeUserStatusAsync(id, userObj.UpdatedBy, userObj.UpdatedOn);
             return Ok(new ResponseGlobal() { ResponseCode = ((int)System.Net.HttpStatusCode.OK), Message = Common.CommonVars.MessageResults.SuccessUpdate.GetEnumDisplayName(), Data = result });

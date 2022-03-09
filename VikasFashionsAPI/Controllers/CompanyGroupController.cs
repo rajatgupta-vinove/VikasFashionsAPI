@@ -90,7 +90,7 @@ namespace VikasFashionsAPI.Controllers
             }
             else
             {
-                return BadRequest(new ResponseGlobal() { ResponseCode = ((int)System.Net.HttpStatusCode.BadRequest), Message = Common.CommonVars.MessageResults.CompanyGroupNotFound.GetEnumDisplayName() });
+                return BadRequest(new ResponseGlobal() { ResponseCode = ((int)System.Net.HttpStatusCode.BadRequest), Message = Common.CommonVars.MessageResults.RecordNotFound.GetEnumDisplayName() });
             }
             var result = await _companyGroupService.ChangeCompanyGroupStatusAsync(id, companyGroup.UpdatedBy, companyGroup.UpdatedOn);
             return Ok(new ResponseGlobal() { ResponseCode = ((int)System.Net.HttpStatusCode.OK), Message = Common.CommonVars.MessageResults.SuccessUpdate.GetEnumDisplayName(), Data = result });
