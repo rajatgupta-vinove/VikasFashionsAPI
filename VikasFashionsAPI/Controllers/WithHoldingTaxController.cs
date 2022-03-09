@@ -116,9 +116,11 @@ namespace VikasFashionsAPI.Controllers
             }
             else
             {
-                return BadRequest("No such WithHoldingTax found");
+                return BadRequest(new ResponseGlobal() { ResponseCode = ((int)System.Net.HttpStatusCode.BadRequest), Message = Common.CommonVars.MessageResults.WithHoldingTaxNotFound.GetEnumDisplayName() });
             }
-            return Ok(await _WithHoldingTaxService.ChangeWithHoldingTaxStatusAsync(id, WithHoldingTax.UpdatedBy, WithHoldingTax.UpdatedOn));
+            var result  = await _WithHoldingTaxService.ChangeWithHoldingTaxStatusAsync(id, WithHoldingTax.UpdatedBy, WithHoldingTax.UpdatedOn);
+            return Ok(new ResponseGlobal() { ResponseCode = ((int)System.Net.HttpStatusCode.OK), Message = Common.CommonVars.MessageResults.SuccessUpdate.GetEnumDisplayName(), Data = result });
+
         }
 
     }

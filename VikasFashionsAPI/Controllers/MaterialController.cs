@@ -110,9 +110,11 @@ namespace VikasFashionsAPI.Controllers
             }
             else
             {
-                return BadRequest("No such material found");
+                return BadRequest(new ResponseGlobal() { ResponseCode = ((int)System.Net.HttpStatusCode.BadRequest), Message = Common.CommonVars.MessageResults.MaterialNotFound.GetEnumDisplayName() });
             }
-            return Ok(await _materialService.ChangeMaterialStatusAsync(id, material.UpdatedBy, material.UpdatedOn));
+            var result = await _materialService.ChangeMaterialStatusAsync(id, material.UpdatedBy, material.UpdatedOn);
+            return Ok(new ResponseGlobal() { ResponseCode = ((int)System.Net.HttpStatusCode.OK), Message = Common.CommonVars.MessageResults.SuccessUpdate.GetEnumDisplayName(), Data = result });
+
         }
     }
 }

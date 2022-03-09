@@ -117,9 +117,11 @@ namespace VikasFashionsAPI.Controllers
             }
             else
             {
-                return BadRequest("No such Bin Location found");
+                return BadRequest(new ResponseGlobal() { ResponseCode = ((int)System.Net.HttpStatusCode.BadRequest), Message = Common.CommonVars.MessageResults.BinLocationNotFound.GetEnumDisplayName() });
             }
-            return Ok(await _binLocationService.ChangeBinlocationStatusAsync(binLocId, binLocation.UpdatedBy, binLocation.UpdatedOn));
+            var result = await _binLocationService.ChangeBinlocationStatusAsync(binLocId, binLocation.UpdatedBy, binLocation.UpdatedOn);
+            return Ok(new ResponseGlobal() { ResponseCode = ((int)System.Net.HttpStatusCode.OK), Message = Common.CommonVars.MessageResults.SuccessUpdate.GetEnumDisplayName(), Data = result });
+
         }
 
     }

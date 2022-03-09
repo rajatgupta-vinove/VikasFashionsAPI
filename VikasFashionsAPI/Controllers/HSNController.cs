@@ -117,9 +117,11 @@ namespace VikasFashionsAPI.Controllers
             }
             else
             {
-                return BadRequest("No such HSN found");
+                return BadRequest(new ResponseGlobal() { ResponseCode = ((int)System.Net.HttpStatusCode.BadRequest), Message = Common.CommonVars.MessageResults.HSNNotFound.GetEnumDisplayName() });
             }
-            return Ok(await _HSNService.ChangeHSNStatusAsync(id, hsn.UpdatedBy, hsn.UpdatedOn));
+            var result = await _HSNService.ChangeHSNStatusAsync(id, hsn.UpdatedBy, hsn.UpdatedOn);
+            return Ok(new ResponseGlobal() { ResponseCode = ((int)System.Net.HttpStatusCode.OK), Message = Common.CommonVars.MessageResults.SuccessUpdate.GetEnumDisplayName(), Data = result });
+
         }
     }
 }

@@ -135,9 +135,11 @@ namespace VikasFashionsAPI.Controllers
             }
             else
             {
-                return BadRequest("No such state found");
+                return BadRequest(new ResponseGlobal() { ResponseCode = ((int)System.Net.HttpStatusCode.BadRequest), Message = Common.CommonVars.MessageResults.StateNotFound.GetEnumDisplayName() });
             }
-            return Ok(await _stateService.ChangeStateStatusAsync(id, state.UpdatedBy, state.UpdatedOn));
+            var result = await _stateService.ChangeStateStatusAsync(id, state.UpdatedBy, state.UpdatedOn);
+            return Ok(new ResponseGlobal() { ResponseCode = ((int)System.Net.HttpStatusCode.OK), Message = Common.CommonVars.MessageResults.SuccessUpdate.GetEnumDisplayName(), Data = result });
+
         }
 
     }

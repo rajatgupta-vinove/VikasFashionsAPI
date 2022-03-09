@@ -119,9 +119,11 @@ namespace VikasFashionsAPI.Controllers
             }
             else
             {
-                return BadRequest("No such Business Partner found");
+                return BadRequest(new ResponseGlobal() { ResponseCode = ((int)System.Net.HttpStatusCode.BadRequest), Message = Common.CommonVars.MessageResults.BusinessPartnerNotFound.GetEnumDisplayName() });
             }
-            return Ok(await _businessPartnerService.ChangeBusinessPartnerStatusAsync(businessPartnerId, businessPartner.UpdatedBy, businessPartner.UpdatedOn));
+            var result = await _businessPartnerService.ChangeBusinessPartnerStatusAsync(businessPartnerId, businessPartner.UpdatedBy, businessPartner.UpdatedOn);
+            return Ok(new ResponseGlobal() { ResponseCode = ((int)System.Net.HttpStatusCode.OK), Message = Common.CommonVars.MessageResults.SuccessUpdate.GetEnumDisplayName(), Data = result });
+
         }
     }
 }
