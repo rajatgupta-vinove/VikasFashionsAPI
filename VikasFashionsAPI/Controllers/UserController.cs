@@ -159,6 +159,42 @@ namespace VikasFashionsAPI.Controllers
                 });
         }
 
+        [AllowAnonymous]
+        [HttpPost]
+        [Route("ResetPassword")]
+        public async Task<ActionResult<string>> ResetPassword(UserResetPassword userResetPassword)
+        {
+            if (userResetPassword == null)
+                return BadRequest(
+                    new ResponseGlobal()
+                    {
+                        ResponseCode = ((int)System.Net.HttpStatusCode.BadRequest),
+                        Message = Common.CommonVars.MessageResults.ErrorGet.GetEnumDisplayName()
+                    });
+            var user = await _userService.GetByIdAsync(userResetPassword.UserId);
+            if (user == null)
+                return BadRequest(
+                    new ResponseGlobal()
+                    {
+                        ResponseCode = ((int)System.Net.HttpStatusCode.BadRequest),
+                        Message = Common.CommonVars.MessageResults.ErrorGet.GetEnumDisplayName()
+                    });
+            CreatePasswordHash(userResetPassword.NewPassword, out byte[] passwordHash, out byte[] passwordSalt);
+            user.Password = userResetPassword.NewPassword;
+            user.PasswordSalt = passwordHash;
+            user.PasswordHash = passwordHash;
+            user.UpdatedBy = userResetPassword.UserId;
+            user.UpdatedOn = CommonVars.CurrentDateTime;
+            var result = await _userService.ChangeUserPassAsync(user);
+            return Ok(
+                new ResponseGlobal()
+                {
+                    ResponseCode = ((int)System.Net.HttpStatusCode.OK),
+                    Message = Common.CommonVars.MessageResults.SuccessUpdate.GetEnumDisplayName(),
+                    Data = result
+                });
+        }
+
 
         private void CreatePasswordHash(string password, out byte[] passwordHash, out byte[] passwordSalt)
         {

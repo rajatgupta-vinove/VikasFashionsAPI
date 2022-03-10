@@ -7,7 +7,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace VikasFashionsAPI.Data
+namespace VikasFashionsAPI.ViewModel
 {
     public partial class UserRegister
     {
