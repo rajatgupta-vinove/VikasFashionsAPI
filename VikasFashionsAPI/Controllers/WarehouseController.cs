@@ -110,9 +110,11 @@ namespace VikasFashionsAPI.Controllers
             }
             else
             {
-                return BadRequest("No such warehouse found");
+                return BadRequest(new ResponseGlobal() { ResponseCode = ((int)System.Net.HttpStatusCode.BadRequest), Message = Common.CommonVars.MessageResults.RecordNotFound.GetEnumDisplayName() });
             }
-            return Ok(await _warehouseService.ChangeWarehouseStatusAsync(id, warehouse.UpdatedBy, warehouse.UpdatedOn));
+            var result = await _warehouseService.ChangeWarehouseStatusAsync(id, warehouse.UpdatedBy, warehouse.UpdatedOn);
+            return Ok(new ResponseGlobal() { ResponseCode = ((int)System.Net.HttpStatusCode.OK), Message = Common.CommonVars.MessageResults.SuccessUpdate.GetEnumDisplayName(), Data = result });
+
         }
 
 

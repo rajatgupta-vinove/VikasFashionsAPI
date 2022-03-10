@@ -89,9 +89,10 @@ namespace VikasFashionsAPI.Controllers
             }
             else
             {
-                return BadRequest("No such catalog found");
+                return BadRequest(new ResponseGlobal() { ResponseCode = ((int)System.Net.HttpStatusCode.BadRequest), Message = Common.CommonVars.MessageResults.RecordNotFound.GetEnumDisplayName() });
             }
-            return Ok(await _catalogService.ChangeCatalogStatusAsync(id, catalog.UpdatedBy, catalog.UpdatedOn));
+            var result = await _catalogService.ChangeCatalogStatusAsync(id, catalog.UpdatedBy, catalog.UpdatedOn);
+            return Ok(new ResponseGlobal() { ResponseCode = ((int)System.Net.HttpStatusCode.OK), Message = Common.CommonVars.MessageResults.SuccessUpdate.GetEnumDisplayName(), Data = result });
         }
 
     }
