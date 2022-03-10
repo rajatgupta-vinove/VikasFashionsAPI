@@ -51,7 +51,7 @@ namespace VikasFashionsAPI.Controllers
             CreatePasswordHash(loginUser.Password, out byte[] passwordHash, out byte[] passwordSalt);
             User user = new User
             {
-                UserName = loginUser.Name,
+                UserName = loginUser.UserName,
                 Email = loginUser.Email,
                 Phone = loginUser.Phone,
                 UserCode = loginUser.UserCode,

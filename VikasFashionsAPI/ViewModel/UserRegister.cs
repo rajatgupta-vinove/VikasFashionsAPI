@@ -12,7 +12,7 @@ namespace VikasFashionsAPI.ViewModel
     public partial class UserRegister
     {
         [Required(ErrorMessage = "Name is required")]
-        public string Name { get; set; }
+        public string UserName { get; set; }
 
         [Required(ErrorMessage = "User Code is required")]
         public string UserCode { get; set; }
