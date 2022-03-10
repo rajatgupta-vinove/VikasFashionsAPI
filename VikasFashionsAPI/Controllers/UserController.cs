@@ -51,7 +51,7 @@ namespace VikasFashionsAPI.Controllers
             CreatePasswordHash(loginUser.Password, out byte[] passwordHash, out byte[] passwordSalt);
             User user = new User
             {
-                Name = loginUser.Name,
+                UserName = loginUser.UserName,
                 Email = loginUser.Email,
                 Phone = loginUser.Phone,
                 UserCode = loginUser.UserCode,
@@ -59,9 +59,9 @@ namespace VikasFashionsAPI.Controllers
                 RoleId = loginUser.RoleId,
                 IsActive = loginUser.IsActive,
                 Remark = loginUser.Remark,
-                CompanyId = loginUser.CompanyId,
-                CompanyUserType = loginUser.CompanyUserType,
-                BannerImage = loginUser.BannerImage,
+                //CompanyId = loginUser.CompanyId,
+                //CompanyUserType = loginUser.CompanyUserType,
+                //BannerImage = loginUser.BannerImage,
                 ProfileImage = loginUser.ProfileImage,
                 PasswordHash = passwordHash,
                 PasswordSalt = passwordSalt,
@@ -221,8 +221,8 @@ namespace VikasFashionsAPI.Controllers
             {
                 new Claim(ClaimTypes.NameIdentifier, user.UserCode),
                 new Claim(ClaimTypes.Email, user.Email),
-                new Claim(ClaimTypes.Name, user.Name),
-                new Claim(ClaimTypes.GivenName, user.Name),
+                new Claim(ClaimTypes.Name, user.UserName),
+                new Claim(ClaimTypes.GivenName, user.UserName),
                 new Claim(ClaimTypes.Role, "Admin"),
             };
             var key = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(_counfiguration.GetSection("AppSettings:JWT:Key").Value));
