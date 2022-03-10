@@ -13,7 +13,7 @@ namespace VikasFashionsAPI.Data
     {
         [Key]
         public int UserId { get; set; }
-        public string Name { get; set; }
+        public string UserName { get; set; }
         public string UserCode { get; set; }
         public string Email { get; set; }
         public string Phone { get; set; }
@@ -21,9 +21,9 @@ namespace VikasFashionsAPI.Data
         public int RoleId { get; set; }
         public bool IsActive { get; set; }
         public string Remark { get; set; }
-        public int CompanyId { get; set; }
-        public string CompanyUserType { get; set; }
-        public string BannerImage { get; set; }
+        //public int CompanyId { get; set; }
+       // public string CompanyUserType { get; set; }
+       // public string BannerImage { get; set; }
         public string ProfileImage { get; set; }
         public int CreatedBy { get; set; }
         public System.DateTime CreatedOn { get; set; }

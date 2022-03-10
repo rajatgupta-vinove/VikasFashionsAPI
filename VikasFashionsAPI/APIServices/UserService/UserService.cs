@@ -61,7 +61,7 @@ namespace VikasFashionsAPI.APIServices.UserService
             _log.LogInformation("User GetAll Called!");
             if (!string.IsNullOrEmpty(keyword))
             {
-                return await _context.Users.Where(u => !string.IsNullOrEmpty(keyword) && (u.UserCode.ToLower().Contains(keyword) || u.Name.ToLower().Contains(keyword))).ToListAsync();
+                return await _context.Users.Where(u => !string.IsNullOrEmpty(keyword) && (u.UserCode.ToLower().Contains(keyword) || u.UserName.ToLower().Contains(keyword))).ToListAsync();
             }
             else
             {

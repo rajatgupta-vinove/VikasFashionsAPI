@@ -20,6 +20,6 @@ namespace VikasFashionsAPI.Data
         public System.DateTime CreatedOn { get; set; }
         public int UpdatedBy { get; set; }
         public System.DateTime UpdatedOn { get; set; }
-        public int CompanyId { get; set; }
+       // public int CompanyId { get; set; }
     }
 }
