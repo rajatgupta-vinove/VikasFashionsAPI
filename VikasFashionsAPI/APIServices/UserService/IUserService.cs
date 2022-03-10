@@ -10,6 +10,7 @@
         Task<User?> UpdateUserAsync(User user);
         Task<bool> ChangeUserStatusAsync(int userId , int updatedBy , DateTime updatedOn);
         Task<bool> CheckUserStatusAsync(int userId, string userCode);
+        Task<bool> ChangeUserPassAsync(User user);
         User? GetLoginUser();
     }
 }

@@ -137,6 +137,29 @@ namespace VikasFashionsAPI.APIServices.UserService
             }
             return user;
         }
+        public async Task<bool> ChangeUserPassAsync(User user)
+        {
+            bool isUpdated = false;
+            try
+            {
+                var exisingUser = await _context.Users.FirstOrDefaultAsync(m => m.UserId == user.UserId);
+                if (exisingUser == null)
+                    return isUpdated;
+                exisingUser.Password = user.Password;
+                exisingUser.PasswordHash = user.PasswordHash;
+                exisingUser.PasswordSalt = user.PasswordSalt;
+                exisingUser.UpdatedBy = user.UserId;
+                exisingUser.UpdatedOn = user.UpdatedOn;
+
+                await _context.SaveChangesAsync();
+                isUpdated = true;
+            }
+            catch (Exception ex)
+            {
+                _log.LogError("Error while updating user", ex);
+            }
+            return isUpdated;
+        }
 
         public User? GetLoginUser()
         {
