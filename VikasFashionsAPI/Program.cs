@@ -93,6 +93,8 @@ builder.Services.AddScoped<VikasFashionsAPI.APIServices.UserService.IUserService
 builder.Services.AddScoped<VikasFashionsAPI.APIServices.BusinessPartnerService.IBusinessPartnerService, VikasFashionsAPI.APIServices.BusinessPartnerService.BusinessPartnerService>();
 builder.Services.AddScoped<VikasFashionsAPI.APIServices.BusinessPartnerTypeService.IBusinessPartnerTypeService, VikasFashionsAPI.APIServices.BusinessPartnerTypeService.BusinessPartnerTypeService>();
 
+builder.Services.AddScoped<VikasFashionsAPI.APIServices.CompanyFiscalYearService.ICompanyFiscalYearService, VikasFashionsAPI.APIServices.CompanyFiscalYearService.CompanyFiscalYearService>();
+
 
 var app = builder.Build();
 

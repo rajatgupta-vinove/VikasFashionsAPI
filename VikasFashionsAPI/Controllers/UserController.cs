@@ -1,13 +1,10 @@
-﻿using VikasFashionsAPI.Common;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Security.Cryptography;
 using VikasFashionsAPI.APIServices.UserService;
-using VikasFashionsAPI.Data;
-using Microsoft.AspNetCore.Authorization;
 using VikasFashionsAPI.Common;
 
 namespace VikasFashionsAPI.Controllers
