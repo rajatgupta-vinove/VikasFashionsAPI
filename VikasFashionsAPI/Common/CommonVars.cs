@@ -49,6 +49,9 @@ namespace VikasFashionsAPI.Common
             [Display(Name = "No such Record found!")]
             [Description("No such Record found!")]
             RecordNotFound,
+            [Display(Name = "Authentication failed!")]
+            [Description("Authentication failed!")]
+            AuthenticationFailed,
         }
 
     }
