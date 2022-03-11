@@ -49,5 +49,6 @@
         public DbSet<CompanyGroup> CompanyGroups { get; set; }
         public DbSet<PaymentTerm> PaymentTerms { get; set; }
         public DbSet<WithHoldingTax> WithHoldingTaxes { get; set; }
+        public DbSet<CompanyControl> CompanyControls { get; set; }
     }
 }
