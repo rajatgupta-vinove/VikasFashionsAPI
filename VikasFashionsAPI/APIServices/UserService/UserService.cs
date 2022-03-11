@@ -189,5 +189,7 @@ namespace VikasFashionsAPI.APIServices.UserService
             }
             return isExists;
         }
+
+        
     }
 }

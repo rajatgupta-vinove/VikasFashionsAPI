@@ -161,6 +161,56 @@ namespace VikasFashionsAPI.Controllers
 
         [AllowAnonymous]
         [HttpPost]
+        [Route("ResetPasswordWithValidation")]
+        public async Task<ActionResult<string>> ResetPasswordWithValidation(ResetDetails resetDetails)
+        {
+            if (resetDetails == null)
+                return BadRequest(
+                    new ResponseGlobal()
+                    {
+                        ResponseCode = ((int)System.Net.HttpStatusCode.BadRequest),
+                        Message = Common.CommonVars.MessageResults.ErrorGet.GetEnumDisplayName()
+                    });
+            var user = await _userService.GetByUserNameAsync(resetDetails.UserCode);
+            if (user == null)
+                return BadRequest(
+                    new ResponseGlobal()
+                    {
+                        ResponseCode = ((int)System.Net.HttpStatusCode.BadRequest),
+                        Message = Common.CommonVars.MessageResults.ErrorGet.GetEnumDisplayName()
+                    });
+            if (VerifyPasswordHash(resetDetails.OldPassword, user.PasswordSalt, user.PasswordHash))
+            {
+
+                CreatePasswordHash(resetDetails.NewPassword, out byte[] passwordHash, out byte[] passwordSalt);
+                user.Password = resetDetails.NewPassword;
+                user.PasswordSalt = passwordSalt;
+                user.PasswordHash = passwordHash;
+                user.UpdatedBy = user.UserId;
+                user.UpdatedOn = CommonVars.CurrentDateTime;
+                var result = await _userService.ChangeUserPassAsync(user);
+
+                return Ok(
+                new ResponseGlobal()
+                {
+                    ResponseCode = ((int)System.Net.HttpStatusCode.OK),
+                    Message = Common.CommonVars.MessageResults.SuccessUpdate.GetEnumDisplayName(),
+                    Data = result
+                });
+            }
+            else
+            {
+                return BadRequest(
+                   new ResponseGlobal()
+                   {
+                       ResponseCode = ((int)System.Net.HttpStatusCode.BadRequest),
+                       Message = Common.CommonVars.MessageResults.ErrorGet.GetEnumDisplayName()
+                   });
+            }
+        }
+
+        [AllowAnonymous]
+        [HttpPost]
         [Route("ResetPassword")]
         public async Task<ActionResult<string>> ResetPassword(UserResetPassword userResetPassword)
         {
