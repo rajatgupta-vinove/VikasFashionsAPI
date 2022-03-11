@@ -22,21 +22,31 @@ namespace VikasFashionsAPI.Controllers
             _companyFiscalYearService = CompanyFiscalYearService;
             _userService = userService;
         }
- 
-        [HttpGet("{userId}", Name = "GetCompanyFiscalYearByUserId")]
-        public async Task<ActionResult<List<CompanyFiscalYear>>> GetCompanyFiscalYearByUserId(int userId)
+
+        [HttpGet(Name = "GetCompanyFiscalYearByUserId")]
+        public async Task<ActionResult<List<CompanyFiscalYear>>> GetCompanyFiscalYearByUserId()
         {
+            var user = _userService.GetLoginUser();
+            if (user == null)
+            {
+                return BadRequest(
+                    new ResponseGlobal()
+                    {
+                        ResponseCode = ((int)System.Net.HttpStatusCode.BadRequest),
+                        Message = Common.CommonVars.MessageResults.AuthenticationFailed.GetEnumDisplayName()
+                    });
+            }
             List<CompanyFiscalYear> companyFiscalYears = new List<CompanyFiscalYear>();
 
-            companyFiscalYears = await _companyFiscalYearService.GetCompanyFiscalYearByUserIdAsync(userId);
+            companyFiscalYears = await _companyFiscalYearService.GetCompanyFiscalYearByUserIdAsync(user.UserId);
             return Ok(
                 new ResponseGlobal()
                 {
                     ResponseCode = ((int)System.Net.HttpStatusCode.OK),
                     Message = Common.CommonVars.MessageResults.SuccessGet.GetEnumDisplayName(),
-                    Data = companyFiscalYears.ToList()                   
+                    Data = companyFiscalYears.ToList()
                 });
-           
+
         }
 
 
