@@ -20,28 +20,6 @@
         }
 
         /// <summary>
-        /// Get CompanyControl details based on userId Id.
-        /// </summary>
-        /// <param name="userId"></param>
-        /// <returns>CompanyControl</returns>
-        public async Task<CompanyControl?> GetCompanyControlByUserIdAsync(int userId)
-        {
-            CompanyControl? companyControl = null;
-            try
-            {
-                if (userId == 0)
-                    return companyControl;
-                companyControl = await _context.CompanyControls.FirstOrDefaultAsync(m => m.UserId == userId);
-            }
-            catch (Exception ex)
-            {
-
-                _log.LogError("Error while getting company control", ex);
-            }
-            return companyControl;
-        }
-
-        /// <summary>
         /// Get CompanyFiscalYear details based on userId Id.
         /// </summary>
         /// <param name="userId"></param>

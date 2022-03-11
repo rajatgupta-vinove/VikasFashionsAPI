@@ -23,13 +23,6 @@ namespace VikasFashionsAPI.Controllers
             _userService = userService;
         }
  
-       // [HttpGet("{userId}", Name = "GetCompanyControlByUserId")]
-        //public async Task<ActionResult<CompanyControl>> GetCompanyControlByUserId(int userId)
-        //{
-        //    var result = await _companyFiscalYearService.GetCompanyControlByUserIdAsync(userId);
-        //    return Ok(new ResponseGlobal() { ResponseCode = ((int)System.Net.HttpStatusCode.OK), Message = Common.CommonVars.MessageResults.SuccessGet.GetEnumDisplayName(), Data = result });
-        //}
-
         [HttpGet("{userId}", Name = "GetCompanyFiscalYearByUserId")]
         public async Task<ActionResult<List<CompanyFiscalYear>>> GetCompanyFiscalYearByUserId(int userId)
         {
