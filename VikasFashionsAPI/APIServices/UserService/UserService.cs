@@ -85,7 +85,7 @@ namespace VikasFashionsAPI.APIServices.UserService
             }
             return user;
         }
-        public async Task<User?> GetByUserNameAsync(string userCode)
+        public async Task<User?> GetByUserCodeAsync(string userCode)
         {
             User? user = null;
             try
