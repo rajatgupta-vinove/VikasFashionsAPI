@@ -29,10 +29,10 @@ namespace VikasFashionsAPI.ViewModel
         public bool IsActive { get; set; }
         public string Remark { get; set; }
 
-        [Required(ErrorMessage = "Company is required")]
-        public int CompanyId { get; set; }
+        //[Required(ErrorMessage = "Company is required")]
+        //public int CompanyId { get; set; }
 
-        public string CompanyUserType { get; set; }
+        //public string CompanyUserType { get; set; }
         public string BannerImage { get; set; }
         public string ProfileImage { get; set; }
     }

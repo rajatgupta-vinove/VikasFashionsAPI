@@ -40,7 +40,7 @@ namespace VikasFashionsAPI.Controllers
                         ResponseCode = ((int)System.Net.HttpStatusCode.BadRequest),
                         Message = Common.CommonVars.MessageResults.UserDuplicateEmail.GetEnumDisplayName()
                     });
-            checkUser = await _userService.GetByUserNameAsync(loginUser.UserCode);
+            checkUser = await _userService.GetByUserCodeAsync(loginUser.UserCode);
             if (checkUser != null)
                 return BadRequest(
                     new ResponseGlobal()
@@ -124,8 +124,8 @@ namespace VikasFashionsAPI.Controllers
 
         [AllowAnonymous]
         [HttpPost]
-        [Route("Login")]
-        public async Task<ActionResult<string>> Login(UserLogin userLogin)
+        [Route("LoginByEmail")]
+        public async Task<ActionResult<string>> LoginByEmail(UserLogin userLogin)
         {
             if (userLogin == null)
                 return BadRequest(
@@ -135,6 +135,43 @@ namespace VikasFashionsAPI.Controllers
                         Message = Common.CommonVars.MessageResults.InvalidLogin.GetEnumDisplayName()
                     });
             var user = await _userService.GetByEmailAsync(userLogin.Email);
+            if (user == null)
+                return BadRequest(
+                    new ResponseGlobal()
+                    {
+                        ResponseCode = ((int)System.Net.HttpStatusCode.BadRequest),
+                        Message = Common.CommonVars.MessageResults.InvalidLogin.GetEnumDisplayName()
+                    });
+            if (!VerifyPasswordHash(userLogin.Password, user.PasswordSalt, user.PasswordHash))
+                return BadRequest(
+                    new ResponseGlobal()
+                    {
+                        ResponseCode = ((int)System.Net.HttpStatusCode.BadRequest),
+                        Message = Common.CommonVars.MessageResults.InvalidLogin.GetEnumDisplayName()
+                    });
+            string token = CreateJWTToken(user);
+            return Ok(
+                new ResponseGlobal()
+                {
+                    ResponseCode = ((int)System.Net.HttpStatusCode.OK),
+                    Message = Common.CommonVars.MessageResults.SuccessGet.GetEnumDisplayName(),
+                    Data = token
+                });
+        }
+
+        [AllowAnonymous]
+        [HttpPost]
+        [Route("Login")]
+        public async Task<ActionResult<string>> Login(UserLoginByCode userLogin)
+        {
+            if (userLogin == null)
+                return BadRequest(
+                    new ResponseGlobal()
+                    {
+                        ResponseCode = ((int)System.Net.HttpStatusCode.BadRequest),
+                        Message = Common.CommonVars.MessageResults.InvalidLogin.GetEnumDisplayName()
+                    });
+            var user = await _userService.GetByUserCodeAsync(userLogin.UserCode);
             if (user == null)
                 return BadRequest(
                     new ResponseGlobal()
@@ -181,9 +218,53 @@ namespace VikasFashionsAPI.Controllers
                     });
             CreatePasswordHash(userResetPassword.NewPassword, out byte[] passwordHash, out byte[] passwordSalt);
             user.Password = userResetPassword.NewPassword;
-            user.PasswordSalt = passwordHash;
+            user.PasswordSalt = passwordSalt;
             user.PasswordHash = passwordHash;
             user.UpdatedBy = userResetPassword.UserId;
+            user.UpdatedOn = CommonVars.CurrentDateTime;
+            var result = await _userService.ChangeUserPassAsync(user);
+            return Ok(
+                new ResponseGlobal()
+                {
+                    ResponseCode = ((int)System.Net.HttpStatusCode.OK),
+                    Message = Common.CommonVars.MessageResults.SuccessUpdate.GetEnumDisplayName(),
+                    Data = result
+                });
+        }
+
+
+        [AllowAnonymous]
+        [HttpPost]
+        [Route("ResetPasswordWithAuth")]
+        public async Task<ActionResult<string>> ResetPasswordWithAuth(UserResetPasswordWithOldPass userResetPassword)
+        {
+            if (userResetPassword == null)
+                return BadRequest(
+                    new ResponseGlobal()
+                    {
+                        ResponseCode = ((int)System.Net.HttpStatusCode.BadRequest),
+                        Message = Common.CommonVars.MessageResults.ErrorGet.GetEnumDisplayName()
+                    });
+            var user = await _userService.GetByUserCodeAsync(userResetPassword.UserCode);
+            if (user == null)
+                return BadRequest(
+                    new ResponseGlobal()
+                    {
+                        ResponseCode = ((int)System.Net.HttpStatusCode.BadRequest),
+                        Message = Common.CommonVars.MessageResults.UserNotFound.GetEnumDisplayName()
+                    });
+            if (!VerifyPasswordHash(userResetPassword.Password, user.PasswordSalt, user.PasswordHash))
+                return BadRequest(
+                    new ResponseGlobal()
+                    {
+                        ResponseCode = ((int)System.Net.HttpStatusCode.BadRequest),
+                        Message = Common.CommonVars.MessageResults.UserNotFound.GetEnumDisplayName()
+                    });
+            CreatePasswordHash(userResetPassword.NewPassword, out byte[] passwordHash, out byte[] passwordSalt);
+            user.Password = userResetPassword.NewPassword;
+            user.PasswordSalt = passwordSalt;
+            user.PasswordHash = passwordHash;
+            user.UpdatedBy = user.UserId;
             user.UpdatedOn = CommonVars.CurrentDateTime;
             var result = await _userService.ChangeUserPassAsync(user);
             return Ok(
