@@ -28,6 +28,7 @@
 
   <ItemGroup>
     <Folder Include="APIServices\BinLocationService\" />
+    <Folder Include="wwwroot\" />
   </ItemGroup>
 
 </Project>

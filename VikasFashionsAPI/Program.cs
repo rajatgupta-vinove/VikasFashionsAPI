@@ -92,6 +92,7 @@ builder.Services.AddScoped<VikasFashionsAPI.APIServices.UserService.IUserService
 
 builder.Services.AddScoped<VikasFashionsAPI.APIServices.BusinessPartnerService.IBusinessPartnerService, VikasFashionsAPI.APIServices.BusinessPartnerService.BusinessPartnerService>();
 builder.Services.AddScoped<VikasFashionsAPI.APIServices.BusinessPartnerTypeService.IBusinessPartnerTypeService, VikasFashionsAPI.APIServices.BusinessPartnerTypeService.BusinessPartnerTypeService>();
+builder.Services.AddScoped<VikasFashionsAPI.Common.IImageUploadService, VikasFashionsAPI.Common.ImageUploadService>();
 
 
 var app = builder.Build();
